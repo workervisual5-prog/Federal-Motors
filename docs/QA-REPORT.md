@@ -19,7 +19,7 @@ All results below come from tests that were actually run. Limitations are listed
 | Unique `<title>` and meta description per page | ✅ (all descriptions ≤ 160 chars) |
 | One `<h1>` per page, no skipped heading levels | ✅ |
 | JSON-LD parses on every page | ✅ |
-| Functional tests (filters, sorting, gallery, forms, schema, no-JS, reduced motion) | ✅ 35 / 35 (plus 2 email-mode checks) |
+| Functional tests (filters, sorting, gallery, forms, schema, no-JS, reduced motion) | ✅ 34 / 34 (including EmailJS request checks) |
 
 ## Lighthouse (Lighthouse 12, simulated throttling)
 
@@ -41,12 +41,12 @@ Performance · Accessibility · Best Practices · SEO, then LCP / CLS / TBT.
 
 **Known gap:** mobile LCP on the three photo-led pages is 3.3–3.6 s under Lighthouse's simulated slow-4G profile, above Google's 2.5 s "good" threshold. The LCP element is a real vehicle photo. Already done: build-time cropping to the displayed frame, WebP at quality 68–74, `fetchpriority="high"`, font preloads, transform-only entrance animations, idle hydration of the filter. Further gains would come from better-lit, less busy source photos (smaller files at the same quality) or AVIF. Field data from Search Console's Core Web Vitals report after launch is the real measure.
 
-## Functional tests (35 / 35 passed)
+## Functional tests (34 / 34 passed)
 
 Inventory: default shows all 5 in-stock; make filter (Toyota → 2) and URL sync; model list narrows to the chosen make; model filter; reset; max-price filter (≤ 50 lakh → Mira only); sort by price descending (call-for-price last); sort by year; search by stock reference; empty state; "Sold" filter (0).
 Homepage search → `/inventory?make=Daihatsu` → 1 result.
 Vehicle page: WhatsApp message includes the full title and stock reference; gallery next button and keyboard arrows; `Car` JSON-LD with a PKR `Offer`; AMG (call for price) has **no** `Offer`; AMG disclosure shown; AMG mileage shows the listed 80,000 km.
-Forms: empty submit shows field errors, moves focus to the first invalid field and sends nothing; invalid phone message; error clears when corrected; **WhatsApp mode (default):** a valid form opens WhatsApp addressed to 923132963858 with the form title, vehicle and stock reference, name, number and chosen options; no network request is sent; a "press Send in WhatsApp" note is shown, not a success claim. **EmailJS mode** (build with test IDs, EmailJS API intercepted): the request goes to `api.emailjs.com/api/v1.0/email/send` with public key `Mxg4xyKr6kadST5vs`, the service and template IDs, and template params (`form_title`, `fields`, `from_name`, `phone`, `vehicle`, `page_url`, `submitted_at`, …); a 200 response shows success and fires exactly one lead event (`test_drive_request` with `vehicle_id`); a 400 response shows the error and WhatsApp fallback and fires nothing.
+Forms: empty submit shows field errors, moves focus to the first invalid field and sends nothing; invalid phone message; error clears when corrected; **EmailJS (live configuration):** a valid viewing form sends one request with `service_yk7noqn`, `template_phpkiwo` and the public key, carrying the form title, vehicle and stock reference, name, phone and chosen time; success shows only on EmailJS 200, with exactly one lead event. **WhatsApp mode (fallback when IDs are removed, tested earlier):** a valid form opens WhatsApp addressed to 923132963858 with the form title, vehicle and stock reference, name, number and chosen options; no network request is sent; a "press Send in WhatsApp" note is shown, not a success claim. **EmailJS mode** (build with test IDs, EmailJS API intercepted): the request goes to `api.emailjs.com/api/v1.0/email/send` with public key `Mxg4xyKr6kadST5vs`, the service and template IDs, and template params (`form_title`, `fields`, `from_name`, `phone`, `vehicle`, `page_url`, `submitted_at`, …); a 200 response shows success and fires exactly one lead event (`test_drive_request` with `vehicle_id`); a 400 response shows the error and WhatsApp fallback and fires nothing.
 Sell page `?type=exchange` preselects the inquiry type. Contact map loads only after a click.
 Reduced motion: animations ~instant, reveal content visible. JavaScript disabled: inventory still lists all vehicles (server-rendered), reveal content visible.
 
@@ -62,7 +62,7 @@ Reduced motion: animations ~instant, reveal content visible. JavaScript disabled
 
 | Item | Why | Do this after deploy |
 |---|---|---|
-| Real EmailJS delivery; public key validity; WhatsApp opening on phones | api.emailjs.com and wa.me are blocked from this environment | After adding the Service and Template IDs, submit each form once on the live site |
+| Real EmailJS delivery and key/ID validity; WhatsApp links on phones | api.emailjs.com and wa.me are blocked from this environment | Submit each form once on the live site and confirm the email arrives |
 | GA4 events reaching Google | Google's servers are blocked from this environment. **Tested locally:** consent banner shown, default consent denied, `update` to granted on accept, choice remembered, `view_item` / `vehicle_inquiry` / `financing_inquiry` pushed once with correct parameters and no personal data | Follow `ANALYTICS-GA4.md` → Verify |
 | Google Rich Results Test / Schema validator | Needs a public URL | Follow `SEARCH-CONSOLE.md` → step 4 |
 | Real devices (iOS Safari, Android Chrome) | Only Chromium available here | Check on a mid-range Android and an iPhone |

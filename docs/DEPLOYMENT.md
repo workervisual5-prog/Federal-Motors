@@ -56,10 +56,9 @@ After changing a variable, redeploy (Deployments → ⋯ → Redeploy).
 
 All five forms (contact, viewing / test drive, showroom visit, financing, sell / exchange, vehicle sourcing) send email through **EmailJS**, straight from the browser. No server is needed.
 
-**Public key:** `Mxg4xyKr6kadST5vs` (already in `src/data/emailjs.ts`).
-**Still needed:** the **Service ID** and **Template ID**. Until both are set, the forms automatically use WhatsApp mode (they open WhatsApp with the request pre-filled to +92 313 2963858), so the site never shows a broken form.
+**Configured in `src/data/emailjs.ts`:** public key `Mxg4xyKr6kadST5vs`, service `service_yk7noqn`, template `template_phpkiwo`. If the service or template ID is ever removed, the forms automatically switch to WhatsApp mode (they open WhatsApp pre-filled to +92 313 2963858), so the site never shows a broken form.
 
-### One-time EmailJS setup
+### EmailJS dashboard checklist (service and template already created)
 
 1. <https://dashboard.emailjs.com> → **Email Services → Add New Service** → Gmail → connect `zaeymanofficial@gmail.com`. Copy the **Service ID** (e.g. `service_abc123`).
 2. **Email Templates → Create New Template**:
@@ -118,7 +117,7 @@ Vercel's free **Hobby** plan is for **personal, non-commercial use** under Verce
 - [ ] "Before launch" items in `docs/CLIENT-APPROVALS.md` resolved
 - [ ] Domain connected, HTTPS active, `SITE_URL` set
 - [ ] `PUBLIC_ALLOW_INDEXING=true` on Production, redeployed; `/robots.txt` shows `Allow: /`
-- [ ] EmailJS IDs set; each form sends a test email that arrives
+- [ ] Each form sends a test email that arrives (EmailJS IDs are already set)
 - [ ] GA4 events visible in DebugView (`docs/ANALYTICS-GA4.md`)
 - [ ] Search Console verified, sitemap submitted (`docs/SEARCH-CONSOLE.md`)
 - [ ] Rich Results Test on the homepage and one vehicle page
