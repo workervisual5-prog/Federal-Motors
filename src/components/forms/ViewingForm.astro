@@ -1,5 +1,5 @@
 ---
-import NetlifyForm from './NetlifyForm.astro';
+import InquiryForm from './InquiryForm.astro';
 import Field from './Field.astro';
 import { PHONE_PATTERN, whatsappMessages, vehicleMessage } from '@/lib/contact';
 
@@ -11,7 +11,8 @@ interface Props {
 const { vehicle, idPrefix = 'viewing' } = Astro.props;
 const today = new Date().toISOString().slice(0, 10);
 ---
-<NetlifyForm
+<InquiryForm
+  label={vehicle ? 'Viewing request' : 'Showroom visit request'}
   name="viewing-request"
   event={vehicle ? 'test_drive_request' : 'generate_lead'}
   submitLabel={vehicle ? 'Request a viewing' : 'Request a visit'}
@@ -52,4 +53,4 @@ const today = new Date().toISOString().slice(0, 10);
     />
   )}
   <Field form={idPrefix} name="message" label="Anything we should know?" type="textarea" maxlength={600} />
-</NetlifyForm>
+</InquiryForm>

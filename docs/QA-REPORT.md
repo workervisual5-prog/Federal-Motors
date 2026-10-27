@@ -19,7 +19,7 @@ All results below come from tests that were actually run. Limitations are listed
 | Unique `<title>` and meta description per page | ✅ (all descriptions ≤ 160 chars) |
 | One `<h1>` per page, no skipped heading levels | ✅ |
 | JSON-LD parses on every page | ✅ |
-| Functional tests (filters, sorting, gallery, forms, schema, no-JS, reduced motion) | ✅ 32 / 32 |
+| Functional tests (filters, sorting, gallery, forms, schema, no-JS, reduced motion) | ✅ 35 / 35 (plus 2 email-mode checks) |
 
 ## Lighthouse (Lighthouse 12, simulated throttling)
 
@@ -41,12 +41,12 @@ Performance · Accessibility · Best Practices · SEO, then LCP / CLS / TBT.
 
 **Known gap:** mobile LCP on the three photo-led pages is 3.3–3.6 s under Lighthouse's simulated slow-4G profile, above Google's 2.5 s "good" threshold. The LCP element is a real vehicle photo. Already done: build-time cropping to the displayed frame, WebP at quality 68–74, `fetchpriority="high"`, font preloads, transform-only entrance animations, idle hydration of the filter. Further gains would come from better-lit, less busy source photos (smaller files at the same quality) or AVIF. Field data from Search Console's Core Web Vitals report after launch is the real measure.
 
-## Functional tests (32 / 32 passed)
+## Functional tests (35 / 35 passed)
 
 Inventory: default shows all 5 in-stock; make filter (Toyota → 2) and URL sync; model list narrows to the chosen make; model filter; reset; max-price filter (≤ 50 lakh → Mira only); sort by price descending (call-for-price last); sort by year; search by stock reference; empty state; "Sold" filter (0).
 Homepage search → `/inventory?make=Daihatsu` → 1 result.
 Vehicle page: WhatsApp message includes the full title and stock reference; gallery next button and keyboard arrows; `Car` JSON-LD with a PKR `Offer`; AMG (call for price) has **no** `Offer`; AMG disclosure shown; AMG mileage shows the listed 80,000 km.
-Forms: empty submit shows field errors, moves focus to the first invalid field and sends nothing; invalid phone message; error clears when corrected; valid submit sends the POST; **when the server rejects it (local preview has no Netlify), the error and WhatsApp fallback appear and no success message is shown**.
+Forms: empty submit shows field errors, moves focus to the first invalid field and sends nothing; invalid phone message; error clears when corrected; **WhatsApp mode (default):** a valid form opens WhatsApp addressed to 923132963858 with the form title, vehicle and stock reference, name, number and chosen options; no network request is sent; a "press Send in WhatsApp" note is shown, not a success claim. **Email mode** (separate build with a test endpoint): a 200 response shows success and fires exactly one `generate_lead`; a 500 response shows the error and WhatsApp fallback and fires nothing.
 Sell page `?type=exchange` preselects the inquiry type. Contact map loads only after a click.
 Reduced motion: animations ~instant, reveal content visible. JavaScript disabled: inventory still lists all vehicles (server-rendered), reveal content visible.
 
@@ -62,7 +62,7 @@ Reduced motion: animations ~instant, reveal content visible. JavaScript disabled
 
 | Item | Why | Do this after deploy |
 |---|---|---|
-| Netlify form delivery and email notifications | Netlify Forms only exists on Netlify | Submit each form once on the deployed site |
+| WhatsApp opening on real phones / email delivery through a real form service | wa.me and external services are blocked here | Submit each form once from a phone on the deployed site |
 | GA4 events reaching Google | Google's servers are blocked from this environment. **Tested locally:** consent banner shown, default consent denied, `update` to granted on accept, choice remembered, `view_item` / `vehicle_inquiry` / `financing_inquiry` pushed once with correct parameters and no personal data | Follow `ANALYTICS-GA4.md` → Verify |
 | Google Rich Results Test / Schema validator | Needs a public URL | Follow `SEARCH-CONSOLE.md` → step 4 |
 | Real devices (iOS Safari, Android Chrome) | Only Chromium available here | Check on a mid-range Android and an iPhone |

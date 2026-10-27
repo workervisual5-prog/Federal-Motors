@@ -3,7 +3,7 @@ import { MapPin, Phone, Clock, Mail, Navigation } from 'lucide-react';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import WhatsAppIcon from '@/components/WhatsAppIcon.astro';
-import NetlifyForm from '@/components/forms/NetlifyForm.astro';
+import InquiryForm from '@/components/forms/InquiryForm.astro';
 import Field from '@/components/forms/Field.astro';
 import ViewingForm from '@/components/forms/ViewingForm.astro';
 import { business, fullAddress } from '@/data/business';
@@ -88,7 +88,8 @@ const embed = `https://maps.google.com/maps?q=${lat},${lng}&z=17&output=embed`;
       <h2 class="text-2xl font-bold">Send us a message</h2>
       <p class="mt-2 text-sm text-muted">We reply during showroom hours.</p>
       <div class="mt-6">
-        <NetlifyForm
+        <InquiryForm
+          label="Contact message"
           name="contact"
           event="generate_lead"
           submitLabel="Send message"
@@ -110,7 +111,7 @@ const embed = `https://maps.google.com/maps?q=${lat},${lng}&z=17&output=embed`;
             { value: 'other', label: 'Something else' },
           ]} />
           <Field form="contact" name="message" label="Message" type="textarea" required maxlength={1000} />
-        </NetlifyForm>
+        </InquiryForm>
       </div>
     </div>
     <div id="visit" class="card scroll-mt-24 p-6 sm:p-8" data-reveal style="--delay:80ms">

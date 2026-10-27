@@ -3,7 +3,7 @@ import { ArrowRight, Check } from 'lucide-react';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import WhatsAppIcon from '@/components/WhatsAppIcon.astro';
-import NetlifyForm from '@/components/forms/NetlifyForm.astro';
+import InquiryForm from '@/components/forms/InquiryForm.astro';
 import Field from '@/components/forms/Field.astro';
 import { services } from '@/data/services';
 import { whatsappUrl, whatsappMessages, PHONE_PATTERN } from '@/lib/contact';
@@ -85,7 +85,8 @@ const thisYear = new Date().getFullYear();
         </p>
         <p class="mt-4 text-sm text-subtle">Availability, import duties and delivery timelines vary. We’ll confirm what’s realistic before you commit.</p>
       </div>
-      <NetlifyForm
+      <InquiryForm
+        label="Vehicle sourcing request"
         name="sourcing-request"
         event="generate_lead"
         submitLabel="Send request"
@@ -113,7 +114,7 @@ const thisYear = new Date().getFullYear();
           ]} />
         </div>
         <Field form="src" name="message" label="Other requirements" type="textarea" maxlength={600} placeholder="Colour, transmission, mileage, timeline…" />
-      </NetlifyForm>
+      </InquiryForm>
     </div>
   </section>
 </BaseLayout>

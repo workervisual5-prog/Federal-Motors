@@ -33,12 +33,12 @@ Items are grouped by urgency. "Before launch" items must be resolved before `PUB
 
 | Item | Why |
 |---|---|
-| Domain name | Set `SITE_URL`, connect in Netlify |
-| GitHub repository | **Pending:** create an empty `federal-motors` repo on github.com so the code can be pushed (the environment can't create repos) |
-| Netlify account and plan choice | See `DEPLOYMENT.md` §6: Free pauses the site if credits run out |
-| Form notification email | `zaeymanofficial@gmail.com` assumed; confirm |
+| Domain name | Owner will buy later. Then connect in Vercel and set `SITE_URL` |
+| GitHub repository | `workervisual5-prog/Federal-Motors` created; client pushes the code (see `DEPLOYMENT.md` §2) |
+| Vercel account and plan | Client deploys on Vercel. Note: the Hobby plan is for non-commercial use, so check Vercel's terms (`DEPLOYMENT.md` §6) |
+| Form delivery | Default: forms open WhatsApp pre-filled to +92 313 2963858. Optional: email via Formspree/Web3Forms (`DEPLOYMENT.md` §4) |
 | Confirm +92 313 2963858 is on WhatsApp (or WhatsApp Business) | Every WhatsApp button points to it |
-| GA4 property and Measurement ID | ✅ `G-1MRKTXTK2G` configured in `netlify.toml`. Remaining: register custom dimensions and key events (`ANALYTICS-GA4.md`) |
+| GA4 property and Measurement ID | ✅ `G-1MRKTXTK2G` built into production builds. Remaining: register custom dimensions and key events (`ANALYTICS-GA4.md`) |
 | Search Console verification | See `SEARCH-CONSOLE.md` |
 | Google Business Profile | ✅ Listing linked (directions, map, structured data). Add the website URL to the profile at launch |
 | Review the Privacy Policy and Terms drafts (`/privacy`, `/terms`) | Drafts only; consider a lawyer's review |

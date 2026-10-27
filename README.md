@@ -11,7 +11,7 @@ Website for **Federal Motors**, an owner-led car showroom in Block 2, PECHS, nea
 | **Tailwind CSS 4** | Design tokens in `src/styles/global.css` |
 | **Motion** | Filter and gallery transitions; CSS for everything else; `prefers-reduced-motion` respected |
 | **Content collections + Zod** | Inventory is validated at build time; bad data fails the build instead of breaking the page |
-| **Netlify** | Static hosting, HTTPS, Netlify Forms (no backend or database) |
+| **Vercel** | Static hosting and HTTPS. Forms open WhatsApp pre-filled, or post to an optional form service. No backend or database |
 
 ## Commands
 
@@ -61,7 +61,7 @@ docs/                       ← guides and reports
 | Guide | Contents |
 |---|---|
 | [docs/INVENTORY.md](docs/INVENTORY.md) | Add, update, mark sold or remove vehicles; field reference |
-| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | GitHub, Netlify, forms, domain, plan choice, launch checklist |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | GitHub, Vercel, forms, domain, plan choice, launch checklist |
 | [docs/ANALYTICS-GA4.md](docs/ANALYTICS-GA4.md) | GA4 setup, consent, event reference, DebugView |
 | [docs/SEARCH-CONSOLE.md](docs/SEARCH-CONSOLE.md) | Verification, sitemap, monitoring, Google Business Profile |
 | [docs/REPORTING-LOOKER-STUDIO.md](docs/REPORTING-LOOKER-STUDIO.md) | Dashboard plan |
@@ -72,7 +72,7 @@ docs/                       ← guides and reports
 ## Environment variables
 
 See `.env.example`. Nothing secret is required. All variables are public build settings:
-`SITE_URL`, `PUBLIC_ALLOW_INDEXING`, `PUBLIC_GA4_ID` (already set in `netlify.toml`), `PUBLIC_GSC_VERIFICATION`.
+`SITE_URL`, `PUBLIC_ALLOW_INDEXING`, `PUBLIC_GA4_ID` (defaults to `G-1MRKTXTK2G` in production), `PUBLIC_FORM_ENDPOINT` / `PUBLIC_FORM_ACCESS_KEY` (optional email delivery), `PUBLIC_GSC_VERIFICATION`.
 
 ## Content rules
 

@@ -1,0 +1,101 @@
+---
+import { Send } from 'lucide-react';
+import { business } from '@/data/business';
+import { whatsappUrl } from '@/lib/contact';
+import WhatsAppIcon from '../WhatsAppIcon.astro';
+
+interface Props {
+  /** Stable form identifier, sent as `form_name` to the form service and to analytics. */
+  name: string;
+  /** Human title used as the first line of the WhatsApp message, e.g. "Financing inquiry". */
+  label: string;
+  /** GA4 event fired only after the form service confirms delivery (endpoint mode). */
+  event: string;
+  submitLabel: string;
+  successTitle: string;
+  successText: string;
+  /** WhatsApp message offered if endpoint delivery fails. */
+  fallbackMessage: string;
+  /** Non-personal analytics parameters, e.g. { vehicle_id: 'FM-001' }. */
+  trackParams?: Record<string, string>;
+  class?: string;
+}
+const p = Astro.props;
+
+// Delivery mode: a form service endpoint (Formspree, Web3Forms, …) if configured, otherwise WhatsApp.
+const endpoint = (import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined) || '';
+const accessKey = (import.meta.env.PUBLIC_FORM_ACCESS_KEY as string | undefined) || '';
+const mode = endpoint ? 'endpoint' : 'whatsapp';
+---
+<div class={p.class} data-form-wrap>
+  <form
+    name={p.name}
+    method="POST"
+    action={endpoint || undefined}
+    novalidate
+    data-inquiry-form
+    data-mode={mode}
+    data-label={p.label}
+    data-whatsapp={business.whatsapp.number}
+    data-event={p.event}
+    data-track-params={JSON.stringify(p.trackParams ?? {})}
+    class="grid gap-5"
+  >
+    <input type="hidden" name="form_name" value={p.name} />
+    {accessKey && <input type="hidden" name="access_key" value={accessKey} />}
+    {accessKey && <input type="hidden" name="subject" value={`Website: ${p.label}`} />}
+    <p class="hidden" aria-hidden="true">
+      <label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off" /></label>
+    </p>
+    <slot />
+    <p class="text-xs text-subtle">
+      We use your details only to respond to this inquiry. See our <a href="/privacy" class="underline underline-offset-2 hover:text-text">Privacy Policy</a>.
+    </p>
+    <div role="alert" class="hidden rounded-xl border border-sold/40 bg-sold/10 p-4 text-sm" data-form-error>
+      <p class="font-semibold text-text">Your message couldn’t be sent just now.</p>
+      <p class="mt-1 text-muted">Please try again in a moment, or send the same request on WhatsApp — we reply there quickly.</p>
+      <a href={whatsappUrl(p.fallbackMessage)} target="_blank" rel="noopener" class="btn btn-whatsapp mt-3 !min-h-11" data-track="whatsapp_click" data-track-source={`${p.name}_fallback`}>
+        <WhatsAppIcon size={18} /> Continue on WhatsApp
+      </a>
+    </div>
+    <noscript>
+      <p class="rounded-xl border border-line bg-raised p-4 text-sm text-muted">
+        This form needs JavaScript. Please <a href={whatsappUrl(p.fallbackMessage)} class="text-gold underline">message us on WhatsApp</a> or call {business.phones[0].display}.
+      </p>
+    </noscript>
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+      {
+        mode === 'whatsapp' ? (
+          <button type="submit" class="btn btn-whatsapp w-full sm:w-auto" data-submit>
+            <WhatsAppIcon size={18} /> <span data-submit-label>{p.submitLabel}</span>
+          </button>
+        ) : (
+          <button type="submit" class="btn btn-primary w-full sm:w-auto" data-submit>
+            <Send size={18} aria-hidden="true" /> <span data-submit-label>{p.submitLabel}</span>
+          </button>
+        )
+      }
+      {mode === 'whatsapp' && <p class="text-xs text-subtle">Opens WhatsApp with your details filled in.</p>}
+    </div>
+  </form>
+
+  {
+    mode === 'whatsapp' ? (
+      <div class="hidden rounded-2xl border border-line-strong bg-raised p-6" role="status" tabindex="-1" data-form-handoff>
+        <p class="text-lg font-bold text-text">Almost done — press Send in WhatsApp.</p>
+        <p class="mt-2 text-muted">
+          We’ve opened WhatsApp with your request filled in. Your request reaches us once you send that message. If WhatsApp didn’t open,{' '}
+          <a href="#" class="text-gold underline underline-offset-2" data-handoff-link target="_blank" rel="noopener">tap here</a> or call {business.phones[0].display}.
+        </p>
+      </div>
+    ) : (
+      <div class="hidden rounded-2xl border border-ok/40 bg-ok/10 p-6" role="status" tabindex="-1" data-form-success>
+        <p class="text-lg font-bold text-text">{p.successTitle}</p>
+        <p class="mt-2 text-muted">{p.successText}</p>
+      </div>
+    )
+  }
+</div>
+<script>
+  import '@/scripts/forms.ts';
+</script>

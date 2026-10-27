@@ -24,9 +24,9 @@ You never need to edit page or component code to manage stock. The build checks 
    npm run build      # validates everything
    npm run preview    # http://localhost:4321/inventory
    ```
-5. **Publish.** Commit and push. Netlify rebuilds and deploys automatically.
+5. **Publish.** Commit and push. Vercel rebuilds and deploys automatically.
 
-**Slug rules:** lowercase, hyphens only, `make-model-variant-year`, e.g. `suzuki-swift-glx-2024`. Never change a slug once it's live, because that breaks shared links. If you must, add a redirect to `netlify.toml`.
+**Slug rules:** lowercase, hyphens only, `make-model-variant-year`, e.g. `suzuki-swift-glx-2024`. Never change a slug once it's live, because that breaks shared links. If you must, add a redirect to `vercel.json` (see below).
 
 ## Update a vehicle
 
@@ -42,13 +42,13 @@ Set `"availability": "reserved"` or `"availability": "sold"`.
 ## Remove a vehicle
 
 - **Temporarily hide it:** `"published": false`. The page and card disappear.
-- **Delete permanently:** delete the JSON file and its two photo folders. Then add a redirect so old links don't 404:
-  ```toml
-  [[redirects]]
-    from = "/inventory/old-slug"
-    to = "/inventory"
-    status = 301
+- **Delete permanently:** delete the JSON file and its two photo folders. Then add a redirect in `vercel.json` so old links don't 404:
+  ```json
+  "redirects": [
+    { "source": "/inventory/old-slug", "destination": "/inventory", "permanent": true }
+  ]
   ```
+  (Add the `"redirects"` array at the top level of `vercel.json`, next to `"headers"`.)
 
 ---
 

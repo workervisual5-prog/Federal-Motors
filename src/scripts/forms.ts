@@ -1,6 +1,9 @@
 import { track } from '@/scripts/analytics';
 
-// Progressive enhancement for Netlify Forms. Without JS the form still posts natively.
+// Inquiry forms. Two delivery modes, chosen at build time (see InquiryForm.astro):
+//  - "whatsapp": validate, then open WhatsApp with the request pre-filled. Not counted as a lead,
+//    because we can't know whether the visitor pressed Send.
+//  - "endpoint": POST to a form service; the lead event fires only on a 2xx response.
 const MESSAGES: Record<string, string> = {
   valueMissing: 'Please fill in this field.',
   typeMismatch: 'Please check the format.',
@@ -29,8 +32,23 @@ function show(el: Control) {
   return !msg;
 }
 
-document.querySelectorAll<HTMLFormElement>('form[data-netlify-form]:not([data-ready])').forEach((form) => {
+/** Readable "Label: value" lines from the visible fields, using what the visitor actually saw. */
+function whatsappText(form: HTMLFormElement, controls: Control[]) {
+  const lines = [`Assalamualaikum Federal Motors — ${form.dataset.label} from your website:`, ''];
+  const vehicle = form.querySelector<HTMLInputElement>('input[type=hidden][name=vehicle]')?.value;
+  if (vehicle) lines.push(`Vehicle: ${vehicle}`);
+  for (const el of controls) {
+    if (!el.value.trim()) continue;
+    const label = form.querySelector(`label[for="${el.id}"]`)?.firstChild?.textContent?.trim() ?? el.name;
+    const value = el instanceof HTMLSelectElement ? el.selectedOptions[0]?.text ?? el.value : el.value.trim();
+    lines.push(`${label}: ${value}`);
+  }
+  return lines.join('\n');
+}
+
+document.querySelectorAll<HTMLFormElement>('form[data-inquiry-form]:not([data-ready])').forEach((form) => {
   form.dataset.ready = '';
+  const wrap = form.closest('[data-form-wrap]')!;
   const controls = () => Array.from(form.querySelectorAll<Control>('[data-field] input, [data-field] select, [data-field] textarea'));
 
   for (const el of controls()) {
@@ -40,10 +58,7 @@ document.querySelectorAll<HTMLFormElement>('form[data-netlify-form]:not([data-re
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const wrap = form.closest('[data-form-wrap]')!;
     const errorBox = form.querySelector<HTMLElement>('[data-form-error]')!;
-    const button = form.querySelector<HTMLButtonElement>('[data-submit]')!;
-    const label = form.querySelector<HTMLElement>('[data-submit-label]')!;
     errorBox.classList.add('hidden');
 
     const invalid = controls().filter((el) => !show(el));
@@ -51,21 +66,34 @@ document.querySelectorAll<HTMLFormElement>('form[data-netlify-form]:not([data-re
       invalid[0].focus();
       return;
     }
+    // Honeypot filled in: almost certainly a bot. Do nothing.
+    if ((form.elements.namedItem('company') as HTMLInputElement | null)?.value) return;
 
+    const params = JSON.parse(form.dataset.trackParams || '{}');
+    const formName = form.getAttribute('name')!;
+
+    if (form.dataset.mode === 'whatsapp') {
+      const url = `https://wa.me/${form.dataset.whatsapp}?text=${encodeURIComponent(whatsappText(form, controls()))}`;
+      window.open(url, '_blank', 'noopener');
+      track('whatsapp_click', { source: `${formName}_form`, form_name: formName, ...params });
+      const handoff = wrap.querySelector<HTMLElement>('[data-form-handoff]')!;
+      handoff.querySelector<HTMLAnchorElement>('[data-handoff-link]')!.href = url;
+      form.classList.add('hidden');
+      handoff.classList.remove('hidden');
+      handoff.focus();
+      return;
+    }
+
+    const button = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const label = form.querySelector<HTMLElement>('[data-submit-label]')!;
     const original = label.textContent;
     button.disabled = true;
     label.textContent = 'Sending…';
     try {
-      const body = new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString();
-      const res = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body,
-      });
+      const res = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       // Only a confirmed submission counts as a conversion.
-      const params = JSON.parse(form.dataset.trackParams || '{}');
-      track(form.dataset.event!, { form_name: form.getAttribute('name')!, ...params });
+      track(form.dataset.event!, { form_name: formName, ...params });
       form.classList.add('hidden');
       const ok = wrap.querySelector<HTMLElement>('[data-form-success]')!;
       ok.classList.remove('hidden');

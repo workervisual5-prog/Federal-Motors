@@ -3,7 +3,7 @@ import { Landmark, ShieldCheck, Car, CarFront, ChevronDown } from 'lucide-react'
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import WhatsAppIcon from '@/components/WhatsAppIcon.astro';
-import NetlifyForm from '@/components/forms/NetlifyForm.astro';
+import InquiryForm from '@/components/forms/InquiryForm.astro';
 import Field from '@/components/forms/Field.astro';
 import { getVehicles, vehicleFullTitle } from '@/lib/vehicles';
 import { whatsappUrl, whatsappMessages, PHONE_PATTERN } from '@/lib/contact';
@@ -143,7 +143,8 @@ const faqs = [
         <h2 class="text-2xl font-bold">Financing inquiry</h2>
         <p class="mt-2 text-sm text-muted">Share a few basics and we’ll call you to discuss your options. No financial documents needed at this stage.</p>
         <div class="mt-6">
-          <NetlifyForm
+          <InquiryForm
+            label="Financing inquiry"
             name="financing-inquiry"
             event="financing_inquiry"
             submitLabel="Send financing inquiry"
@@ -180,7 +181,7 @@ const faqs = [
               ]} />
             </div>
             <Field form="fin" name="message" label="Questions or details" type="textarea" maxlength={600} hint="Please don’t include CNIC numbers, account numbers or income documents." />
-          </NetlifyForm>
+          </InquiryForm>
         </div>
       </div>
     </div>

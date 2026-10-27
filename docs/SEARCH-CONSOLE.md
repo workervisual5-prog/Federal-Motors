@@ -7,14 +7,14 @@ No verification code has been invented. Choose a method below once the domain is
 **Recommended: Domain property (DNS)**, which covers www, non-www and every subdomain.
 
 1. <https://search.google.com/search-console> → Add property → **Domain** → enter `yourdomain.com`.
-2. Google shows a TXT record. Add it in your DNS (Netlify DNS: Domain management → DNS records → Add new record → TXT).
+2. Google shows a TXT record. Add it in your DNS (at your domain registrar, or in Vercel → Domains → DNS Records if Vercel manages DNS).
 3. Click **Verify** (DNS can take up to a few hours).
 
 **Alternative: URL-prefix property with HTML tag**
 
 1. Add property → **URL prefix** → `https://www.yourdomain.com`.
 2. Choose **HTML tag** and copy only the `content` value, e.g. `abc123…`.
-3. Netlify → environment variable `PUBLIC_GSC_VERIFICATION=abc123…` → redeploy. The site then outputs `<meta name="google-site-verification">` on every page.
+3. Vercel → Settings → Environment Variables → `PUBLIC_GSC_VERIFICATION=abc123…` → redeploy. The site then outputs `<meta name="google-site-verification">` on every page.
 4. Click **Verify**.
 
 ## 2. Before submitting: launch settings

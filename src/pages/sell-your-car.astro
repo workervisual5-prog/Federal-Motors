@@ -3,7 +3,7 @@ import { BadgeDollarSign, Repeat, Handshake } from 'lucide-react';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import WhatsAppIcon from '@/components/WhatsAppIcon.astro';
-import NetlifyForm from '@/components/forms/NetlifyForm.astro';
+import InquiryForm from '@/components/forms/InquiryForm.astro';
 import Field from '@/components/forms/Field.astro';
 import { whatsappUrl, whatsappMessages, PHONE_PATTERN } from '@/lib/contact';
 import { breadcrumbSchema, type Crumb } from '@/lib/breadcrumbs';
@@ -61,7 +61,8 @@ const options = [
           <WhatsAppIcon size={18} /> Send photos on WhatsApp
         </a>
       </div>
-      <NetlifyForm
+      <InquiryForm
+        label="Sell / exchange request"
         name="sell-car"
         event="sell_car_inquiry"
         submitLabel="Request a valuation"
@@ -85,7 +86,7 @@ const options = [
           <Field form="sell" name="asking_price" label="Asking price (PKR)" type="number" inputmode="numeric" min={0} hint="Optional — leave blank if you’d like guidance." />
         </div>
         <Field form="sell" name="details" label="Additional details" type="textarea" maxlength={800} placeholder="Condition, accident history, registration city, owners…" />
-      </NetlifyForm>
+      </InquiryForm>
     </div>
   </section>
 

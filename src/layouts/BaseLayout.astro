@@ -33,7 +33,9 @@ const ogUrl = new URL(og.src, site).href;
 
 const allowIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true';
 const robots = !allowIndexing || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';
-const gaId = import.meta.env.PUBLIC_GA4_ID as string | undefined;
+// GA4 runs on production builds only (local `npm run dev` never sends hits). Override with PUBLIC_GA4_ID; set it to "off" to disable.
+const gaEnv = import.meta.env.PUBLIC_GA4_ID as string | undefined;
+const gaId = gaEnv === 'off' ? undefined : gaEnv || (import.meta.env.PROD ? 'G-1MRKTXTK2G' : undefined);
 const gscToken = import.meta.env.PUBLIC_GSC_VERIFICATION as string | undefined;
 const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
