@@ -42,6 +42,12 @@ Every vehicle photo on the site is a real photo supplied by Federal Motors. Noth
 | FM-004 | `toyota-hilux-vigo-3-0d-2012-rear.jpg` | Toyota Hilux Vigo Thailand 3.0D 1.jpeg | rear | 960×1280 | Gallery #4 | Standard grade only |
 | FM-004 | `toyota-hilux-vigo-3-0d-2012-side.jpg` | Toyota Hilux Vigo Thailand 3.0D 5.jpeg | side | 1280×960 | Gallery #2 | Standard grade only |
 
+## Homepage hero image
+
+| File | Source | Notes |
+|---|---|---|
+| `src/assets/hero/hero-tiggo-federal-motors.png` | `originals/hero-tiggo-federal-motors-original.webp` (supplied by Federal Motors, background removed) | Decorative brand visual: Chery SUV render with a "FEDERAL MOTORS" plate. The hard-edged floor strip is feathered into the page background by `scripts/blend-hero.py`; the car itself is unchanged. It is **not** linked to or presented as a specific stock vehicle |
+
 ## Brand assets
 
 | File | Source | Notes |

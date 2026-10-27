@@ -25,16 +25,15 @@ import SearchPanel from '@/components/SearchPanel.astro';
 import VehicleCard from '@/components/VehicleCard';
 import { toCardData } from '@/lib/cards';
 import WhatsAppIcon from '@/components/WhatsAppIcon.astro';
-import { getVehicles, vehicleTitle, formatPrice, vehicleUrl } from '@/lib/vehicles';
+import { getVehicles } from '@/lib/vehicles';
 import { business, fullAddress, primaryPhone } from '@/data/business';
 import { whatsappUrl, whatsappMessages, telUrl } from '@/lib/contact';
 import { autoDealerSchema } from '@/lib/schema';
 import badge from '@/assets/brand/federal-motors-badge.png';
+import heroCar from '@/assets/hero/hero-tiggo-federal-motors.png';
 
 const vehicles = await getVehicles();
 const featured = vehicles.filter((v) => v.data.featured && v.data.availability !== 'sold').slice(0, 6);
-const spotlight = featured.find((v) => v.data.make === 'Chery') ?? featured[0];
-const spot = spotlight?.data;
 const featuredCards = await Promise.all(featured.map(toCardData));
 
 const why = [
@@ -68,10 +67,8 @@ const services = [
   <!-- ======================= HERO ======================= -->
   <section class="relative -mt-[4.5rem] overflow-hidden pt-[4.5rem]" aria-labelledby="hero-title">
     <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-      <div class="absolute inset-0 bg-[radial-gradient(60%_70%_at_75%_35%,rgba(23,57,111,0.55),transparent_70%)]"></div>
-      <div class="absolute inset-0 bg-[radial-gradient(40%_40%_at_80%_80%,rgba(201,164,86,0.14),transparent_70%)]"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(45%_45%_at_78%_18%,rgba(23,57,111,0.5),transparent_70%)]"></div>
       <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink to-transparent"></div>
-      <div class="anim-fade absolute -right-40 top-10 hidden lg:block" style="--delay:300ms"><Image src={badge} alt="" width={900} height={900} class="w-[44rem] opacity-[0.05]" /></div>
     </div>
 
     <div class="container-site relative grid grid-cols-1 items-center gap-12 pb-16 pt-10 sm:pt-16 lg:min-h-[40rem] lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:pb-28">
@@ -96,44 +93,20 @@ const services = [
         </dl>
       </div>
 
-      {
-        spot && (
-          <a
-            href={vehicleUrl(spotlight)}
-            class="group relative block overflow-hidden rounded-[1.5rem] border border-line-strong bg-surface shadow-[var(--shadow-lift)]"
-            aria-label={`Now in the showroom: ${vehicleTitle(spot)}, ${formatPrice(spot)}`}
-          >
-            <div class="anim-settle aspect-[4/3] overflow-hidden lg:aspect-[5/5.2]">
-              <Image
-                src={spot.images[0].src}
-                alt={spot.images[0].alt}
-                widths={[480, 720, 960]}
-                width={960}
-                height={960}
-                fit="cover"
-                position="centre"
-                sizes="(min-width: 1024px) 560px, 100vw"
-                loading="eager"
-                fetchpriority="high"
-                quality={72}
-                class="size-full object-cover transition-transform duration-1000 ease-[var(--ease-out)] group-hover:scale-[1.03]"
-                style={`object-position:${spot.images[0].focus}`}
-              />
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent"></div>
-            <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 sm:p-7">
-              <div>
-                <p class="text-xs font-bold uppercase tracking-[0.2em] text-gold">Now in the showroom</p>
-                <p class="mt-2 text-xl font-bold sm:text-2xl">{vehicleTitle(spot)}</p>
-                <p class="mt-1 text-sm text-muted">{spot.variant} · {formatPrice(spot)}</p>
-              </div>
-              <span class="grid size-12 shrink-0 place-items-center rounded-full bg-gold text-ink transition-transform duration-300 group-hover:-rotate-45" aria-hidden="true">
-                <ArrowRight size={20} />
-              </span>
-            </div>
-          </a>
-        )
-      }
+      <figure class="anim-slide relative -mx-6 sm:mx-0 lg:-ml-10 lg:-mr-10 min-[1400px]:-mr-24" style="--delay:120ms">
+        <!-- Glow sits behind the car body only; the floor must stay on plain ink so it blends. -->
+        <div class="pointer-events-none absolute inset-x-[15%] top-[2%] h-[45%] rounded-[50%] bg-[radial-gradient(closest-side,rgba(40,80,150,0.45),transparent)] blur-2xl" aria-hidden="true"></div>
+        <Image
+          src={heroCar}
+          alt="Chery SUV with a Federal Motors plate, lit in a dark studio"
+          widths={[540, 800, 1079]}
+          sizes="(min-width: 1280px) 780px, (min-width: 1024px) 62vw, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          quality={78}
+          class="relative w-full select-none drop-shadow-[0_30px_40px_rgba(0,0,0,0.6)]"
+        />
+      </figure>
     </div>
   </section>
 
