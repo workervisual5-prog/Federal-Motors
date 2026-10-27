@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Prose from '@/components/Prose.astro';
+import { business, fullAddress } from '@/data/business';
+const crumbs = [{ label: 'Home', href: '/' }, { label: 'Privacy Policy', href: '/privacy' }];
+---
+<BaseLayout title="Privacy Policy" description="How Federal Motors collects, uses and protects information submitted through this website." canonicalPath="/privacy">
+  <PageHeader eyebrow="Legal" title="Privacy Policy" intro="Last updated: 27 October 2026" crumbs={crumbs} />
+  <Prose>
+    <p>This policy explains what information Federal Motors (“we”, “us”) collects through this website, how we use it, and the choices you have. Federal Motors is a car showroom located at {fullAddress}.</p>
+
+    <h2>Information you give us</h2>
+    <p>When you send an inquiry through a form on this website — for example a contact message, viewing request, financing inquiry, sell-your-car request or vehicle sourcing request — we receive the details you enter, such as:</p>
+    <ul>
+      <li>your name and mobile number, and your email address if you choose to provide it;</li>
+      <li>details about the vehicle you want to buy, sell or finance;</li>
+      <li>your preferred visit date and time, and any message you write.</li>
+    </ul>
+    <p>Please do not submit CNIC numbers, bank details, income documents or other sensitive financial information through this website. If financing documents are needed, the bank will tell you how to provide them directly.</p>
+
+    <h2>How we use your information</h2>
+    <ul>
+      <li>To respond to your inquiry by phone, WhatsApp or email.</li>
+      <li>To arrange viewings, inspections, valuations and related services you ask for.</li>
+      <li>To keep a record of inquiries so we can follow up properly.</li>
+    </ul>
+    <p>We do not sell your personal information. We do not use form submissions for advertising.</p>
+
+    <h2>Services that process data for us</h2>
+    <ul>
+      <li><strong>Netlify</strong> hosts this website and receives form submissions on our behalf.</li>
+      <li><strong>WhatsApp</strong> (Meta): if you tap a WhatsApp button, your conversation with us takes place on WhatsApp under its own privacy policy.</li>
+      <li><strong>Google Maps</strong>: the map on our contact page loads only if you choose to show it, after which Google’s privacy policy applies.</li>
+      <li><strong>Google Analytics</strong>: if enabled and you allow it, we use Google Analytics to understand how the website is used (see below).</li>
+    </ul>
+
+    <h2>Analytics and cookies</h2>
+    <p>With your permission, we use Google Analytics 4 to measure visits, popular pages and vehicles, and interactions such as button clicks. This uses cookies or similar technologies. We configure analytics so that names, phone numbers, email addresses and messages are not sent to Google. You can accept or decline analytics when you first visit, and you can clear your choice at any time by clearing this site’s data in your browser.</p>
+    <p>We store your analytics choice in your browser’s local storage. No other cookies are used for advertising.</p>
+
+    <h2>How long we keep information</h2>
+    <p>We keep inquiry information only as long as needed to handle your request and any resulting transaction, and for reasonable record-keeping afterwards.</p>
+
+    <h2>Your choices</h2>
+    <p>You can ask us what information we hold about you, ask us to correct it, or ask us to delete it, by contacting us using the details below.</p>
+
+    <h2>Contact</h2>
+    <p>Federal Motors, {fullAddress}<br />Phone: {business.phones.map((p) => p.display).join(' | ')}<br />Email: <a href={`mailto:${business.email}`}>{business.email}</a></p>
+
+    <h2>Changes to this policy</h2>
+    <p>We may update this policy from time to time. The date at the top shows when it was last changed.</p>
+  </Prose>
+</BaseLayout>

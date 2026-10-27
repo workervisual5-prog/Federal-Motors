@@ -1,0 +1,76 @@
+{
+  "stockReference": "FM-002",
+  "make": "Chery",
+  "model": "Tiggo 9 Pro",
+  "variant": "AWD Plug-in Hybrid",
+  "year": 2026,
+  "registrationYear": 2026,
+  "registrationCity": null,
+  "condition": "used",
+  "origin": null,
+  "bodyType": "suv",
+  "pricePKR": 13575000,
+  "priceVisibility": "show",
+  "priceNote": "Best offer invited",
+  "mileageKm": 6000,
+  "transmission": null,
+  "fuelType": "plug-in hybrid",
+  "engineCC": null,
+  "exteriorColour": null,
+  "highlights": [
+    "Bumper-to-bumper original",
+    "Scratchless and spotless",
+    "Brand-new condition",
+    "AWD plug-in hybrid"
+  ],
+  "documentation": [
+    "Biometric verification available",
+    "Ownership transfer required after purchase"
+  ],
+  "description": "2026 Chery Tiggo 9 Pro AWD plug-in hybrid, registered in 2026 with only 6,000 km driven. Bumper-to-bumper original, scratchless and spotless, in brand-new condition. Biometric verification is available and the vehicle must be transferred into the buyer's name after purchase. Best offers are invited.",
+  "images": [
+    {
+      "src": "../../assets/vehicles/chery-tiggo-9-pro-phev-2026/chery-tiggo-9-pro-phev-2026-front.jpg",
+      "alt": "Front view of the 2026 Chery Tiggo 9 Pro AWD plug-in hybrid",
+      "view": "front",
+      "focus": "50% 62%"
+    },
+    {
+      "src": "../../assets/vehicles/chery-tiggo-9-pro-phev-2026/chery-tiggo-9-pro-phev-2026-rear-three-quarter.jpg",
+      "alt": "Rear three-quarter view of the 2026 Chery Tiggo 9 Pro",
+      "view": "rear-three-quarter",
+      "focus": "50% 55%"
+    },
+    {
+      "src": "../../assets/vehicles/chery-tiggo-9-pro-phev-2026/chery-tiggo-9-pro-phev-2026-rear.jpg",
+      "alt": "Rear view of the 2026 Chery Tiggo 9 Pro showing AWD and plug-in hybrid badges",
+      "view": "rear",
+      "focus": "50% 60%"
+    },
+    {
+      "src": "../../assets/vehicles/chery-tiggo-9-pro-phev-2026/chery-tiggo-9-pro-phev-2026-interior.jpg",
+      "alt": "Front cabin of the Chery Tiggo 9 Pro with dual screens and brown leather",
+      "view": "interior",
+      "focus": "50% 55%"
+    },
+    {
+      "src": "../../assets/vehicles/chery-tiggo-9-pro-phev-2026/chery-tiggo-9-pro-phev-2026-dashboard.jpg",
+      "alt": "Dashboard and steering wheel of the Chery Tiggo 9 Pro",
+      "view": "dashboard",
+      "focus": "50% 50%"
+    }
+  ],
+  "featured": true,
+  "pendingConfirmation": [
+    "Price unit: DEMAND 135.75 — assumed PKR 135.75 lakh (13,575,000)",
+    "Transmission",
+    "Exterior colour",
+    "Registration city",
+    "Local assembly or import?",
+    "Photos originally showed a third-party 'G Mohiudin' window decal — pixelated; ideally remove decal and reshoot"
+  ],
+  "dateAdded": "2026-10-27",
+  "lastUpdated": "2026-10-27",
+  "published": true,
+  "availability": "available"
+}

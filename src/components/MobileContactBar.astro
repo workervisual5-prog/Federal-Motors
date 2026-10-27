@@ -1,0 +1,18 @@
+---
+import { Phone } from 'lucide-react';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { primaryPhone } from '@/data/business';
+import { telUrl, whatsappUrl, whatsappMessages } from '@/lib/contact';
+interface Props { message?: string }
+const { message = whatsappMessages.general } = Astro.props;
+---
+<aside aria-label="Quick contact" class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-ink/92 backdrop-blur-md lg:hidden" style="padding-bottom: env(safe-area-inset-bottom)">
+  <div class="container-site grid grid-cols-2 gap-3 py-3">
+    <a href={telUrl(primaryPhone.e164)} class="btn btn-secondary !min-h-12" data-track="phone_click" data-track-source="mobile_bar">
+      <Phone size={18} aria-hidden="true" /> Call
+    </a>
+    <a href={whatsappUrl(message)} target="_blank" rel="noopener" class="btn btn-whatsapp !min-h-12" data-track="whatsapp_click" data-track-source="mobile_bar">
+      <WhatsAppIcon size={20} /> WhatsApp
+    </a>
+  </div>
+</aside>

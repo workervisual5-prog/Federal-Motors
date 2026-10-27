@@ -1,0 +1,60 @@
+---
+import { Send } from 'lucide-react';
+import { whatsappUrl } from '@/lib/contact';
+import WhatsAppIcon from '../WhatsAppIcon.astro';
+
+interface Props {
+  /** Netlify form name — must be unique and stable; it appears in the Netlify dashboard. */
+  name: string;
+  /** GA4 event fired only after Netlify confirms the submission. */
+  event: string;
+  submitLabel: string;
+  successTitle: string;
+  successText: string;
+  /** WhatsApp message offered if submission fails. */
+  fallbackMessage: string;
+  /** Non-personal analytics parameters, e.g. { vehicle_id: 'FM-001' }. */
+  trackParams?: Record<string, string>;
+  class?: string;
+}
+const p = Astro.props;
+---
+<div class={p.class} data-form-wrap>
+  <form
+    name={p.name}
+    method="POST"
+    data-netlify="true"
+    netlify-honeypot="company"
+    novalidate
+    data-netlify-form
+    data-event={p.event}
+    data-track-params={JSON.stringify(p.trackParams ?? {})}
+    class="grid gap-5"
+  >
+    <input type="hidden" name="form-name" value={p.name} />
+    <p class="hidden" aria-hidden="true">
+      <label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off" /></label>
+    </p>
+    <slot />
+    <p class="text-xs text-subtle">
+      We use your details only to respond to this inquiry. See our <a href="/privacy" class="underline underline-offset-2 hover:text-text">Privacy Policy</a>.
+    </p>
+    <div role="alert" class="hidden rounded-xl border border-sold/40 bg-sold/10 p-4 text-sm" data-form-error>
+      <p class="font-semibold text-text">Your message couldn’t be sent just now.</p>
+      <p class="mt-1 text-muted">Please try again in a moment, or send the same request on WhatsApp — we reply there quickly.</p>
+      <a href={whatsappUrl(p.fallbackMessage)} target="_blank" rel="noopener" class="btn btn-whatsapp mt-3 !min-h-11" data-track="whatsapp_click" data-track-source={`${p.name}_fallback`}>
+        <WhatsAppIcon size={18} /> Continue on WhatsApp
+      </a>
+    </div>
+    <button type="submit" class="btn btn-primary w-full sm:w-auto sm:justify-self-start" data-submit>
+      <Send size={18} aria-hidden="true" /> <span data-submit-label>{p.submitLabel}</span>
+    </button>
+  </form>
+  <div class="hidden rounded-2xl border border-ok/40 bg-ok/10 p-6" role="status" tabindex="-1" data-form-success>
+    <p class="text-lg font-bold text-text">{p.successTitle}</p>
+    <p class="mt-2 text-muted">{p.successText}</p>
+  </div>
+</div>
+<script>
+  import '@/scripts/forms.ts';
+</script>

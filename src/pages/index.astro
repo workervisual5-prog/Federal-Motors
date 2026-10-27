@@ -1,0 +1,341 @@
+---
+import { Image } from 'astro:assets';
+import {
+  ArrowRight,
+  MapPin,
+  ShieldCheck,
+  Users,
+  Search as SearchIcon,
+  Landmark,
+  FileCheck2,
+  Repeat,
+  Car,
+  Globe,
+  Handshake,
+  ClipboardCheck,
+  Gavel,
+  Building2,
+  BadgeDollarSign,
+  Phone,
+  Clock,
+  Sparkles,
+} from 'lucide-react';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SearchPanel from '@/components/SearchPanel.astro';
+import VehicleCard from '@/components/VehicleCard';
+import { toCardData } from '@/lib/cards';
+import WhatsAppIcon from '@/components/WhatsAppIcon.astro';
+import { getVehicles, vehicleTitle, formatPrice, vehicleUrl } from '@/lib/vehicles';
+import { business, fullAddress, primaryPhone } from '@/data/business';
+import { whatsappUrl, whatsappMessages, telUrl } from '@/lib/contact';
+import { autoDealerSchema } from '@/lib/schema';
+import badge from '@/assets/brand/federal-motors-badge.png';
+
+const vehicles = await getVehicles();
+const featured = vehicles.filter((v) => v.data.featured && v.data.availability !== 'sold').slice(0, 6);
+const spotlight = featured.find((v) => v.data.make === 'Chery') ?? featured[0];
+const spot = spotlight?.data;
+const featuredCards = await Promise.all(featured.map(toCardData));
+
+const why = [
+  { icon: Users, title: 'Owner-led, start to finish', text: 'You deal directly with Zain Ahmed and Ali Osama — the people accountable for every car and every deal.' },
+  { icon: Sparkles, title: 'Five years in the trade', text: 'Hands-on experience buying, selling and sourcing vehicles in Karachi’s car market.' },
+  { icon: Globe, title: 'Vehicle sourcing on request', text: 'Looking for a specific make, model or import? Tell us your budget and we’ll search the market for you.' },
+  { icon: Landmark, title: 'Financing guidance', text: 'Help preparing documents and applying to banks for conventional or Islamic car financing.' },
+  { icon: FileCheck2, title: 'Documentation support', text: 'Document verification, biometric and transfer guidance so your purchase or sale stays clean.' },
+  { icon: Repeat, title: 'Exchange & consignment', text: 'Trade in your current car, or let us present and sell it for you while you get on with your day.' },
+];
+
+const services = [
+  { icon: Car, title: 'Buy a car', text: 'New, used and imported vehicles across economy, family and luxury segments.', href: '/inventory' },
+  { icon: BadgeDollarSign, title: 'Sell your car', text: 'Market-based valuation guidance and a straightforward sale process.', href: '/services#sell' },
+  { icon: Repeat, title: 'Car exchange', text: 'Upgrade by trading your current vehicle against one from our stock.', href: '/services#exchange' },
+  { icon: Handshake, title: 'Consignment sales', text: 'We handle inquiries, presentation and negotiation on your behalf.', href: '/services#consignment' },
+  { icon: Globe, title: 'Imported vehicles', text: 'Specific imports sourced to order, subject to regulations and duties.', href: '/services#sourcing' },
+  { icon: ClipboardCheck, title: 'Inspection coordination', text: 'Pre-purchase inspection arranged before you commit.', href: '/services#inspection' },
+  { icon: Gavel, title: 'Auction & repossessed', text: 'Assistance with bank-repossessed and auction vehicles.', href: '/services#auction' },
+  { icon: Building2, title: 'Corporate & fleet', text: 'Multiple-vehicle requirements for businesses and organisations.', href: '/services#fleet' },
+];
+
+---
+
+<BaseLayout
+  title="Federal Motors | Car Showroom in PECHS, Karachi — New, Used & Imported Cars"
+  description="Owner-led car showroom in PECHS near Tariq Road, Karachi. New, used and imported cars with financing, exchange, consignment and documentation help."
+  canonicalPath="/"
+  jsonLd={autoDealerSchema(Astro.site!)}
+>
+  <!-- ======================= HERO ======================= -->
+  <section class="relative -mt-[4.5rem] overflow-hidden pt-[4.5rem]" aria-labelledby="hero-title">
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div class="absolute inset-0 bg-[radial-gradient(60%_70%_at_75%_35%,rgba(23,57,111,0.55),transparent_70%)]"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(40%_40%_at_80%_80%,rgba(201,164,86,0.14),transparent_70%)]"></div>
+      <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink to-transparent"></div>
+      <div class="anim-fade absolute -right-40 top-10 hidden lg:block" style="--delay:300ms"><Image src={badge} alt="" width={900} height={900} class="w-[44rem] opacity-[0.05]" /></div>
+    </div>
+
+    <div class="container-site relative grid grid-cols-1 items-center gap-12 pb-16 pt-10 sm:pt-16 lg:min-h-[40rem] lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:pb-28">
+      <div>
+        <p class="eyebrow anim-rise">PECHS · Karachi</p>
+        <h1 id="hero-title" class="anim-slide mt-6 text-[clamp(2.75rem,8vw,5.25rem)] font-extrabold uppercase leading-[0.95] tracking-[-0.035em]" style="--delay:90ms">
+          Find your<br /><span class="bg-gradient-to-r from-gold-hi via-gold to-gold-deep bg-clip-text text-transparent">next drive.</span>
+        </h1>
+        <p class="anim-rise mt-6 max-w-xl text-lg text-muted" style="--delay:180ms">
+          Explore quality new, used and imported vehicles, backed by personal automotive assistance from the owners themselves.
+        </p>
+        <div class="anim-rise mt-9 flex flex-col gap-3 sm:flex-row" style="--delay:270ms">
+          <a href="/inventory" class="btn btn-primary">Explore inventory <ArrowRight size={18} aria-hidden="true" /></a>
+          <a href={business.mapsUrl} target="_blank" rel="noopener" class="btn btn-secondary" data-track="directions_click" data-track-source="hero">
+            <MapPin size={18} aria-hidden="true" /> Visit our showroom
+          </a>
+        </div>
+        <dl class="anim-rise mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-line pt-6" style="--delay:360ms">
+          <div><dt class="text-xs uppercase tracking-[0.14em] text-subtle">In stock</dt><dd class="mt-1 text-2xl font-bold">{vehicles.filter((v) => v.data.availability === 'available').length}</dd></div>
+          <div><dt class="text-xs uppercase tracking-[0.14em] text-subtle">Experience</dt><dd class="mt-1 text-2xl font-bold">{business.experienceYears} yrs</dd></div>
+          <div><dt class="text-xs uppercase tracking-[0.14em] text-subtle">Open</dt><dd class="mt-1 text-2xl font-bold">Mon–Sat</dd></div>
+        </dl>
+      </div>
+
+      {
+        spot && (
+          <a
+            href={vehicleUrl(spotlight)}
+            class="group relative block overflow-hidden rounded-[1.5rem] border border-line-strong bg-surface shadow-[var(--shadow-lift)]"
+            aria-label={`Now in the showroom: ${vehicleTitle(spot)}, ${formatPrice(spot)}`}
+          >
+            <div class="anim-settle aspect-[4/3] overflow-hidden lg:aspect-[5/5.2]">
+              <Image
+                src={spot.images[0].src}
+                alt={spot.images[0].alt}
+                widths={[480, 720, 960]}
+                width={960}
+                height={960}
+                fit="cover"
+                position="centre"
+                sizes="(min-width: 1024px) 560px, 100vw"
+                loading="eager"
+                fetchpriority="high"
+                quality={72}
+                class="size-full object-cover transition-transform duration-1000 ease-[var(--ease-out)] group-hover:scale-[1.03]"
+                style={`object-position:${spot.images[0].focus}`}
+              />
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 sm:p-7">
+              <div>
+                <p class="text-xs font-bold uppercase tracking-[0.2em] text-gold">Now in the showroom</p>
+                <p class="mt-2 text-xl font-bold sm:text-2xl">{vehicleTitle(spot)}</p>
+                <p class="mt-1 text-sm text-muted">{spot.variant} · {formatPrice(spot)}</p>
+              </div>
+              <span class="grid size-12 shrink-0 place-items-center rounded-full bg-gold text-ink transition-transform duration-300 group-hover:-rotate-45" aria-hidden="true">
+                <ArrowRight size={20} />
+              </span>
+            </div>
+          </a>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- ======================= SEARCH ======================= -->
+  <section aria-labelledby="search-title" class="container-site relative z-10 -mt-6 lg:-mt-14">
+    <h2 id="search-title" class="sr-only">Search our inventory</h2>
+    <div class="anim-rise" style="--delay:450ms"><SearchPanel vehicles={vehicles} /></div>
+  </section>
+
+  <!-- ======================= FEATURED INVENTORY ======================= -->
+  <section aria-labelledby="featured-title" class="container-site mt-24 sm:mt-32">
+    <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-end" data-reveal>
+      <div>
+        <p class="eyebrow">Current stock</p>
+        <h2 id="featured-title" class="mt-4 text-3xl sm:text-5xl">Featured vehicles</h2>
+        <p class="mt-4 max-w-xl text-muted">Real cars from our current stock, listed only with details that have been confirmed.</p>
+      </div>
+      <a href="/inventory" class="btn btn-secondary self-start sm:self-auto">View all inventory <ArrowRight size={18} aria-hidden="true" /></a>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {featuredCards.map((c, i) => <VehicleCard v={c} reveal delay={(i % 3) * 90} />)}
+      {
+        featured.length % 3 !== 0 && (
+          <article data-reveal style={`--delay:${(featured.length % 3) * 90}ms`} class="relative flex flex-col justify-between overflow-hidden rounded-[var(--radius-card)] border border-dashed border-line-strong bg-gradient-to-br from-navy/50 to-surface p-7">
+            <div>
+              <span class="grid size-12 place-items-center rounded-xl bg-gold/10 text-gold"><SearchIcon size={22} aria-hidden="true" /></span>
+              <h3 class="mt-6 text-2xl font-bold">Can’t see the car you want?</h3>
+              <p class="mt-3 text-muted">
+                We regularly arrange vehicles on demand — from the Suzuki Alto and Toyota Corolla to imported hybrids and luxury models. Tell us what you’re looking for.
+              </p>
+            </div>
+            <div class="mt-8 flex flex-col gap-3">
+              <a href={whatsappUrl(whatsappMessages.sourcing)} target="_blank" rel="noopener" class="btn btn-whatsapp" data-track="whatsapp_click" data-track-source="sourcing_card">
+                <WhatsAppIcon size={20} /> Request a vehicle
+              </a>
+            </div>
+          </article>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- ======================= WHY FEDERAL MOTORS ======================= -->
+  <section aria-labelledby="why-title" class="mt-28 sm:mt-36">
+    <div class="container-site grid grid-cols-1 gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+      <div data-reveal class="lg:sticky lg:top-28 lg:self-start">
+        <p class="eyebrow">Why Federal Motors</p>
+        <h2 id="why-title" class="mt-4 text-3xl sm:text-5xl">A complete car partner, not just a showroom.</h2>
+        <p class="mt-6 text-muted">
+          Buying, selling, exchanging or financing a car in Karachi involves more than picking a vehicle. We stay involved through inspection, paperwork and transfer — so you always know where your deal stands.
+        </p>
+        <div class="gold-rule mt-10 max-w-xs"></div>
+      </div>
+      <ol class="grid grid-cols-1 gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line sm:grid-cols-2">
+        {
+          why.map(({ icon: Icon, title, text }, i) => (
+            <li data-reveal style={`--delay:${(i % 2) * 80}ms`} class="bg-surface p-7 transition-colors duration-300 hover:bg-raised">
+              <div class="flex items-center justify-between">
+                <Icon size={24} className="text-gold" aria-hidden="true" />
+                <span class="font-display text-sm text-subtle" aria-hidden="true">0{i + 1}</span>
+              </div>
+              <h3 class="mt-6 text-lg font-bold">{title}</h3>
+              <p class="mt-2 text-sm text-muted">{text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ======================= SERVICES ======================= -->
+  <section aria-labelledby="services-title" class="container-site mt-28 sm:mt-36">
+    <div class="mx-auto max-w-2xl text-center" data-reveal>
+      <p class="eyebrow justify-center">Services</p>
+      <h2 id="services-title" class="mt-4 text-3xl sm:text-5xl">Everything around your car, in one place.</h2>
+    </div>
+    <ul class="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        services.map(({ icon: Icon, title, text, href }, i) => (
+          <li data-reveal style={`--delay:${(i % 4) * 70}ms`}>
+            <a href={href} class="card group flex h-full flex-col p-6 transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-gold/50">
+              <Icon size={26} className="text-gold transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />
+              <h3 class="mt-5 font-bold">{title}</h3>
+              <p class="mt-2 flex-1 text-sm text-muted">{text}</p>
+              <span class="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-gold">
+                Learn more <ArrowRight size={15} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- ======================= FINANCING ======================= -->
+  <section aria-labelledby="finance-title" class="container-site mt-28 sm:mt-36">
+    <div data-reveal class="relative overflow-hidden rounded-[1.75rem] border border-line-strong bg-gradient-to-br from-navy via-surface to-ink p-8 sm:p-12 lg:p-16">
+      <div class="pointer-events-none absolute -right-24 -top-24 size-96 rounded-full bg-gold/10 blur-3xl" aria-hidden="true"></div>
+      <div class="relative grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+        <div>
+          <p class="eyebrow">Financing assistance</p>
+          <h2 id="finance-title" class="mt-4 text-3xl sm:text-5xl">Drive now, pay in instalments.</h2>
+          <p class="mt-6 max-w-lg text-muted">
+            We help you arrange financing for new and used cars through banks operating in Karachi — guiding you on eligibility, documents and the application, and coordinating the vehicle valuation the bank needs for approval.
+          </p>
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href="/financing" class="btn btn-primary">Explore financing options <ArrowRight size={18} aria-hidden="true" /></a>
+            <a href={whatsappUrl(whatsappMessages.financing)} target="_blank" rel="noopener" class="btn btn-secondary" data-track="whatsapp_click" data-track-source="home_financing">
+              <WhatsAppIcon size={18} /> Ask about financing
+            </a>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div class="rounded-2xl border border-line bg-ink/40 p-6">
+            <Landmark size={24} className="text-gold" aria-hidden="true" />
+            <h3 class="mt-4 font-bold">Conventional financing</h3>
+            <p class="mt-2 text-sm text-muted">Bank auto-loan applications for new and used vehicles.</p>
+          </div>
+          <div class="rounded-2xl border border-line bg-ink/40 p-6">
+            <ShieldCheck size={24} className="text-gold" aria-hidden="true" />
+            <h3 class="mt-4 font-bold">Islamic financing</h3>
+            <p class="mt-2 text-sm text-muted">Guidance on Shariah-compliant car financing offered by banks.</p>
+          </div>
+          <p class="text-xs text-subtle sm:col-span-2">
+            Federal Motors assists with applications; it is not a lender. Approval, profit/markup rates, down payment and tenure are decided solely by the bank.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= ABOUT ======================= -->
+  <section aria-labelledby="about-title" class="container-site mt-28 sm:mt-36">
+    <div class="grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-20">
+      <div data-reveal class="relative order-last lg:order-first">
+        <div class="relative mx-auto aspect-square max-w-md">
+          <div class="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(201,164,86,0.18),transparent_65%)]" aria-hidden="true"></div>
+          <Image src={badge} alt="Federal Motors emblem" width={560} height={560} class="relative size-full object-contain p-8" />
+        </div>
+      </div>
+      <div data-reveal style="--delay:100ms">
+        <p class="eyebrow">Our story</p>
+        <h2 id="about-title" class="mt-4 text-3xl sm:text-5xl">Two childhood friends. One shared passion for cars.</h2>
+        <div class="mt-6 space-y-4 text-muted">
+          <p>
+            Zain Ahmed and Ali Osama grew up together and caught the car bug early. Over time they began helping people in their circle with vehicle purchases and related decisions — and steadily built practical experience in the local car market.
+          </p>
+          <p>
+            Five years of hands-on work in Karachi’s car market later, that informal help has become a full-time business built on a simple idea: make buying, selling, exchanging and financing a car straightforward, transparent and trustworthy.
+          </p>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-3">
+          {business.owners.map((o) => (
+            <span class="inline-flex items-center gap-3 rounded-full border border-line bg-surface py-1.5 pl-1.5 pr-4 text-sm font-semibold">
+              <span class="grid size-8 place-items-center rounded-full bg-navy-hi font-display text-xs text-gold-hi" aria-hidden="true">{o.split(' ').map((p) => p[0]).join('')}</span>
+              {o}
+            </span>
+          ))}
+        </div>
+        <a href="/about" class="btn btn-secondary mt-9">Read our story <ArrowRight size={18} aria-hidden="true" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CONTACT CTA ======================= -->
+  <section aria-labelledby="visit-title" class="container-site mt-28 sm:mt-36">
+    <div data-reveal class="card grid grid-cols-1 overflow-hidden lg:grid-cols-[1.2fr_1fr]">
+      <div class="p-8 sm:p-12">
+        <p class="eyebrow">Visit the showroom</p>
+        <h2 id="visit-title" class="mt-4 text-3xl sm:text-4xl">See the cars in person.</h2>
+        <p class="mt-4 max-w-lg text-muted">Drop by our first-floor showroom on Shahrah-e-Quaideen, or message us on WhatsApp to check a car’s availability before you come.</p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href={whatsappUrl(whatsappMessages.visit)} target="_blank" rel="noopener" class="btn btn-whatsapp" data-track="book_visit_click" data-track-source="home_visit">
+            <WhatsAppIcon size={20} /> Book a visit on WhatsApp
+          </a>
+          <a href={telUrl(primaryPhone.e164)} class="btn btn-secondary" data-track="phone_click" data-track-source="home_visit">
+            <Phone size={18} aria-hidden="true" /> {primaryPhone.display}
+          </a>
+        </div>
+      </div>
+      <div class="border-t border-line bg-raised/50 p-8 sm:p-12 lg:border-l lg:border-t-0">
+        <div class="space-y-6 text-sm">
+          <div class="flex gap-4">
+            <MapPin size={20} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+            <div>
+              <h3 class="font-bold text-text">Address</h3>
+              <p class="mt-1 text-muted">{fullAddress}</p>
+              <p class="mt-2">
+                <a href={business.mapsUrl} target="_blank" rel="noopener" class="font-semibold text-gold hover:text-gold-hi" data-track="directions_click" data-track-source="home_visit">Get directions →</a>
+              </p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <Clock size={20} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+            <div>
+              <h3 class="font-bold text-text">Opening hours</h3>
+              {business.hours.rows.map((r) => <p class="mt-1 text-muted">{r.days}: {r.time}</p>)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

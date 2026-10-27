@@ -1,0 +1,55 @@
+---
+import NetlifyForm from './NetlifyForm.astro';
+import Field from './Field.astro';
+import { PHONE_PATTERN, whatsappMessages, vehicleMessage } from '@/lib/contact';
+
+interface Props {
+  /** Pre-fills the vehicle when shown on a listing page. */
+  vehicle?: { title: string; stockReference: string };
+  idPrefix?: string;
+}
+const { vehicle, idPrefix = 'viewing' } = Astro.props;
+const today = new Date().toISOString().slice(0, 10);
+---
+<NetlifyForm
+  name="viewing-request"
+  event={vehicle ? 'test_drive_request' : 'generate_lead'}
+  submitLabel={vehicle ? 'Request a viewing' : 'Request a visit'}
+  successTitle="Request received — thank you."
+  successText="We’ll call or WhatsApp you during showroom hours (Mon–Sat, 12 PM – 9 PM) to confirm a time."
+  fallbackMessage={vehicle ? vehicleMessage(vehicle.title, vehicle.stockReference) : whatsappMessages.visit}
+  trackParams={vehicle ? { vehicle_id: vehicle.stockReference, inquiry_source: 'vehicle_page' } : { inquiry_source: 'contact_page' }}
+>
+  <input type="hidden" name="vehicle" value={vehicle ? `${vehicle.title} (${vehicle.stockReference})` : 'General showroom visit'} />
+  <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <Field form={idPrefix} name="name" label="Your name" required autocomplete="name" />
+    <Field form={idPrefix} name="phone" label="Mobile number" type="tel" required autocomplete="tel" inputmode="tel" pattern={PHONE_PATTERN} placeholder="0300-1234567" />
+    <Field form={idPrefix} name="preferred_date" label="Preferred date" type="date" min={today} hint="Monday to Saturday — we’re closed on Sunday." />
+    <Field
+      form={idPrefix}
+      name="preferred_time"
+      label="Preferred time"
+      type="select"
+      options={[
+        { value: '12-3pm', label: '12 PM – 3 PM' },
+        { value: '3-6pm', label: '3 PM – 6 PM' },
+        { value: '6-9pm', label: '6 PM – 9 PM' },
+      ]}
+    />
+  </div>
+  {vehicle && (
+    <Field
+      form={idPrefix}
+      name="request_type"
+      label="I’d like to"
+      type="select"
+      required
+      value="viewing"
+      options={[
+        { value: 'viewing', label: 'View the car at the showroom' },
+        { value: 'test-drive', label: 'View and test drive' },
+      ]}
+    />
+  )}
+  <Field form={idPrefix} name="message" label="Anything we should know?" type="textarea" maxlength={600} />
+</NetlifyForm>

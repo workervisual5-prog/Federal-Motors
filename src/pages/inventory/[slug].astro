@@ -1,0 +1,313 @@
+---
+import { getImage } from 'astro:assets';
+import { Phone, Share2, CalendarCheck, ArrowLeft, Info, CheckCircle2, FileText, ArrowRight } from 'lucide-react';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Gallery from '@/components/Gallery';
+import VehicleCard from '@/components/VehicleCard';
+import WhatsAppIcon from '@/components/WhatsAppIcon.astro';
+import ViewingForm from '@/components/forms/ViewingForm.astro';
+import {
+  type Vehicle,
+  getVehicles,
+  vehicleTitle,
+  vehicleFullTitle,
+  formatPrice,
+  formatPriceShort,
+  formatMileage,
+  availabilityLabel,
+  bodyTypeLabel,
+  capitalise,
+} from '@/lib/vehicles';
+import { toCardData } from '@/lib/cards';
+import { primaryPhone } from '@/data/business';
+import { telUrl, whatsappUrl, vehicleMessage, whatsappMessages } from '@/lib/contact';
+import { vehicleSchema } from '@/lib/schema';
+import { breadcrumbSchema, type Crumb } from '@/lib/breadcrumbs';
+
+export async function getStaticPaths() {
+  const vehicles = await getVehicles();
+  return vehicles.map((vehicle) => ({ params: { slug: vehicle.id }, props: { vehicle, all: vehicles } }));
+}
+
+interface Props {
+  vehicle: Vehicle;
+  all: Vehicle[];
+}
+const { vehicle, all } = Astro.props;
+const d = vehicle.data;
+const title = vehicleTitle(d);
+const fullTitle = vehicleFullTitle(d);
+const sold = d.availability === 'sold';
+const url = new URL(`/inventory/${vehicle.id}`, Astro.site).href;
+
+const images = await Promise.all(
+  d.images.map(async (im) => {
+    const main = await getImage({ src: im.src, widths: [480, 720, 960, 1400], width: 1400, format: 'webp', quality: 74 });
+    const thumb = await getImage({ src: im.src, width: 160, height: 120, fit: 'cover', format: 'webp', quality: 60 });
+    return {
+      src: main.src,
+      srcset: main.srcSet.attribute,
+      thumb: thumb.src,
+      alt: im.alt,
+      width: im.src.width,
+      height: im.src.height,
+    };
+  }),
+);
+
+const specRows = [
+  ['Stock reference', d.stockReference],
+  ['Make', d.make],
+  ['Model', d.model],
+  ['Variant', d.variant],
+  ['Model year', String(d.year)],
+  ['Registration year', d.registrationYear ? String(d.registrationYear) : d.registrationNote],
+  ['Registration city', d.registrationCity],
+  ['Mileage', formatMileage(d.mileageKm)],
+  ['Engine capacity', d.engineCC ? `${d.engineCC.toLocaleString('en-PK')} cc` : null],
+  ['Transmission', d.transmission && capitalise(d.transmission)],
+  ['Fuel type', d.fuelType && capitalise(d.fuelType)],
+  ['Exterior colour', d.exteriorColour],
+  ['Body type', d.bodyType && bodyTypeLabel[d.bodyType]],
+  ['Condition', capitalise(d.condition)],
+  ['Origin', d.origin && (d.origin === 'local' ? 'Local' : 'Imported')],
+  ['Ownership', d.owners],
+  ['Auction sheet grade', d.auctionGrade],
+].filter((r): r is [string, string] => Boolean(r[1]));
+
+const keyFacts = [
+  ['Year', String(d.year)],
+  ['Mileage', formatMileage(d.mileageKm)],
+  ['Fuel', d.fuelType && capitalise(d.fuelType)],
+  ['Body', d.bodyType && bodyTypeLabel[d.bodyType]],
+].filter((r): r is [string, string] => Boolean(r[1]));
+
+// Similar: same body type first, then same make, then anything else in stock.
+const others = all.filter((v) => v.id !== vehicle.id && v.data.availability !== 'sold');
+const score = (v: Vehicle) => (v.data.bodyType === d.bodyType ? 2 : 0) + (v.data.make === d.make ? 1 : 0);
+const similar = await Promise.all(
+  others
+    .sort((a, b) => score(b) - score(a))
+    .slice(0, 3)
+    .map(toCardData),
+);
+
+const message = vehicleMessage(fullTitle, d.stockReference);
+const short = formatPriceShort(d);
+const crumbs: Crumb[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Inventory', href: '/inventory' },
+  { label: title, href: `/inventory/${vehicle.id}` },
+];
+const imageUrls = images.map((i) => new URL(i.src, Astro.site).href);
+const priceForMeta = d.priceVisibility === 'show' && d.pricePKR ? ` for ${formatPrice(d)}` : '';
+const metaDescription = `${fullTitle}${d.mileageKm !== null ? `, ${formatMileage(d.mileageKm)}` : ''}${priceForMeta} at Federal Motors, PECHS Karachi. ${d.highlights.slice(0, 2).join('. ')}.`.slice(0, 158);
+---
+
+<BaseLayout
+  title={`${fullTitle} for Sale in Karachi`}
+  description={metaDescription}
+  canonicalPath={`/inventory/${vehicle.id}`}
+  ogImage={d.images[0].src}
+  ogType="product"
+  whatsappMessage={sold ? whatsappMessages.sourcing : message}
+  jsonLd={[vehicleSchema(Astro.site!, vehicle, url, imageUrls), breadcrumbSchema(Astro.site!, crumbs)]}
+>
+  <div class="container-site pt-8">
+    <Breadcrumbs crumbs={crumbs} />
+  </div>
+
+  <section class="container-site mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:gap-12" aria-labelledby="vehicle-title">
+    <div class="anim-slide">
+      <Gallery client:load images={images} title={fullTitle} />
+    </div>
+
+    <div class="lg:sticky lg:top-24 lg:self-start">
+      <div class="card anim-rise p-6 sm:p-8" style="--delay:100ms">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 rounded-full border border-line px-2.5 py-1 text-xs font-bold">
+            <span class={`size-1.5 rounded-full ${{ available: 'bg-ok', reserved: 'bg-warn', sold: 'bg-sold' }[d.availability]}`} aria-hidden="true"></span>
+            {availabilityLabel[d.availability]}
+          </span>
+          <span class="rounded-full border border-line px-2.5 py-1 text-xs font-semibold text-muted">Ref {d.stockReference}</span>
+        </div>
+        <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold">{d.make}</p>
+        <h1 id="vehicle-title" class="mt-2 text-3xl sm:text-4xl">{title}</h1>
+        {d.variant && <p class="mt-2 text-muted">{d.variant}</p>}
+        {d.yearNote && <p class="mt-3 text-sm text-subtle">{d.yearNote}</p>}
+
+        <div class="mt-6 border-y border-line py-5">
+          <p class:list={['text-3xl font-extrabold tracking-tight', sold && 'text-muted']}>{sold ? 'Sold' : formatPrice(d)}</p>
+          {!sold && short && <p class="mt-1 text-sm text-subtle">{short}{d.priceNote && ` · ${d.priceNote}`}</p>}
+        </div>
+
+        {keyFacts.length > 0 && (
+          <dl class="mt-5 grid grid-cols-2 gap-4 text-sm">
+            {keyFacts.map(([k, v]) => (
+              <div>
+                <dt class="text-xs uppercase tracking-[0.14em] text-subtle">{k}</dt>
+                <dd class="mt-1 font-semibold">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
+        {
+          sold ? (
+            <div class="mt-6 rounded-xl border border-line bg-raised p-4 text-sm text-muted">
+              <p class="font-semibold text-text">This vehicle has been sold.</p>
+              <p class="mt-1">Looking for something similar? We can help you find one.</p>
+              <a href={whatsappUrl(whatsappMessages.sourcing)} target="_blank" rel="noopener" class="btn btn-secondary mt-4 w-full" data-track="whatsapp_click" data-track-source="sold_vehicle" data-track-vehicle-id={d.stockReference}>
+                Ask us to source a similar car
+              </a>
+            </div>
+          ) : (
+            <div class="mt-6 grid gap-3">
+              <a
+                href={whatsappUrl(message)}
+                target="_blank"
+                rel="noopener"
+                class="btn btn-whatsapp"
+                data-track="vehicle_inquiry"
+                data-track-method="whatsapp"
+                data-track-vehicle-id={d.stockReference}
+                data-track-make={d.make}
+                data-track-model={d.model}
+                data-track-inquiry-source="vehicle_page"
+              >
+                <WhatsAppIcon size={20} /> Ask about this car on WhatsApp
+              </a>
+              <div class="grid grid-cols-2 gap-3">
+                <a href={telUrl(primaryPhone.e164)} class="btn btn-secondary" data-track="phone_click" data-track-source="vehicle_page" data-track-vehicle-id={d.stockReference}>
+                  <Phone size={18} aria-hidden="true" /> Call now
+                </a>
+                <a href="#viewing" class="btn btn-secondary" data-track="book_visit_click" data-track-source="vehicle_page" data-track-vehicle-id={d.stockReference}>
+                  <CalendarCheck size={18} aria-hidden="true" /> Viewing
+                </a>
+              </div>
+            </div>
+          )
+        }
+
+        <div class="mt-5 flex items-center justify-between gap-3 text-sm">
+          <a href="/inventory" class="inline-flex items-center gap-1.5 font-semibold text-muted hover:text-gold-hi">
+            <ArrowLeft size={16} aria-hidden="true" /> Back to inventory
+          </a>
+          <button type="button" data-share data-title={fullTitle} data-url={url} class="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 font-semibold text-muted hover:text-gold-hi">
+            <Share2 size={16} aria-hidden="true" /> <span data-share-label>Share</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-site mt-16 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:gap-12">
+    <div class="space-y-12">
+      <div data-reveal>
+        <h2 class="text-2xl font-bold">Overview</h2>
+        <p class="mt-4 text-muted">{d.description}</p>
+      </div>
+
+      {d.highlights.length > 0 && (
+        <div data-reveal>
+          <h2 class="text-2xl font-bold">Highlights</h2>
+          <p class="mt-2 text-sm text-subtle">As described by the seller. Please inspect before purchase.</p>
+          <ul class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {d.highlights.map((h) => (
+              <li class="flex gap-3 rounded-xl border border-line bg-surface p-4 text-sm">
+                <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+                {h}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {d.disclosures.length > 0 && (
+        <div data-reveal class="rounded-2xl border border-warn/30 bg-warn/5 p-6">
+          <h2 class="flex items-center gap-2 text-lg font-bold"><Info size={20} className="text-warn" aria-hidden="true" /> Please note</h2>
+          <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-muted">
+            {d.disclosures.map((x) => <li>{x}</li>)}
+          </ul>
+        </div>
+      )}
+
+      <div data-reveal>
+        <h2 class="text-2xl font-bold">Specifications</h2>
+        <dl class="mt-5 divide-y divide-line overflow-hidden rounded-2xl border border-line">
+          {specRows.map(([k, v]) => (
+            <div class="grid grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] gap-4 bg-surface px-5 py-3.5 text-sm odd:bg-raised/40">
+              <dt class="text-muted">{k}</dt>
+              <dd class="font-semibold">{v}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="mt-3 text-sm text-subtle">Further details are available on request — ask us on WhatsApp.</p>
+      </div>
+
+      {d.documentation.length > 0 && (
+        <div data-reveal>
+          <h2 class="text-2xl font-bold">Documentation</h2>
+          <ul class="mt-5 space-y-3">
+            {d.documentation.map((x) => (
+              <li class="flex gap-3 text-sm text-muted">
+                <FileText size={18} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+                {x}
+              </li>
+            ))}
+          </ul>
+          <p class="mt-4 text-sm text-subtle">We help buyers verify documents and complete the ownership transfer. Original documents can be inspected at the showroom.</p>
+        </div>
+      )}
+    </div>
+
+    {!sold && (
+      <div id="viewing" class="scroll-mt-24">
+        <div class="card p-6 sm:p-8" data-reveal>
+          <h2 class="text-2xl font-bold">Request a viewing</h2>
+          <p class="mt-2 text-sm text-muted">Tell us when suits you and we’ll confirm by phone or WhatsApp.</p>
+          <div class="mt-6">
+            <ViewingForm vehicle={{ title: fullTitle, stockReference: d.stockReference }} />
+          </div>
+        </div>
+      </div>
+    )}
+  </section>
+
+  {similar.length > 0 && (
+    <section class="container-site mt-24" aria-labelledby="similar-title">
+      <div class="flex items-end justify-between gap-4" data-reveal>
+        <h2 id="similar-title" class="text-3xl font-bold">More from our stock</h2>
+        <a href="/inventory" class="hidden items-center gap-1 text-sm font-semibold text-gold hover:text-gold-hi sm:inline-flex">View all <ArrowRight size={16} aria-hidden="true" /></a>
+      </div>
+      <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {similar.map((c, i) => <VehicleCard v={c} reveal delay={i * 90} />)}
+      </div>
+    </section>
+  )}
+
+  <script>
+    import { track } from '@/scripts/analytics';
+    const h1 = document.getElementById('vehicle-title');
+    const ref = document.querySelector<HTMLElement>('[data-track-vehicle-id]')?.dataset.trackVehicleId;
+    if (h1 && ref) track('view_item', { vehicle_id: ref, item_name: h1.textContent ?? '' });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-share]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const { title = '', url = location.href } = btn.dataset;
+        const label = btn.querySelector('[data-share-label]')!;
+        try {
+          if (navigator.share) await navigator.share({ title, url });
+          else {
+            await navigator.clipboard.writeText(url);
+            label.textContent = 'Link copied';
+            setTimeout(() => (label.textContent = 'Share'), 2000);
+          }
+        } catch {
+          /* user cancelled the share sheet */
+        }
+      });
+    });
+  </script>
+</BaseLayout>

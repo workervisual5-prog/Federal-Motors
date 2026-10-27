@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Prose from '@/components/Prose.astro';
+import { business } from '@/data/business';
+const crumbs = [{ label: 'Home', href: '/' }, { label: 'Terms & Disclaimers', href: '/terms' }];
+---
+<BaseLayout title="Terms & Disclaimers" description="Terms of use and important disclaimers for vehicle listings, pricing and financing information on the Federal Motors website." canonicalPath="/terms">
+  <PageHeader eyebrow="Legal" title="Terms & Disclaimers" intro="Last updated: 27 October 2026" crumbs={crumbs} />
+  <Prose>
+    <p>By using this website you agree to these terms. If you do not agree, please do not use the website.</p>
+
+    <h2>Vehicle listings</h2>
+    <ul>
+      <li>Listings are provided for general information and do not form an offer or contract. A sale is agreed only in writing at the showroom.</li>
+      <li>Vehicle availability changes quickly. A car shown as available may already be reserved or sold. Please confirm availability before visiting.</li>
+      <li>Condition descriptions and highlights are based on information from the vehicle’s seller and our own observations. We strongly encourage every buyer to inspect the vehicle, review its documents and, if desired, arrange an independent inspection before purchase.</li>
+      <li>Photographs are of the actual vehicle. Images may be colour-corrected, cropped or have number plates and third-party markings obscured, but are not altered to hide damage.</li>
+      <li>Mileage figures are as stated by the seller or shown on the odometer at the time of listing.</li>
+    </ul>
+
+    <h2>Prices</h2>
+    <ul>
+      <li>Prices are shown in Pakistani Rupees (PKR) and may change without notice.</li>
+      <li>Unless stated otherwise, prices exclude transfer charges, token taxes, registration fees, insurance and other government or third-party costs.</li>
+      <li>Despite our care, errors can occur. We are not obliged to sell a vehicle at an incorrectly displayed price.</li>
+    </ul>
+
+    <h2>Warranty</h2>
+    <p>Used vehicles are sold without a warranty unless a written warranty is provided at the time of sale.</p>
+
+    <h2>Financing</h2>
+    <p>Federal Motors provides financing assistance only and is not a bank, lender or financial adviser. Financing is subject to the bank’s eligibility criteria, assessment and approval. Rates, down payments, tenures and fees are set by the bank. No approval is guaranteed.</p>
+
+    <h2>Imports and sourcing</h2>
+    <p>Vehicle sourcing and imports are subject to availability, applicable import regulations, duties, taxes and delivery timelines, which may change. Any estimates we provide are indicative until confirmed in writing.</p>
+
+    <h2>Valuations</h2>
+    <p>Valuations for selling, exchange or consignment are indicative until the vehicle and its documents have been inspected in person.</p>
+
+    <h2>Website content</h2>
+    <p>The Federal Motors name, logo and website content may not be copied or reused without permission. Links to third-party websites, such as WhatsApp, Instagram and Google Maps, are provided for convenience; we are not responsible for their content or policies.</p>
+
+    <h2>Liability</h2>
+    <p>To the extent permitted by law, Federal Motors is not liable for any loss arising from reliance on information on this website. Nothing in these terms limits rights you have under applicable law.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about these terms: <a href={`mailto:${business.email}`}>{business.email}</a> or {business.phones[0].display}.</p>
+  </Prose>
+</BaseLayout>

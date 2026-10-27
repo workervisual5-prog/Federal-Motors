@@ -1,0 +1,76 @@
+---
+import { MapPin, Phone, Clock, Mail } from 'lucide-react';
+import Logo from './Logo.astro';
+import { business, fullAddress, nav } from '@/data/business';
+import { telUrl } from '@/lib/contact';
+
+const services = [
+  { label: 'Used & new cars', href: '/inventory' },
+  { label: 'Imported vehicle sourcing', href: '/services#sourcing' },
+  { label: 'Car exchange', href: '/services#exchange' },
+  { label: 'Consignment sales', href: '/services#consignment' },
+  { label: 'Financing assistance', href: '/financing' },
+  { label: 'Inspection & documentation', href: '/services#documentation' },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-line bg-surface pb-24 lg:pb-0">
+  <div class="container-site grid grid-cols-1 gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
+    <div>
+      <Logo size="lg" />
+      <p class="mt-6 max-w-sm text-sm text-muted">{business.description}</p>
+      <a href={business.instagram} target="_blank" rel="noopener" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-gold hover:text-gold-hi">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" /></svg>
+        @federalmotors110
+      </a>
+    </div>
+
+    <nav aria-label="Footer">
+      <h2 class="text-sm font-bold uppercase tracking-[0.18em] text-text">Explore</h2>
+      <ul class="mt-4 space-y-1 text-sm">
+        {nav.map((n) => <li><a href={n.href} class="inline-block py-1.5 text-muted hover:text-gold-hi">{n.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="text-sm font-bold uppercase tracking-[0.18em] text-text">Services</h2>
+      <ul class="mt-4 space-y-1 text-sm">
+        {services.map((s) => <li><a href={s.href} class="inline-block py-1.5 text-muted hover:text-gold-hi">{s.label}</a></li>)}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-bold uppercase tracking-[0.18em] text-text">Visit the showroom</h2>
+      <address class="mt-5 space-y-4 text-sm not-italic text-muted">
+        <a href={business.mapsUrl} target="_blank" rel="noopener" class="flex gap-3 hover:text-gold-hi" data-track="directions_click" data-track-source="footer">
+          <MapPin size={18} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+          <span>{fullAddress}</span>
+        </a>
+        <div class="flex gap-3">
+          <Phone size={18} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+          <span class="flex flex-col gap-1">
+            {business.phones.map((p) => <a href={telUrl(p.e164)} class="inline-block py-0.5 hover:text-gold-hi" data-track="phone_click" data-track-source="footer">{p.display}</a>)}
+          </span>
+        </div>
+        <a href={`mailto:${business.email}`} class="flex gap-3 break-all hover:text-gold-hi">
+          <Mail size={18} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+          {business.email}
+        </a>
+        <div class="flex gap-3">
+          <Clock size={18} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+          <span>{business.hours.rows.map((r) => <span class="block">{r.days}: {r.time}</span>)}</span>
+        </div>
+      </address>
+    </div>
+  </div>
+  <div class="border-t border-line">
+    <div class="container-site flex flex-col gap-3 py-6 text-xs text-subtle sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} Federal Motors. All rights reserved.</p>
+      <ul class="flex gap-5">
+        <li><a href="/privacy" class="inline-block py-1.5 hover:text-text">Privacy Policy</a></li>
+        <li><a href="/terms" class="inline-block py-1.5 hover:text-text">Terms &amp; Disclaimers</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

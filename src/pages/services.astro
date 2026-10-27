@@ -1,0 +1,119 @@
+---
+import { ArrowRight, Check } from 'lucide-react';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import WhatsAppIcon from '@/components/WhatsAppIcon.astro';
+import NetlifyForm from '@/components/forms/NetlifyForm.astro';
+import Field from '@/components/forms/Field.astro';
+import { services } from '@/data/services';
+import { whatsappUrl, whatsappMessages, PHONE_PATTERN } from '@/lib/contact';
+import { breadcrumbSchema, type Crumb } from '@/lib/breadcrumbs';
+
+const crumbs: Crumb[] = [{ label: 'Home', href: '/' }, { label: 'Services', href: '/services' }];
+const thisYear = new Date().getFullYear();
+---
+
+<BaseLayout
+  title="Car Services in Karachi — Buy, Sell, Exchange, Consignment & Sourcing"
+  description="Buy, sell, exchange or consign your car with Federal Motors, PECHS Karachi. Plus vehicle sourcing, financing help, inspection and documentation support."
+  canonicalPath="/services"
+  jsonLd={breadcrumbSchema(Astro.site!, crumbs)}
+>
+  <PageHeader
+    eyebrow="Services"
+    title="Everything around your car, in one place."
+    intro="From finding the right car to selling your current one, Federal Motors stays involved through inspection, paperwork and transfer."
+    crumbs={crumbs}
+  />
+
+  <nav aria-label="Services on this page" class="sticky top-[4.5rem] z-30 border-b border-line bg-ink/90 backdrop-blur-md">
+    <ul class="container-site flex gap-2 overflow-x-auto py-3 text-sm [scrollbar-width:none]">
+      {services.map((s) => (
+        <li class="shrink-0"><a href={`#${s.id}`} class="inline-flex min-h-10 items-center rounded-full border border-line px-4 font-semibold text-muted hover:border-gold hover:text-gold-hi">{s.title}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <div class="container-site mt-12 space-y-6">
+    {services.map((s, i) => {
+      const href = s.cta.external && s.whatsapp ? whatsappUrl(s.whatsapp) : s.cta.href;
+      return (
+        <section id={s.id} class="card scroll-mt-36 grid grid-cols-1 gap-8 p-7 sm:p-10 lg:grid-cols-[1.1fr_1fr] lg:gap-14" aria-labelledby={`${s.id}-title`} data-reveal>
+          <div>
+            <span class="font-display text-sm text-subtle" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h2 id={`${s.id}-title`} class="mt-2 text-2xl sm:text-3xl">{s.title}</h2>
+            <p class="mt-4 text-muted">{s.description}</p>
+            <ul class="mt-6 space-y-2.5">
+              {s.benefits.map((b) => (
+                <li class="flex gap-3 text-sm"><Check size={18} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />{b}</li>
+              ))}
+            </ul>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a href={href} class="btn btn-primary" {...(s.cta.external ? { target: '_blank', rel: 'noopener', 'data-track': 'whatsapp_click', 'data-track-source': `service_${s.id}` } : {})}>
+                {s.cta.label} <ArrowRight size={18} aria-hidden="true" />
+              </a>
+              {s.whatsapp && !s.cta.external && (
+                <a href={whatsappUrl(s.whatsapp)} target="_blank" rel="noopener" class="btn btn-secondary" data-track="whatsapp_click" data-track-source={`service_${s.id}`}>
+                  <WhatsAppIcon size={18} /> WhatsApp
+                </a>
+              )}
+            </div>
+          </div>
+          <div class="rounded-2xl border border-line bg-raised/50 p-6">
+            <h3 class="text-sm font-bold uppercase tracking-[0.16em] text-gold">How it works</h3>
+            <ol class="mt-5 space-y-5">
+              {s.steps.map((step, k) => (
+                <li class="flex gap-4">
+                  <span class="grid size-8 shrink-0 place-items-center rounded-full border border-gold/50 text-sm font-bold text-gold" aria-hidden="true">{k + 1}</span>
+                  <span class="pt-1 text-sm text-muted">{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      );
+    })}
+  </div>
+
+  <section id="sourcing-form" class="container-site mt-20 scroll-mt-28" aria-labelledby="sourcing-form-title">
+    <div class="card grid grid-cols-1 gap-10 p-7 sm:p-10 lg:grid-cols-[0.9fr_1.1fr]" data-reveal>
+      <div>
+        <p class="eyebrow">Vehicle sourcing</p>
+        <h2 id="sourcing-form-title" class="mt-4 text-3xl">Tell us the car you’re looking for.</h2>
+        <p class="mt-4 text-muted">
+          Commonly requested models include the Suzuki Alto and Swift, Daihatsu Mira, Toyota Corolla, Aqua, Hilux Revo and Vigo, Honda Civic, Chery Tiggo, BYD and Mercedes-Benz — but you can ask for anything.
+        </p>
+        <p class="mt-4 text-sm text-subtle">Availability, import duties and delivery timelines vary. We’ll confirm what’s realistic before you commit.</p>
+      </div>
+      <NetlifyForm
+        name="sourcing-request"
+        event="generate_lead"
+        submitLabel="Send request"
+        successTitle="Got it — we’ll start looking."
+        successText="We’ll contact you with options or questions during showroom hours."
+        fallbackMessage={whatsappMessages.sourcing}
+        trackParams={{ inquiry_source: 'sourcing_form' }}
+      >
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <Field form="src" name="name" label="Your name" required autocomplete="name" />
+          <Field form="src" name="phone" label="Mobile number" type="tel" required autocomplete="tel" inputmode="tel" pattern={PHONE_PATTERN} placeholder="0300-1234567" />
+          <Field form="src" name="vehicle_wanted" label="Make and model" required placeholder="e.g. Toyota Aqua" />
+          <Field form="src" name="year_range" label="Model year range" placeholder={`e.g. ${thisYear - 5}–${thisYear}`} />
+          <Field form="src" name="budget" label="Budget" type="select" options={[
+            { value: 'under-30-lakh', label: 'Under 30 lakh' },
+            { value: '30-60-lakh', label: '30 – 60 lakh' },
+            { value: '60-100-lakh', label: '60 lakh – 1 crore' },
+            { value: '1-2-crore', label: '1 – 2 crore' },
+            { value: 'above-2-crore', label: 'Above 2 crore' },
+          ]} />
+          <Field form="src" name="source_preference" label="Local or imported" type="select" options={[
+            { value: 'either', label: 'Either' },
+            { value: 'local', label: 'Local' },
+            { value: 'imported', label: 'Imported' },
+          ]} />
+        </div>
+        <Field form="src" name="message" label="Other requirements" type="textarea" maxlength={600} placeholder="Colour, transmission, mileage, timeline…" />
+      </NetlifyForm>
+    </div>
+  </section>
+</BaseLayout>

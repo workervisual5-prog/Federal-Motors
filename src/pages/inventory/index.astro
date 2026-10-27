@@ -1,0 +1,31 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import InventoryBrowser from '@/components/InventoryBrowser';
+import { getVehicles } from '@/lib/vehicles';
+import { toCardData } from '@/lib/cards';
+import { whatsappUrl, whatsappMessages } from '@/lib/contact';
+import { breadcrumbSchema, type Crumb } from '@/lib/breadcrumbs';
+
+const vehicles = await getVehicles();
+const cards = await Promise.all(vehicles.map(toCardData));
+const inStock = vehicles.filter((v) => v.data.availability !== 'sold').length;
+const crumbs: Crumb[] = [{ label: 'Home', href: '/' }, { label: 'Inventory', href: '/inventory' }];
+---
+
+<BaseLayout
+  title="Used, New & Imported Cars for Sale in Karachi"
+  description={`Browse ${inStock} vehicles currently in stock at Federal Motors, PECHS Karachi — pickups, SUVs, hatchbacks and luxury cars with verified details and WhatsApp inquiries.`}
+  canonicalPath="/inventory"
+  jsonLd={breadcrumbSchema(Astro.site!, crumbs)}
+>
+  <PageHeader
+    eyebrow="Inventory"
+    title="Cars for sale in Karachi"
+    intro="Every listing is a real vehicle from our current stock. Prices are in PKR; ask us on WhatsApp for the latest availability or to arrange a viewing."
+    crumbs={crumbs}
+  />
+  <section class="container-site mt-10" aria-label="Vehicle listings">
+    <InventoryBrowser client:idle cards={cards} sourcingUrl={whatsappUrl(whatsappMessages.sourcing)} />
+  </section>
+</BaseLayout>

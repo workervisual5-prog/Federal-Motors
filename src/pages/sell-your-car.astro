@@ -1,0 +1,98 @@
+---
+import { BadgeDollarSign, Repeat, Handshake } from 'lucide-react';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import WhatsAppIcon from '@/components/WhatsAppIcon.astro';
+import NetlifyForm from '@/components/forms/NetlifyForm.astro';
+import Field from '@/components/forms/Field.astro';
+import { whatsappUrl, whatsappMessages, PHONE_PATTERN } from '@/lib/contact';
+import { breadcrumbSchema, type Crumb } from '@/lib/breadcrumbs';
+
+const crumbs: Crumb[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Sell your car', href: '/sell-your-car' },
+];
+const thisYear = new Date().getFullYear();
+const options = [
+  { icon: BadgeDollarSign, title: 'Sell outright', text: 'We buy your car directly, or connect you with a buyer, after inspecting it and agreeing a price.' },
+  { icon: Repeat, title: 'Exchange', text: 'Put your current car towards one from our stock and settle the difference in a single deal.' },
+  { icon: Handshake, title: 'Consignment', text: 'Leave the selling to us — we handle inquiries, viewings and negotiation while you approve the final price.' },
+];
+---
+
+<BaseLayout
+  title="Sell or Exchange Your Car in Karachi"
+  description="Sell, exchange or consign your car with Federal Motors, PECHS Karachi. Market-based valuation after inspection and help with the ownership transfer."
+  canonicalPath="/sell-your-car"
+  whatsappMessage={whatsappMessages.sell}
+  jsonLd={breadcrumbSchema(Astro.site!, crumbs)}
+>
+  <PageHeader
+    eyebrow="Sell your car"
+    title="Sell, exchange or consign your car."
+    intro="Share a few details and we’ll get back to you with next steps. Every valuation is confirmed only after we inspect the car in person."
+    crumbs={crumbs}
+  />
+
+  <section class="container-site mt-16" aria-label="Ways to sell">
+    <ul class="grid grid-cols-1 gap-4 md:grid-cols-3">
+      {options.map(({ icon: Icon, title, text }, i) => (
+        <li class="card p-7" data-reveal style={`--delay:${i * 80}ms`}>
+          <Icon size={26} className="text-gold" aria-hidden="true" />
+          <h2 class="mt-5 text-xl font-bold">{title}</h2>
+          <p class="mt-2 text-sm text-muted">{text}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="sell-form" class="container-site mt-16 scroll-mt-24" aria-labelledby="sell-form-title">
+    <div class="card grid grid-cols-1 gap-10 p-7 sm:p-10 lg:grid-cols-[0.85fr_1.15fr]" data-reveal>
+      <div>
+        <h2 id="sell-form-title" class="text-3xl">Tell us about your car</h2>
+        <p class="mt-4 text-muted">We’ll review the details and contact you to arrange an inspection at our PECHS showroom.</p>
+        <ul class="mt-6 list-disc space-y-2 pl-5 text-sm text-muted marker:text-gold">
+          <li>Have your registration book and CNIC ready for the inspection.</li>
+          <li>The final price depends on condition, documents and current market demand.</li>
+          <li>We help with biometric verification and ownership transfer.</li>
+        </ul>
+        <a href={whatsappUrl(whatsappMessages.sell)} target="_blank" rel="noopener" class="btn btn-secondary mt-8" data-track="whatsapp_click" data-track-source="sell_page">
+          <WhatsAppIcon size={18} /> Send photos on WhatsApp
+        </a>
+      </div>
+      <NetlifyForm
+        name="sell-car"
+        event="sell_car_inquiry"
+        submitLabel="Request a valuation"
+        successTitle="Thank you — we’ve received your car’s details."
+        successText="We’ll call or WhatsApp you during showroom hours to discuss next steps and arrange an inspection."
+        fallbackMessage={whatsappMessages.sell}
+        trackParams={{ inquiry_source: 'sell_page' }}
+      >
+        <Field form="sell" name="inquiry_type" label="I’d like to" type="select" required value="sell" options={[
+          { value: 'sell', label: 'Sell my car' },
+          { value: 'exchange', label: 'Exchange my car for one of yours' },
+          { value: 'consignment', label: 'Sell my car on consignment' },
+        ]} />
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <Field form="sell" name="name" label="Your name" required autocomplete="name" />
+          <Field form="sell" name="phone" label="Mobile number" type="tel" required autocomplete="tel" inputmode="tel" pattern={PHONE_PATTERN} placeholder="0300-1234567" />
+          <Field form="sell" name="make" label="Make" required placeholder="e.g. Toyota" />
+          <Field form="sell" name="model" label="Model and variant" required placeholder="e.g. Corolla Altis 1.6" />
+          <Field form="sell" name="year" label="Model year" type="number" required inputmode="numeric" min={1980} max={thisYear + 1} />
+          <Field form="sell" name="mileage_km" label="Mileage (km)" type="number" required inputmode="numeric" min={0} max={2000000} />
+          <Field form="sell" name="asking_price" label="Asking price (PKR)" type="number" inputmode="numeric" min={0} hint="Optional — leave blank if you’d like guidance." />
+        </div>
+        <Field form="sell" name="details" label="Additional details" type="textarea" maxlength={800} placeholder="Condition, accident history, registration city, owners…" />
+      </NetlifyForm>
+    </div>
+  </section>
+
+  <script>
+    // Preselect the inquiry type from ?type=exchange|consignment links.
+    const t = new URLSearchParams(location.search).get('type');
+    const sel = document.querySelector<HTMLSelectElement>('#sell-inquiry_type');
+    if (sel && t && Array.from(sel.options).some((o) => o.value === t)) sel.value = t;
+  </script>
+</BaseLayout>

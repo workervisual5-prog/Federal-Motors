@@ -1,0 +1,54 @@
+# Google Analytics 4 setup
+
+Analytics is **built in but switched off** until a Measurement ID is provided. No ID has been invented.
+
+## How it works
+
+- GA4 loads only when `PUBLIC_GA4_ID` is set at build time.
+- **Consent first:** Google Consent Mode v2 defaults analytics storage to *denied*. A banner asks visitors to allow or decline. The choice is saved in the browser. Ad storage is always denied.
+- Page views: GA4 sends one `page_view` per page load automatically. The site is multi-page (no client-side router), so there are no duplicate page views.
+- Click events are captured by **one** delegated listener (`src/scripts/site.ts`) reading `data-track` attributes, so handlers can't double-bind.
+- Form events fire **only after Netlify confirms the submission** (HTTP 200). Clicking submit, or a failed submission, sends nothing.
+- `src/scripts/analytics.ts` drops any parameter whose name contains name/phone/email/mobile/cnic/address/message, as a safety net. **No personal data is sent to GA4.**
+
+## Setup steps
+
+1. <https://analytics.google.com> → Admin → **Create property** "Federal Motors", time zone Pakistan (GMT+5), currency PKR.
+2. Create a **Web data stream** for the live domain. Copy the Measurement ID (`G-…`).
+3. In Netlify set `PUBLIC_GA4_ID=G-…` and redeploy.
+4. In the data stream's **Enhanced measurement**, keep Page views and Scrolls. **Turn off "Form interactions"**: the site sends its own accurate form events and GA4's automatic ones would double-count.
+5. Register **custom dimensions** (Admin → Custom definitions → Create, scope *Event*):
+   `vehicle_id`, `make`, `model`, `inquiry_source`, `source`, `form_name`, `method`
+6. Mark **key events** (Admin → Events → toggle "Mark as key event"):
+   `generate_lead`, `test_drive_request`, `financing_inquiry`, `sell_car_inquiry`, `vehicle_inquiry`, `whatsapp_click`, `phone_click`
+7. Set data retention to 14 months (Admin → Data retention).
+
+## Event reference
+
+| Event | Type | Fires when | Parameters |
+|---|---|---|---|
+| `page_view` | GA4 automatic | Every page load (after consent) | — |
+| `view_item` | Recommended | A vehicle page loads | `vehicle_id`, `item_name` |
+| `search` | Recommended | Homepage search submitted; inventory filters changed (debounced 1.2s) | `search_term`, `source` |
+| `vehicle_inquiry` | Custom | "Ask about this car on WhatsApp" clicked | `method`, `vehicle_id`, `make`, `model`, `inquiry_source` |
+| `whatsapp_click` | Custom | Any other WhatsApp button | `source` |
+| `phone_click` | Custom | Any click-to-call link | `source`, `vehicle_id` (on vehicle pages) |
+| `book_visit_click` | Custom | "Book a Visit" / "Viewing" buttons | `source`, `vehicle_id` (on vehicle pages) |
+| `directions_click` | Custom | Google Maps / directions links | `source` |
+| `test_drive_request` | Custom | Viewing / test-drive form **successfully** submitted on a vehicle page | `form_name`, `vehicle_id`, `inquiry_source` |
+| `generate_lead` | Recommended | Contact, showroom-visit or sourcing form **successfully** submitted | `form_name`, `inquiry_source` |
+| `financing_inquiry` | Custom | Financing form **successfully** submitted | `form_name`, `inquiry_source` |
+| `sell_car_inquiry` | Custom | Sell / exchange / consignment form **successfully** submitted | `form_name`, `inquiry_source` |
+
+All click events also carry `page_location`.
+
+## Verify with DebugView
+
+1. Install the **Google Analytics Debugger** Chrome extension and switch it on.
+2. Open the live site, accept analytics in the banner.
+3. GA4 → Admin → **DebugView**. Click WhatsApp, call, open a vehicle and submit a test form; each event should appear **once** with the parameters above.
+4. Delete test form submissions in Netlify afterwards.
+
+## Important interpretation note
+
+A `whatsapp_click` or `phone_click` means someone **tapped the button**. It does not mean a conversation happened, and it does not mean a sale. Treat these as *intent*, and compare with the actual number of WhatsApp chats and calls received.

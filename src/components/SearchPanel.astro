@@ -1,0 +1,90 @@
+---
+import { Search } from 'lucide-react';
+import { type Vehicle, filterOptions, capitalise } from '@/lib/vehicles';
+
+interface Props { vehicles: Vehicle[] }
+const opts = filterOptions(Astro.props.vehicles);
+
+// Price steps of PKR 25 lakh spanning real stock, so every option can return a result.
+const STEP = 2_500_000;
+const steps: number[] = [];
+for (let p = Math.floor(opts.priceMin / STEP) * STEP; p <= Math.ceil(opts.priceMax / STEP) * STEP; p += STEP) steps.push(p);
+const lakh = (p: number) => `${p / 100_000} lakh`;
+---
+
+<form
+  action="/inventory"
+  method="get"
+  role="search"
+  aria-label="Search vehicles"
+  data-search-form
+  class="card grid grid-cols-2 gap-x-3 gap-y-4 p-4 sm:gap-4 sm:p-5 md:grid-cols-3 lg:grid-cols-[repeat(6,minmax(0,1fr))_auto] lg:items-end lg:p-6"
+>
+  <div>
+    <label for="s-make" class="field-label">Make</label>
+    <select id="s-make" name="make" class="field" data-make>
+      <option value="">Any make</option>
+      {opts.makes.map((m) => <option value={m}>{m}</option>)}
+    </select>
+  </div>
+  <div>
+    <label for="s-model" class="field-label">Model</label>
+    <select id="s-model" name="model" class="field" data-model>
+      <option value="">Any model</option>
+      {opts.models.map((m) => <option value={m.model} data-make={m.make}>{m.model}</option>)}
+    </select>
+  </div>
+  <div>
+    <label for="s-min" class="field-label">Min price</label>
+    <select id="s-min" name="min" class="field">
+      <option value="">No min</option>
+      {steps.slice(0, -1).map((p) => <option value={p}>{lakh(p)}</option>)}
+    </select>
+  </div>
+  <div>
+    <label for="s-max" class="field-label">Max price</label>
+    <select id="s-max" name="max" class="field">
+      <option value="">No max</option>
+      {steps.slice(1).map((p) => <option value={p}>{lakh(p)}</option>)}
+    </select>
+  </div>
+  <div>
+    <label for="s-year" class="field-label">Model year</label>
+    <select id="s-year" name="year" class="field">
+      <option value="">Any year</option>
+      {opts.years.map((y) => <option value={y}>{y}</option>)}
+    </select>
+  </div>
+  <div>
+    <label for="s-cond" class="field-label">Condition</label>
+    <select id="s-cond" name="condition" class="field">
+      <option value="">Any</option>
+      {opts.conditions.map((c) => <option value={c}>{capitalise(c)}</option>)}
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary col-span-2 md:col-span-3 lg:col-span-1">
+    <Search size={18} aria-hidden="true" /> Search
+  </button>
+</form>
+
+<script>
+  import { track } from '@/scripts/analytics';
+  const form = document.querySelector<HTMLFormElement>('[data-search-form]');
+  const make = form?.querySelector<HTMLSelectElement>('[data-make]');
+  const model = form?.querySelector<HTMLSelectElement>('[data-model]');
+  make?.addEventListener('change', () => {
+    if (!model) return;
+    for (const o of Array.from(model.options)) {
+      if (!o.value) continue;
+      o.hidden = !!make.value && o.dataset.make !== make.value;
+    }
+    if (model.selectedOptions[0]?.hidden) model.value = '';
+  });
+  form?.addEventListener('submit', () => {
+    // Drop empty params so URLs stay clean.
+    for (const el of Array.from(form.elements) as HTMLSelectElement[]) if (el.name && !el.value) el.disabled = true;
+    const data = new FormData(form);
+    track('search', { search_term: [...data.values()].join(' ') || 'all', source: 'home_search' });
+  });
+  window.addEventListener('pageshow', () => form?.querySelectorAll('select').forEach((s) => (s.disabled = false)));
+</script>

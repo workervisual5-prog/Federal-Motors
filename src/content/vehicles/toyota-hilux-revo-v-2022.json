@@ -1,0 +1,50 @@
+{
+  "stockReference": "FM-001",
+  "make": "Toyota",
+  "model": "Hilux Revo",
+  "variant": "V 2.8",
+  "year": 2022,
+  "registrationYear": 2022,
+  "registrationCity": null,
+  "condition": "used",
+  "origin": null,
+  "bodyType": "pickup",
+  "pricePKR": 12400000,
+  "priceVisibility": "show",
+  "mileageKm": 71000,
+  "transmission": null,
+  "fuelType": null,
+  "engineCC": null,
+  "exteriorColour": null,
+  "highlights": [
+    "Bumper-to-bumper original",
+    "Parking sensors",
+    "Immaculate, neat and clean condition"
+  ],
+  "documentation": [
+    "Biometric verification available",
+    "Ownership transfer required after purchase"
+  ],
+  "description": "2022 Toyota Hilux Revo V 2.8, registered in 2022 with 71,000 km on the clock. Offered bumper-to-bumper original with parking sensors, in neat and clean condition. Biometric verification is available and the vehicle must be transferred into the buyer's name after purchase.",
+  "images": [
+    {
+      "src": "../../assets/vehicles/toyota-hilux-revo-v-2022/toyota-hilux-revo-v-2022-front.jpg",
+      "alt": "Front view of the 2022 Toyota Hilux Revo V 2.8 at Federal Motors",
+      "view": "front",
+      "focus": "50% 60%"
+    }
+  ],
+  "featured": true,
+  "pendingConfirmation": [
+    "Price unit: listing says DEMAND 124 — assumed PKR 124 lakh (12,400,000)",
+    "Transmission",
+    "Fuel type",
+    "Exterior colour",
+    "Registration city",
+    "Only one photo supplied — need rear 3/4, side, interior, dashboard"
+  ],
+  "dateAdded": "2026-10-27",
+  "lastUpdated": "2026-10-27",
+  "published": true,
+  "availability": "available"
+}

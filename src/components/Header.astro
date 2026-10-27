@@ -1,0 +1,90 @@
+---
+import { Phone, Menu, X, CalendarCheck } from 'lucide-react';
+import Logo from './Logo.astro';
+import { nav, primaryPhone, business } from '@/data/business';
+import { telUrl, whatsappUrl, whatsappMessages } from '@/lib/contact';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<div data-header-sentinel class="absolute top-0 h-px w-full" aria-hidden="true"></div>
+<header
+  data-header
+  class="sticky top-0 z-50 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300 data-[scrolled]:border-line data-[scrolled]:bg-ink/85 data-[scrolled]:backdrop-blur-md"
+>
+  <div class="container-site flex h-[4.5rem] items-center justify-between gap-6">
+    <Logo />
+
+    <nav aria-label="Main" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                class="relative rounded-md px-3 py-2 text-sm font-semibold text-muted transition-colors hover:text-text aria-[current=page]:text-text after:absolute after:inset-x-3 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="hidden items-center gap-3 lg:flex">
+      <a href={telUrl(primaryPhone.e164)} class="inline-flex items-center gap-2 text-sm font-semibold text-muted hover:text-gold-hi" data-track="phone_click" data-track-source="header">
+        <Phone size={16} aria-hidden="true" />
+        {primaryPhone.display}
+      </a>
+      <a href={whatsappUrl(whatsappMessages.visit)} target="_blank" rel="noopener" class="btn btn-primary !min-h-11 !px-4" data-track="book_visit_click" data-track-source="header">
+        <CalendarCheck size={18} aria-hidden="true" />
+        Book a Visit
+      </a>
+    </div>
+
+    <button
+      type="button"
+      data-menu-toggle
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Open menu"
+      class="group -mr-2 grid size-11 place-items-center rounded-lg text-text hover:bg-raised lg:hidden"
+    >
+      <Menu size={24} aria-hidden="true" className="group-aria-expanded:hidden" />
+      <X size={24} aria-hidden="true" className="hidden group-aria-expanded:block" />
+    </button>
+  </div>
+
+  <div
+    id="mobile-menu"
+    data-menu
+    class="pointer-events-none fixed inset-x-0 top-[4.5rem] bottom-0 overflow-y-auto bg-ink/97 opacity-0 backdrop-blur-lg transition-opacity duration-300 data-[open]:pointer-events-auto data-[open]:opacity-100 lg:hidden"
+  >
+    <nav aria-label="Mobile" class="container-site flex flex-col pt-4 pb-10">
+      <ul class="divide-y divide-line border-y border-line">
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined} class="flex items-center justify-between py-4 text-xl font-semibold text-text aria-[current=page]:text-gold">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-8 grid gap-3">
+        <a href={whatsappUrl(whatsappMessages.general)} target="_blank" rel="noopener" class="btn btn-whatsapp" data-track="whatsapp_click" data-track-source="mobile_menu">
+          <WhatsAppIcon size={20} /> WhatsApp us
+        </a>
+        <a href={telUrl(primaryPhone.e164)} class="btn btn-secondary" data-track="phone_click" data-track-source="mobile_menu">
+          <Phone size={18} aria-hidden="true" /> Call {primaryPhone.display}
+        </a>
+      </div>
+      <p class="mt-8 text-sm text-subtle">{business.hours.summary} · Sunday closed</p>
+    </nav>
+  </div>
+</header>

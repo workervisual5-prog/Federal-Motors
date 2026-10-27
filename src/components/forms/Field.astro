@@ -1,0 +1,47 @@
+---
+interface Option { value: string; label: string }
+interface Props {
+  name: string;
+  label: string;
+  form: string;
+  type?: 'text' | 'tel' | 'email' | 'number' | 'date' | 'select' | 'textarea';
+  required?: boolean;
+  options?: Option[];
+  autocomplete?: string;
+  hint?: string;
+  placeholder?: string;
+  inputmode?: 'numeric' | 'tel' | 'text';
+  min?: string | number;
+  max?: string | number;
+  maxlength?: number;
+  pattern?: string;
+  value?: string;
+  class?: string;
+}
+const p = Astro.props;
+const id = `${p.form}-${p.name}`;
+const describedBy = [p.hint && `${id}-hint`, `${id}-error`].filter(Boolean).join(' ');
+const common = {
+  id,
+  name: p.name,
+  required: p.required,
+  'aria-describedby': describedBy,
+};
+---
+<div class={p.class} data-field>
+  <label for={id} class="field-label">
+    {p.label}{p.required ? <span class="text-gold" aria-hidden="true"> *</span> : <span class="font-normal text-subtle"> (optional)</span>}
+  </label>
+  {p.type === 'select' ? (
+    <select {...common} class="field">
+      <option value="">Select…</option>
+      {p.options?.map((o) => <option value={o.value} selected={o.value === p.value}>{o.label}</option>)}
+    </select>
+  ) : p.type === 'textarea' ? (
+    <textarea {...common} rows={4} maxlength={p.maxlength ?? 1000} placeholder={p.placeholder} class="field min-h-28 py-3">{p.value}</textarea>
+  ) : (
+    <input {...common} class="field" type={p.type ?? 'text'} autocomplete={p.autocomplete} placeholder={p.placeholder} inputmode={p.inputmode} min={p.min} max={p.max} maxlength={p.maxlength ?? 120} pattern={p.pattern} value={p.value} />
+  )}
+  {p.hint && <p id={`${id}-hint`} class="mt-1.5 text-xs text-subtle">{p.hint}</p>}
+  <p id={`${id}-error`} class="mt-1.5 hidden text-sm font-medium text-sold" data-error></p>
+</div>

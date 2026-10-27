@@ -1,0 +1,138 @@
+---
+import { MapPin, Phone, Clock, Mail, Navigation } from 'lucide-react';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import WhatsAppIcon from '@/components/WhatsAppIcon.astro';
+import NetlifyForm from '@/components/forms/NetlifyForm.astro';
+import Field from '@/components/forms/Field.astro';
+import ViewingForm from '@/components/forms/ViewingForm.astro';
+import { business, fullAddress } from '@/data/business';
+import { telUrl, whatsappUrl, whatsappMessages, PHONE_PATTERN } from '@/lib/contact';
+import { breadcrumbSchema, type Crumb } from '@/lib/breadcrumbs';
+import { autoDealerSchema } from '@/lib/schema';
+
+const crumbs: Crumb[] = [{ label: 'Home', href: '/' }, { label: 'Contact', href: '/contact' }];
+const { lat, lng } = business.geo;
+const embed = `https://maps.google.com/maps?q=${lat},${lng}&z=17&output=embed`;
+---
+
+<BaseLayout
+  title="Contact Federal Motors — Car Showroom in PECHS, Karachi"
+  description={`Visit Federal Motors in Block 2, PECHS near Tariq Road, Karachi. Call ${business.phones[0].display}, WhatsApp us or send an inquiry. Open Mon–Sat, 12–9 PM.`}
+  canonicalPath="/contact"
+  jsonLd={[breadcrumbSchema(Astro.site!, crumbs), autoDealerSchema(Astro.site!)]}
+>
+  <PageHeader
+    eyebrow="Contact"
+    title="Talk to us, or come and see the cars."
+    intro="The quickest way to reach us is WhatsApp. You can also call, send a message below, or visit the showroom."
+    crumbs={crumbs}
+  />
+
+  <section class="container-site mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label="Contact details">
+    <a href={whatsappUrl(whatsappMessages.general)} target="_blank" rel="noopener" class="card group p-6 transition-colors hover:border-gold/50" data-track="whatsapp_click" data-track-source="contact_card" data-reveal>
+      <WhatsAppIcon size={26} class="text-[#3ccf7a]" />
+      <h2 class="mt-5 font-bold">WhatsApp</h2>
+      <p class="mt-1 text-muted group-hover:text-gold-hi">{business.whatsapp.display}</p>
+    </a>
+    <div class="card p-6" data-reveal style="--delay:60ms">
+      <Phone size={26} className="text-gold" aria-hidden="true" />
+      <h2 class="mt-5 font-bold">Call</h2>
+      <ul class="mt-1 space-y-1">
+        {business.phones.map((p) => <li><a href={telUrl(p.e164)} class="text-muted hover:text-gold-hi" data-track="phone_click" data-track-source="contact_card">{p.display}</a></li>)}
+      </ul>
+    </div>
+    <div class="card p-6" data-reveal style="--delay:120ms">
+      <Clock size={26} className="text-gold" aria-hidden="true" />
+      <h2 class="mt-5 font-bold">Opening hours</h2>
+      <ul class="mt-1 space-y-1 text-muted">
+        {business.hours.rows.map((r) => <li>{r.days}<br /><span class="text-text">{r.time}</span></li>)}
+      </ul>
+    </div>
+    <div class="card p-6" data-reveal style="--delay:180ms">
+      <Mail size={26} className="text-gold" aria-hidden="true" />
+      <h2 class="mt-5 font-bold">Email</h2>
+      <a href={`mailto:${business.email}`} class="mt-1 block break-all text-muted hover:text-gold-hi">{business.email}</a>
+      <a href={business.instagram} target="_blank" rel="noopener" class="mt-3 inline-block text-sm font-semibold text-gold hover:text-gold-hi">Instagram @federalmotors110</a>
+    </div>
+  </section>
+
+  <section class="container-site mt-6" aria-labelledby="map-title">
+    <div class="card grid grid-cols-1 overflow-hidden lg:grid-cols-[0.9fr_1.1fr]" data-reveal>
+      <div class="p-7 sm:p-10">
+        <MapPin size={28} className="text-gold" aria-hidden="true" />
+        <h2 id="map-title" class="mt-5 text-2xl font-bold">Showroom address</h2>
+        <address class="mt-3 not-italic text-muted">
+          Federal Motors<br />
+          {business.address.street}<br />
+          {business.address.landmark}, {business.address.city}, {business.address.countryName}
+        </address>
+        <a href={business.mapsUrl} target="_blank" rel="noopener" class="btn btn-primary mt-8" data-track="directions_click" data-track-source="contact_page">
+          <Navigation size={18} aria-hidden="true" /> Get directions
+        </a>
+      </div>
+      <div class="relative min-h-80 border-t border-line bg-raised lg:border-l lg:border-t-0" data-map data-src={embed}>
+        <button type="button" class="absolute inset-0 grid place-items-center bg-[radial-gradient(circle_at_center,#17396f55,transparent_70%)] text-center" data-map-load>
+          <span>
+            <span class="mx-auto grid size-14 place-items-center rounded-full bg-gold text-ink"><MapPin size={24} aria-hidden="true" /></span>
+            <span class="mt-4 block font-semibold">Show map</span>
+            <span class="mt-1 block text-xs text-subtle">Loads Google Maps</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-site mt-20 grid grid-cols-1 gap-6 lg:grid-cols-2" aria-label="Inquiry forms">
+    <div class="card p-6 sm:p-8" data-reveal>
+      <h2 class="text-2xl font-bold">Send us a message</h2>
+      <p class="mt-2 text-sm text-muted">We reply during showroom hours.</p>
+      <div class="mt-6">
+        <NetlifyForm
+          name="contact"
+          event="generate_lead"
+          submitLabel="Send message"
+          successTitle="Message sent — thank you."
+          successText="We’ll get back to you during showroom hours (Mon–Sat, 12 PM – 9 PM)."
+          fallbackMessage={whatsappMessages.general}
+          trackParams={{ inquiry_source: 'contact_form' }}
+        >
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <Field form="contact" name="name" label="Your name" required autocomplete="name" />
+            <Field form="contact" name="phone" label="Mobile number" type="tel" required autocomplete="tel" inputmode="tel" pattern={PHONE_PATTERN} placeholder="0300-1234567" />
+          </div>
+          <Field form="contact" name="email" label="Email" type="email" autocomplete="email" />
+          <Field form="contact" name="topic" label="Topic" type="select" required options={[
+            { value: 'buying', label: 'Buying a car' },
+            { value: 'selling', label: 'Selling or exchanging' },
+            { value: 'financing', label: 'Financing' },
+            { value: 'sourcing', label: 'Sourcing a specific car' },
+            { value: 'other', label: 'Something else' },
+          ]} />
+          <Field form="contact" name="message" label="Message" type="textarea" required maxlength={1000} />
+        </NetlifyForm>
+      </div>
+    </div>
+    <div id="visit" class="card scroll-mt-24 p-6 sm:p-8" data-reveal style="--delay:80ms">
+      <h2 class="text-2xl font-bold">Book a showroom visit</h2>
+      <p class="mt-2 text-sm text-muted">Pick a day and time and we’ll confirm. We’re closed on Sundays.</p>
+      <div class="mt-6">
+        <ViewingForm idPrefix="visit" />
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll<HTMLElement>('[data-map]').forEach((box) => {
+      box.querySelector('[data-map-load]')?.addEventListener('click', () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = box.dataset.src!;
+        iframe.title = 'Map showing the Federal Motors showroom in PECHS, Karachi';
+        iframe.loading = 'lazy';
+        iframe.referrerPolicy = 'no-referrer-when-downgrade';
+        iframe.className = 'absolute inset-0 size-full border-0';
+        box.replaceChildren(iframe);
+      });
+    });
+  </script>
+</BaseLayout>

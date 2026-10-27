@@ -1,0 +1,79 @@
+{
+  "stockReference": "FM-004",
+  "make": "Toyota",
+  "model": "Hilux Vigo",
+  "variant": "3.0D (Thailand)",
+  "year": 2012,
+  "registrationYear": 2014,
+  "registrationCity": null,
+  "condition": "used",
+  "origin": "imported",
+  "bodyType": "pickup",
+  "pricePKR": 6200000,
+  "priceVisibility": "show",
+  "mileageKm": 112000,
+  "transmission": null,
+  "fuelType": null,
+  "engineCC": null,
+  "exteriorColour": null,
+  "owners": "Second owner",
+  "highlights": [
+    "Bumper-to-bumper original",
+    "Engine and suspension in excellent condition",
+    "Brand-new tyres installed",
+    "Interior in excellent condition"
+  ],
+  "documentation": [
+    "Biometric verification available",
+    "Ownership transfer required after purchase"
+  ],
+  "disclosures": [
+    "Photos show aftermarket items: red wood-grain interior trim, touchscreen head unit and TRD side decals."
+  ],
+  "description": "2012 Toyota Hilux Vigo 3.0D (Thailand), registered in 2014, second owner, 112,000 km. Bumper-to-bumper original, with engine, suspension and interior described as excellent and brand-new tyres installed. Biometric verification is available and ownership transfer is required after purchase.",
+  "images": [
+    {
+      "src": "../../assets/vehicles/toyota-hilux-vigo-3-0d-2012/toyota-hilux-vigo-3-0d-2012-front-three-quarter.jpg",
+      "alt": "Front three-quarter view of the 2012 Toyota Hilux Vigo 3.0D",
+      "view": "front-three-quarter",
+      "focus": "50% 58%"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-hilux-vigo-3-0d-2012/toyota-hilux-vigo-3-0d-2012-side.jpg",
+      "alt": "Side profile of the 2012 Toyota Hilux Vigo 3.0D double cab",
+      "view": "side",
+      "focus": "50% 58%"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-hilux-vigo-3-0d-2012/toyota-hilux-vigo-3-0d-2012-front.jpg",
+      "alt": "Front view of the 2012 Toyota Hilux Vigo 3.0D",
+      "view": "front",
+      "focus": "50% 60%"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-hilux-vigo-3-0d-2012/toyota-hilux-vigo-3-0d-2012-rear.jpg",
+      "alt": "Rear tailgate view of the 2012 Toyota Hilux Vigo",
+      "view": "rear",
+      "focus": "50% 60%"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-hilux-vigo-3-0d-2012/toyota-hilux-vigo-3-0d-2012-dashboard.jpg",
+      "alt": "Dashboard of the Toyota Hilux Vigo with aftermarket wood-grain trim",
+      "view": "dashboard",
+      "focus": "50% 50%"
+    }
+  ],
+  "featured": true,
+  "pendingConfirmation": [
+    "Price unit: DEMAND 62 — assumed PKR 62 lakh (6,200,000)",
+    "'Thailand' = Thai-assembled import? (origin set to imported)",
+    "Fuel type (3.0D suggests diesel — confirm)",
+    "Transmission",
+    "Exterior colour",
+    "Registration city"
+  ],
+  "dateAdded": "2026-10-27",
+  "lastUpdated": "2026-10-27",
+  "published": true,
+  "availability": "available"
+}

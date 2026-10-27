@@ -1,0 +1,194 @@
+---
+import { Landmark, ShieldCheck, Car, CarFront, ChevronDown } from 'lucide-react';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import WhatsAppIcon from '@/components/WhatsAppIcon.astro';
+import NetlifyForm from '@/components/forms/NetlifyForm.astro';
+import Field from '@/components/forms/Field.astro';
+import { getVehicles, vehicleFullTitle } from '@/lib/vehicles';
+import { whatsappUrl, whatsappMessages, PHONE_PATTERN } from '@/lib/contact';
+import { breadcrumbSchema, type Crumb } from '@/lib/breadcrumbs';
+
+const vehicles = (await getVehicles()).filter((v) => v.data.availability !== 'sold');
+const crumbs: Crumb[] = [{ label: 'Home', href: '/' }, { label: 'Financing', href: '/financing' }];
+
+const types = [
+  { icon: Landmark, title: 'Conventional financing', text: 'Interest-based auto financing offered by banks. We help you prepare the application and coordinate the vehicle-side requirements.' },
+  { icon: ShieldCheck, title: 'Islamic financing', text: 'Shariah-compliant car financing offered by Islamic banks and windows. We guide you through their process and documentation.' },
+  { icon: CarFront, title: 'New-car financing', text: 'Financing for brand-new vehicles, subject to the bank’s approved makes, models and dealer arrangements.' },
+  { icon: Car, title: 'Used-car financing', text: 'Many banks also finance used vehicles within age and valuation limits. We help coordinate the valuation the bank requires.' },
+];
+
+const steps = [
+  ['Choose a vehicle', 'Pick a car from our stock — or tell us what you want and we’ll source it.'],
+  ['Discuss your requirements', 'We talk through your budget, preferred financing type and which banks may suit you.'],
+  ['Prepare your documents', 'We share the bank’s document checklist and help you get the file ready.'],
+  ['Submit to the bank', 'Your application goes to the bank you choose, with the vehicle details it needs.'],
+  ['Bank assessment', 'The bank carries out its own checks and valuation and decides on approval and terms.'],
+  ['Purchase & documentation', 'Once approved, we complete the sale paperwork and coordinate handover with the bank.'],
+];
+
+const eligibility = [
+  'Your age, and how long you have been employed or running your business',
+  'Regular, verifiable income — salary slips or business bank statements',
+  'Your credit history, which banks check through the State Bank’s credit bureau',
+  'Existing loans or monthly commitments',
+  'The make, model, age and value of the vehicle you want to finance',
+];
+
+const documents = [
+  'Copy of your CNIC',
+  'Recent passport-size photographs',
+  'Salaried: latest salary slips and an employment certificate',
+  'Self-employed / business: bank statements and business proof (e.g. NTN)',
+  'Recent utility bill as proof of address',
+];
+
+const faqs = [
+  ['Is Federal Motors a bank or lender?', 'No. We assist you with the financing process, but the financing itself is provided by the bank. The bank decides whether to approve your application and on what terms.'],
+  ['What markup or profit rate will I get?', 'Rates depend on the bank, the financing type, the tenure and your profile, and they change over time. The bank will confirm the rate and full cost before you sign anything.'],
+  ['How much down payment do I need?', 'Down-payment requirements are set by each bank and by State Bank of Pakistan regulations, and can vary with the vehicle. We’ll tell you the current requirement of the bank you choose.'],
+  ['Can I finance a used car?', 'Many banks finance used cars within limits on vehicle age and value. Tell us which car you’re interested in and we’ll check which options may be available.'],
+  ['Is approval guaranteed?', 'No. Approval is entirely the bank’s decision based on its own assessment. We help you prepare a complete application, but we can’t guarantee the outcome.'],
+  ['Do I need to share my documents through the website?', 'No — and please don’t upload financial documents here. Share basic details below and we’ll guide you on how to submit documents directly to the bank.'],
+];
+---
+
+<BaseLayout
+  title="Car Financing Assistance in Karachi — Conventional & Islamic"
+  description="Help applying for conventional or Islamic car financing through banks in Karachi — eligibility guidance, document checklists and application support."
+  canonicalPath="/financing"
+  whatsappMessage={whatsappMessages.financing}
+  jsonLd={breadcrumbSchema(Astro.site!, crumbs)}
+>
+  <PageHeader
+    eyebrow="Financing assistance"
+    title="Car financing, made simpler."
+    intro="We help you apply for conventional or Islamic car financing through banks operating in Karachi — from choosing the car to preparing documents and coordinating with the bank."
+    crumbs={crumbs}
+  >
+    <div class="anim-rise mt-8 flex flex-col gap-3 sm:flex-row" style="--delay:240ms">
+      <a href="#financing-form" class="btn btn-primary">Start a financing inquiry</a>
+      <a href={whatsappUrl(whatsappMessages.financing)} target="_blank" rel="noopener" class="btn btn-secondary" data-track="whatsapp_click" data-track-source="financing_hero">
+        <WhatsAppIcon size={18} /> Ask on WhatsApp
+      </a>
+    </div>
+  </PageHeader>
+
+  <section class="container-site mt-20" aria-labelledby="types-title">
+    <h2 id="types-title" class="text-3xl sm:text-4xl" data-reveal>Financing we can help with</h2>
+    <ul class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {types.map(({ icon: Icon, title, text }, i) => (
+        <li class="card p-6" data-reveal style={`--delay:${i * 70}ms`}>
+          <Icon size={26} className="text-gold" aria-hidden="true" />
+          <h3 class="mt-5 font-bold">{title}</h3>
+          <p class="mt-2 text-sm text-muted">{text}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="container-site mt-24" aria-labelledby="process-title">
+    <div class="max-w-2xl" data-reveal>
+      <p class="eyebrow">How it works</p>
+      <h2 id="process-title" class="mt-4 text-3xl sm:text-4xl">Six steps from choosing to driving.</h2>
+    </div>
+    <ol class="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+      {steps.map(([t, x], i) => (
+        <li class="bg-surface p-7" data-reveal style={`--delay:${(i % 3) * 70}ms`}>
+          <span class="font-display text-2xl text-gold" aria-hidden="true">0{i + 1}</span>
+          <h3 class="mt-4 text-lg font-bold">{t}</h3>
+          <p class="mt-2 text-sm text-muted">{x}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container-site mt-24 grid grid-cols-1 gap-6 lg:grid-cols-2" aria-label="Eligibility and documents">
+    <div class="card p-7 sm:p-9" data-reveal>
+      <h2 class="text-2xl font-bold">What banks usually look at</h2>
+      <ul class="mt-5 list-disc space-y-2.5 pl-5 text-muted marker:text-gold">
+        {eligibility.map((e) => <li>{e}</li>)}
+      </ul>
+      <p class="mt-5 text-sm text-subtle">Each bank sets its own criteria. We’ll tell you what applies to the bank you choose.</p>
+    </div>
+    <div class="card p-7 sm:p-9" data-reveal style="--delay:80ms">
+      <h2 class="text-2xl font-bold">Documents commonly requested</h2>
+      <ul class="mt-5 list-disc space-y-2.5 pl-5 text-muted marker:text-gold">
+        {documents.map((e) => <li>{e}</li>)}
+      </ul>
+      <p class="mt-5 text-sm text-subtle">The bank will confirm its exact checklist. Please don’t send financial documents through this website.</p>
+    </div>
+  </section>
+
+  <section class="container-site mt-24 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+    <div data-reveal>
+      <p class="eyebrow">FAQ</p>
+      <h2 class="mt-4 text-3xl sm:text-4xl">Common questions</h2>
+      <div class="mt-8 divide-y divide-line border-y border-line">
+        {faqs.map(([q, a]) => (
+          <details class="group py-5">
+            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 font-semibold [&::-webkit-details-marker]:hidden">
+              {q}
+              <ChevronDown size={20} className="shrink-0 text-gold transition-transform duration-300 group-open:rotate-180" aria-hidden="true" />
+            </summary>
+            <p class="mt-3 text-muted">{a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+
+    <div id="financing-form" class="scroll-mt-24">
+      <div class="card p-6 sm:p-8" data-reveal>
+        <h2 class="text-2xl font-bold">Financing inquiry</h2>
+        <p class="mt-2 text-sm text-muted">Share a few basics and we’ll call you to discuss your options. No financial documents needed at this stage.</p>
+        <div class="mt-6">
+          <NetlifyForm
+            name="financing-inquiry"
+            event="financing_inquiry"
+            submitLabel="Send financing inquiry"
+            successTitle="Thank you — we’ve received your inquiry."
+            successText="We’ll contact you during showroom hours to talk through your financing options."
+            fallbackMessage={whatsappMessages.financing}
+            trackParams={{ inquiry_source: 'financing_page' }}
+          >
+            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <Field form="fin" name="name" label="Your name" required autocomplete="name" />
+              <Field form="fin" name="phone" label="Mobile number" type="tel" required autocomplete="tel" inputmode="tel" pattern={PHONE_PATTERN} placeholder="0300-1234567" />
+            </div>
+            <Field
+              form="fin"
+              name="vehicle"
+              label="Vehicle you’re interested in"
+              type="select"
+              options={[
+                ...vehicles.map((v) => ({ value: `${vehicleFullTitle(v.data)} (${v.data.stockReference})`, label: `${vehicleFullTitle(v.data)} — ${v.data.stockReference}` })),
+                { value: 'other', label: 'Another car / not decided yet' },
+              ]}
+            />
+            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <Field form="fin" name="financing_type" label="Financing type" type="select" required options={[
+                { value: 'conventional', label: 'Conventional' },
+                { value: 'islamic', label: 'Islamic' },
+                { value: 'not-sure', label: 'Not sure yet' },
+              ]} />
+              <Field form="fin" name="employment" label="Employment" type="select" options={[
+                { value: 'salaried', label: 'Salaried' },
+                { value: 'self-employed', label: 'Self-employed / professional' },
+                { value: 'business', label: 'Business owner' },
+                { value: 'other', label: 'Other' },
+              ]} />
+            </div>
+            <Field form="fin" name="message" label="Questions or details" type="textarea" maxlength={600} hint="Please don’t include CNIC numbers, account numbers or income documents." />
+          </NetlifyForm>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-site mt-16" aria-label="Financing disclaimer">
+    <p class="rounded-2xl border border-line bg-surface p-6 text-sm text-subtle">
+      <strong class="text-muted">Disclaimer:</strong> Federal Motors provides financing assistance only and is not a bank, lender or financial adviser. All financing is subject to the bank’s eligibility criteria, assessment and approval. Markup or profit rates, down payment, tenure, fees, insurance and other terms are set by the bank and may change. No approval is guaranteed. Please read the bank’s terms carefully before signing.
+    </p>
+  </section>
+</BaseLayout>

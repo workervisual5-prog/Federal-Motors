@@ -1,0 +1,111 @@
+---
+import { Image } from 'astro:assets';
+import { Eye, Target, ShieldCheck, Smile, BarChart3, BadgeCheck, HeartHandshake, ArrowRight } from 'lucide-react';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { business } from '@/data/business';
+import { breadcrumbSchema, type Crumb } from '@/lib/breadcrumbs';
+import { autoDealerSchema } from '@/lib/schema';
+import badge from '@/assets/brand/federal-motors-badge.png';
+
+const crumbs: Crumb[] = [{ label: 'Home', href: '/' }, { label: 'About us', href: '/about' }];
+const mission = [
+  'Provide access to quality new, used and imported vehicles.',
+  'Make car financing more accessible by helping customers apply through banks.',
+  'Bring transparency to vehicle information, pricing, documentation and transfer.',
+  'Support sellers through secure consignment and exchange services.',
+  'Build long-term relationships based on trust and after-sale guidance.',
+];
+const values = [
+  { icon: ShieldCheck, title: 'Trust & transparency', text: 'Clear communication about condition, pricing, documentation and financing terms.' },
+  { icon: Smile, title: 'Customer convenience', text: 'Support from choosing a vehicle through to bank financing and transfer.' },
+  { icon: BarChart3, title: 'Market knowledge', text: 'Familiarity with Karachi’s demand, resale values and import trends.' },
+  { icon: BadgeCheck, title: 'Quality focus', text: 'Attention to inspected vehicles and complete paperwork.' },
+  { icon: HeartHandshake, title: 'Relationship-driven', text: 'Personal attention from the owners, not a sales script.' },
+];
+---
+
+<BaseLayout
+  title="About Federal Motors — Owner-Led Car Showroom in Karachi"
+  description="Founded by childhood friends Zain Ahmed and Ali Osama, Federal Motors turns five years of hands-on Karachi car-market experience into an owner-led showroom."
+  canonicalPath="/about"
+  jsonLd={[breadcrumbSchema(Astro.site!, crumbs), autoDealerSchema(Astro.site!)]}
+>
+  <PageHeader eyebrow="About us" title="Built on friendship, run on trust." crumbs={crumbs} />
+
+  <section class="container-site mt-20 grid grid-cols-1 items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20" aria-labelledby="story-title">
+    <div data-reveal>
+      <p class="eyebrow">Our story</p>
+      <h2 id="story-title" class="mt-4 text-3xl sm:text-4xl">Two childhood friends who never outgrew their love of cars.</h2>
+      <div class="mt-6 space-y-4 text-muted">
+        <p>
+          Zain Ahmed and Ali Osama have been friends since childhood, and cars were always part of the friendship. As they grew older, people in their circle started turning to them for help when buying a vehicle — what to look for, what a fair price was, and how to deal with the paperwork.
+        </p>
+        <p>
+          That informal help became practical experience. Over roughly five years working together in Karachi’s automotive trade, they built an understanding of the local market — which cars are in demand, how resale values move, and where buyers and sellers tend to run into problems.
+        </p>
+        <p>
+          Federal Motors is the result: a showroom in PECHS, near Tariq Road, built on one simple idea — make buying, selling, exchanging and financing a car straightforward, transparent and trustworthy.
+        </p>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3">
+        {business.owners.map((o) => (
+          <span class="inline-flex items-center gap-3 rounded-full border border-line bg-surface py-1.5 pl-1.5 pr-4 text-sm font-semibold">
+            <span class="grid size-8 place-items-center rounded-full bg-navy-hi font-display text-xs text-gold-hi" aria-hidden="true">{o.split(' ').map((p) => p[0]).join('')}</span>
+            {o} <span class="font-normal text-subtle">· Co-founder</span>
+          </span>
+        ))}
+      </div>
+    </div>
+    <div class="relative mx-auto aspect-square w-full max-w-md" data-reveal style="--delay:120ms">
+      <div class="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(201,164,86,0.2),transparent_65%)]" aria-hidden="true"></div>
+      <Image src={badge} alt="Federal Motors emblem" width={560} height={560} class="relative size-full object-contain p-8" />
+    </div>
+  </section>
+
+  <section class="container-site mt-24 grid grid-cols-1 gap-6 lg:grid-cols-2" aria-label="Vision and mission">
+    <div class="card p-8 sm:p-10" data-reveal>
+      <Eye size={28} className="text-gold" aria-hidden="true" />
+      <h2 class="mt-5 text-2xl font-bold">Our vision</h2>
+      <p class="mt-3 text-muted">
+        To become one of Karachi’s most trusted automotive retail and advisory brands, recognised for honest vehicle sourcing, transparent pricing, reliable documentation and customer-first service.
+      </p>
+    </div>
+    <div class="card p-8 sm:p-10" data-reveal style="--delay:80ms">
+      <Target size={28} className="text-gold" aria-hidden="true" />
+      <h2 class="mt-5 text-2xl font-bold">Our mission</h2>
+      <ul class="mt-3 list-disc space-y-2 pl-5 text-muted marker:text-gold">
+        {mission.map((m) => <li>{m}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="container-site mt-24" aria-labelledby="values-title">
+    <div class="max-w-2xl" data-reveal>
+      <p class="eyebrow">What we stand for</p>
+      <h2 id="values-title" class="mt-4 text-3xl sm:text-4xl">Our values</h2>
+    </div>
+    <ul class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      {values.map(({ icon: Icon, title, text }, i) => (
+        <li class="card p-6" data-reveal style={`--delay:${i * 60}ms`}>
+          <Icon size={24} className="text-gold" aria-hidden="true" />
+          <h3 class="mt-5 font-bold">{title}</h3>
+          <p class="mt-2 text-sm text-muted">{text}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="container-site mt-24" aria-labelledby="approach-title">
+    <div class="relative overflow-hidden rounded-[1.75rem] border border-line-strong bg-gradient-to-br from-navy via-surface to-ink p-8 sm:p-12" data-reveal>
+      <h2 id="approach-title" class="max-w-2xl text-3xl sm:text-4xl">More than a showroom — a car partner.</h2>
+      <p class="mt-5 max-w-2xl text-muted">
+        Whether you’re buying your first car, upgrading to a family vehicle, importing a specific model, selling your current car or applying for financing, you deal directly with the owners — and they stay involved until the paperwork is done.
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="/inventory" class="btn btn-primary">Browse inventory <ArrowRight size={18} aria-hidden="true" /></a>
+        <a href="/contact" class="btn btn-secondary">Visit the showroom</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

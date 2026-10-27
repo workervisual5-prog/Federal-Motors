@@ -1,0 +1,15 @@
+---
+import { ArrowRight } from 'lucide-react';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found" description="The page you were looking for could not be found." noindex>
+  <section class="container-site flex min-h-[60vh] flex-col items-start justify-center py-24">
+    <p class="eyebrow">404</p>
+    <h1 class="mt-4 text-4xl sm:text-6xl">This road doesn’t go anywhere.</h1>
+    <p class="mt-5 max-w-lg text-muted">The page may have moved, or the vehicle may no longer be listed. Try our current inventory instead.</p>
+    <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+      <a href="/inventory" class="btn btn-primary">Browse inventory <ArrowRight size={18} aria-hidden="true" /></a>
+      <a href="/" class="btn btn-secondary">Back to home</a>
+    </div>
+  </section>
+</BaseLayout>

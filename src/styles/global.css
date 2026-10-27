@@ -1,0 +1,203 @@
+@import '@fontsource-variable/manrope';
+@import '@fontsource/cinzel/600.css';
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Federal Motors design tokens — derived from the navy + gold badge.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-ink: #05080e;
+  --color-surface: #0b111d;
+  --color-raised: #121a2a;
+  --color-line: #1f2a3d;
+  --color-line-strong: #2c3a52;
+  --color-text: #f3f0e8;
+  --color-muted: #a6adba;
+  --color-subtle: #8a92a3;
+  --color-navy: #0b2147;
+  --color-navy-hi: #17396f;
+  --color-gold: #c9a456;
+  --color-gold-hi: #e8d29a;
+  --color-gold-deep: #9a7835;
+  --color-ok: #6fcf97;
+  --color-warn: #e8b04a;
+  --color-sold: #e26d6d;
+
+  --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Cinzel', 'Times New Roman', serif;
+
+  --radius-card: 1rem;
+  --radius-btn: 0.625rem;
+
+  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 20px 40px -24px rgb(0 0 0 / 0.8);
+  --shadow-lift: 0 1px 0 0 rgb(255 255 255 / 0.06) inset, 0 28px 56px -24px rgb(0 0 0 / 0.9);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 160ms;
+  --duration-base: 280ms;
+  --duration-slow: 700ms;
+
+  --container-site: 76rem;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-padding-top: 5.5rem;
+    scroll-padding-bottom: 6rem;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (min-width: 1024px) { html { scroll-padding-bottom: 0; } }
+  body {
+    background: var(--color-ink);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  :focus-visible {
+    outline: 2px solid var(--color-gold-hi);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  ::selection { background: var(--color-gold); color: var(--color-ink); }
+}
+
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: var(--container-site);
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) { .container-site { padding-inline: 1.5rem; } }
+  @media (min-width: 1024px) { .container-site { padding-inline: 2rem; } }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: var(--radius-btn);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    letter-spacing: 0.01em;
+    transition: background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px) scale(0.99); }
+  .btn-primary { background: var(--color-gold); color: var(--color-ink); }
+  .btn-primary:hover { background: var(--color-gold-hi); }
+  .btn-secondary { border: 1px solid var(--color-line-strong); color: var(--color-text); background: rgb(255 255 255 / 0.02); }
+  .btn-secondary:hover { border-color: var(--color-gold); color: var(--color-gold-hi); }
+  .btn-whatsapp { background: #157a3f; color: #fff; }
+  .btn-whatsapp:hover { background: #18894a; }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  [data-field] { min-width: 0; }
+  .field-label { display: block; font-size: 0.8125rem; font-weight: 600; color: var(--color-muted); margin-bottom: 0.375rem; }
+  .field {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: var(--radius-btn);
+    background: var(--color-raised);
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+  .field:hover { border-color: var(--color-subtle); }
+  .field:focus-visible { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 3px rgb(201 164 86 / 0.25); }
+  select.field {
+    appearance: none;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23a6adba' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+  }
+
+  .gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold-deep), transparent); }
+}
+
+/* ---------------------------------------------------------------------------
+   Motion — transform/opacity only, disabled for reduced-motion users.
+   --------------------------------------------------------------------------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+/* Transform-only entrance for LCP candidates: they stay painted (opacity 1) from the first frame. */
+@keyframes slide {
+  from { transform: translateY(14px); }
+  to { transform: none; }
+}
+@keyframes zoom-settle {
+  from { transform: scale(1.05); }
+  to { transform: none; }
+}
+@keyframes settle {
+  from { opacity: 0; transform: scale(1.06); }
+  to { opacity: 1; transform: none; }
+}
+
+.anim-rise { animation: rise var(--duration-slow) var(--ease-out) both; animation-delay: var(--delay, 0ms); }
+.anim-fade { animation: fade 1.2s var(--ease-out) both; animation-delay: var(--delay, 0ms); }
+.anim-settle { animation: zoom-settle 1.6s var(--ease-out) both; }
+.anim-slide { animation: slide var(--duration-slow) var(--ease-out) both; animation-delay: var(--delay, 0ms); }
+
+/* Scroll reveal: content is visible by default; JS opts in by adding .js-reveal to <html>. */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+  transition-delay: var(--delay, 0ms);
+}
+.js-reveal [data-reveal].is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js-reveal [data-reveal] { opacity: 1; transform: none; }
+}

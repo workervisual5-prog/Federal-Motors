@@ -1,0 +1,76 @@
+{
+  "stockReference": "FM-003",
+  "make": "Daihatsu",
+  "model": "Mira",
+  "variant": "L SA III",
+  "year": 2023,
+  "registrationYear": null,
+  "registrationNote": "Fresh clear 2026",
+  "registrationCity": null,
+  "condition": "used",
+  "origin": "imported",
+  "bodyType": "hatchback",
+  "pricePKR": 3850000,
+  "priceVisibility": "show",
+  "mileageKm": 19000,
+  "transmission": null,
+  "fuelType": null,
+  "engineCC": null,
+  "exteriorColour": null,
+  "auctionGrade": "3.5",
+  "highlights": [
+    "Verified auction sheet — grade 3.5",
+    "Bumper-to-bumper original",
+    "Scratchless and spotless"
+  ],
+  "documentation": [
+    "Verified auction sheet (grade 3.5)",
+    "Double biometric available"
+  ],
+  "description": "2023 Daihatsu Mira L SA III, fresh clear 2026, with 19,000 km on the clock. Supplied with a verified auction sheet graded 3.5, bumper-to-bumper original, scratchless and spotless. Double biometric is available.",
+  "images": [
+    {
+      "src": "../../assets/vehicles/daihatsu-mira-l-sa-iii-2023/daihatsu-mira-l-sa-iii-2023-side-left.jpg",
+      "alt": "Side profile of the 2023 Daihatsu Mira L SA III",
+      "view": "side-left",
+      "focus": "50% 58%"
+    },
+    {
+      "src": "../../assets/vehicles/daihatsu-mira-l-sa-iii-2023/daihatsu-mira-l-sa-iii-2023-front.jpg",
+      "alt": "Front view of the 2023 Daihatsu Mira L SA III",
+      "view": "front",
+      "focus": "50% 58%"
+    },
+    {
+      "src": "../../assets/vehicles/daihatsu-mira-l-sa-iii-2023/daihatsu-mira-l-sa-iii-2023-rear.jpg",
+      "alt": "Rear view of the 2023 Daihatsu Mira L SA III",
+      "view": "rear",
+      "focus": "50% 58%"
+    },
+    {
+      "src": "../../assets/vehicles/daihatsu-mira-l-sa-iii-2023/daihatsu-mira-l-sa-iii-2023-side-right.jpg",
+      "alt": "Right-side profile of the 2023 Daihatsu Mira L SA III",
+      "view": "side-right",
+      "focus": "50% 58%"
+    },
+    {
+      "src": "../../assets/vehicles/daihatsu-mira-l-sa-iii-2023/daihatsu-mira-l-sa-iii-2023-interior.jpg",
+      "alt": "Interior and dashboard of the 2023 Daihatsu Mira L SA III",
+      "view": "interior",
+      "focus": "50% 55%"
+    }
+  ],
+  "featured": true,
+  "pendingConfirmation": [
+    "Price unit: DEMAND 38.50 — assumed PKR 38.5 lakh (3,850,000)",
+    "Meaning of 'Fresh Clear 2026' — unregistered, customs-cleared 2026?",
+    "Confirm imported (auction sheet implies Japanese import)",
+    "Transmission",
+    "Exterior colour",
+    "Windscreen has marker writing — clean before reshoot"
+  ],
+  "dateAdded": "2026-10-27",
+  "lastUpdated": "2026-10-27",
+  "published": true,
+  "availability": "available"
+}

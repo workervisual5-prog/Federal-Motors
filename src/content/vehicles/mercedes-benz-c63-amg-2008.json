@@ -1,0 +1,76 @@
+{
+  "stockReference": "FM-005",
+  "make": "Mercedes-Benz",
+  "model": "C63 AMG",
+  "variant": "P31 package (2012 facelift conversion)",
+  "year": 2008,
+  "yearNote": "2008 donor car converted to 2012 model specification (P31 package)",
+  "registrationYear": 2012,
+  "registrationCity": null,
+  "condition": "used",
+  "origin": null,
+  "bodyType": "sedan",
+  "pricePKR": null,
+  "priceVisibility": "call",
+  "mileageKm": null,
+  "transmission": null,
+  "fuelType": null,
+  "engineCC": null,
+  "exteriorColour": "Red",
+  "owners": "First owner",
+  "highlights": [
+    "Converted to 2012 specification (P31 package)",
+    "First owner",
+    "Red exterior"
+  ],
+  "documentation": [],
+  "disclosures": [
+    "2008 donor car converted to 2012 facelift specification — not a factory 2012 model.",
+    "Minor paint chips are visible on the front bumper in the photos."
+  ],
+  "description": "Mercedes-Benz C63 AMG in red, built on a 2008 donor car and converted to 2012 facelift specification with the P31 package. Registered in 2012 and offered by its first owner. Contact Federal Motors for price and a viewing.",
+  "images": [
+    {
+      "src": "../../assets/vehicles/mercedes-benz-c63-amg-2008/mercedes-benz-c63-amg-2008-front-three-quarter-right.jpg",
+      "alt": "Front three-quarter view of the red Mercedes-Benz C63 AMG",
+      "view": "front-three-quarter-right",
+      "focus": "50% 55%"
+    },
+    {
+      "src": "../../assets/vehicles/mercedes-benz-c63-amg-2008/mercedes-benz-c63-amg-2008-front-three-quarter-left.jpg",
+      "alt": "Front view of the red Mercedes-Benz C63 AMG",
+      "view": "front-three-quarter-left",
+      "focus": "50% 58%"
+    },
+    {
+      "src": "../../assets/vehicles/mercedes-benz-c63-amg-2008/mercedes-benz-c63-amg-2008-rear-three-quarter.jpg",
+      "alt": "Rear three-quarter view of the red Mercedes-Benz C63 AMG",
+      "view": "rear-three-quarter",
+      "focus": "50% 55%"
+    },
+    {
+      "src": "../../assets/vehicles/mercedes-benz-c63-amg-2008/mercedes-benz-c63-amg-2008-dashboard.jpg",
+      "alt": "AMG instrument cluster and steering wheel of the Mercedes-Benz C63",
+      "view": "dashboard",
+      "focus": "50% 50%"
+    },
+    {
+      "src": "../../assets/vehicles/mercedes-benz-c63-amg-2008/mercedes-benz-c63-amg-2008-engine-bay.jpg",
+      "alt": "Engine bay of the Mercedes-Benz C63 AMG",
+      "view": "engine-bay",
+      "focus": "50% 55%"
+    }
+  ],
+  "featured": true,
+  "pendingConfirmation": [
+    "MILEAGE CONFLICT: listing says 80k, odometer photo shows 89,715 km",
+    "Price (none supplied)",
+    "Transmission",
+    "Registration city",
+    "Daylight exterior photos recommended"
+  ],
+  "dateAdded": "2026-10-27",
+  "lastUpdated": "2026-10-27",
+  "published": true,
+  "availability": "available"
+}

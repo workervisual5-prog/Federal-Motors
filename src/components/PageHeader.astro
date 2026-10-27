@@ -1,0 +1,16 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+import type { Crumb } from '@/lib/breadcrumbs';
+interface Props { eyebrow: string; title: string; intro?: string; crumbs: Crumb[] }
+const { eyebrow, title, intro, crumbs } = Astro.props;
+---
+<section class="relative overflow-hidden border-b border-line">
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_80%_at_85%_0%,rgba(23,57,111,0.45),transparent_70%)]" aria-hidden="true"></div>
+  <div class="container-site relative pb-12 pt-8 sm:pb-16 sm:pt-10">
+    <Breadcrumbs crumbs={crumbs} />
+    <p class="eyebrow anim-rise mt-10">{eyebrow}</p>
+    <h1 class="anim-slide mt-4 max-w-3xl text-4xl sm:text-6xl" style="--delay:80ms">{title}</h1>
+    {intro && <p class="anim-rise mt-5 max-w-2xl text-lg text-muted" style="--delay:160ms">{intro}</p>}
+    <slot />
+  </div>
+</section>
