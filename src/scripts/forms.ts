@@ -1,9 +1,11 @@
 import { track } from '@/scripts/analytics';
 
 // Inquiry forms. Two delivery modes, chosen at build time (see InquiryForm.astro):
+//  - "email": send through EmailJS; the lead event fires only when EmailJS returns 200.
 //  - "whatsapp": validate, then open WhatsApp with the request pre-filled. Not counted as a lead,
 //    because we can't know whether the visitor pressed Send.
-//  - "endpoint": POST to a form service; the lead event fires only on a 2xx response.
+
+const EMAILJS_URL = 'https://api.emailjs.com/api/v1.0/email/send';
 const MESSAGES: Record<string, string> = {
   valueMissing: 'Please fill in this field.',
   typeMismatch: 'Please check the format.',
@@ -32,18 +34,40 @@ function show(el: Control) {
   return !msg;
 }
 
-/** Readable "Label: value" lines from the visible fields, using what the visitor actually saw. */
-function whatsappText(form: HTMLFormElement, controls: Control[]) {
-  const lines = [`Assalamualaikum Federal Motors — ${form.dataset.label} from your website:`, ''];
+/** What the visitor actually saw and entered: [label, value, field name] for each filled field. */
+function filledFields(form: HTMLFormElement, controls: Control[]) {
+  const rows: [string, string, string][] = [];
   const vehicle = form.querySelector<HTMLInputElement>('input[type=hidden][name=vehicle]')?.value;
-  if (vehicle) lines.push(`Vehicle: ${vehicle}`);
+  if (vehicle) rows.push(['Vehicle', vehicle, 'vehicle']);
   for (const el of controls) {
     if (!el.value.trim()) continue;
     const label = form.querySelector(`label[for="${el.id}"]`)?.firstChild?.textContent?.trim() ?? el.name;
     const value = el instanceof HTMLSelectElement ? el.selectedOptions[0]?.text ?? el.value : el.value.trim();
-    lines.push(`${label}: ${value}`);
+    rows.push([label, value, el.name]);
   }
+  return rows;
+}
+
+function whatsappText(form: HTMLFormElement, controls: Control[]) {
+  const lines = [`Assalamualaikum Federal Motors — ${form.dataset.label} from your website:`, ''];
+  for (const [label, value] of filledFields(form, controls)) lines.push(`${label}: ${value}`);
   return lines.join('\n');
+}
+
+/** EmailJS template variables. Every field is also available by its own name, e.g. {{phone}}. */
+function emailParams(form: HTMLFormElement, controls: Control[]) {
+  const rows = filledFields(form, controls);
+  const params: Record<string, string> = {
+    form_title: form.dataset.label ?? 'Website inquiry',
+    form_name: form.getAttribute('name') ?? '',
+    page_url: location.href,
+    submitted_at: new Date().toLocaleString('en-PK', { timeZone: 'Asia/Karachi', dateStyle: 'medium', timeStyle: 'short' }),
+    fields: rows.map(([label, value]) => `${label}: ${value}`).join('\n'),
+  };
+  for (const [, value, name] of rows) params[name] = value;
+  params.from_name = params.name ?? '';
+  params.reply_to = params.email ?? '';
+  return params;
 }
 
 document.querySelectorAll<HTMLFormElement>('form[data-inquiry-form]:not([data-ready])').forEach((form) => {
@@ -90,8 +114,18 @@ document.querySelectorAll<HTMLFormElement>('form[data-inquiry-form]:not([data-re
     button.disabled = true;
     label.textContent = 'Sending…';
     try {
-      const res = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const cfg = JSON.parse(form.dataset.emailjs!) as { publicKey: string; serviceId: string; templateId: string };
+      const res = await fetch(EMAILJS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service_id: cfg.serviceId,
+          template_id: cfg.templateId,
+          user_id: cfg.publicKey,
+          template_params: emailParams(form, controls()),
+        }),
+      });
+      if (!res.ok) throw new Error(`EmailJS ${res.status}`);
       // Only a confirmed submission counts as a conversion.
       track(form.dataset.event!, { form_name: formName, ...params });
       form.classList.add('hidden');

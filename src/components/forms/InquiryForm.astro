@@ -2,19 +2,20 @@
 import { Send } from 'lucide-react';
 import { business } from '@/data/business';
 import { whatsappUrl } from '@/lib/contact';
+import { emailjs, emailjsReady } from '@/data/emailjs';
 import WhatsAppIcon from '../WhatsAppIcon.astro';
 
 interface Props {
-  /** Stable form identifier, sent as `form_name` to the form service and to analytics. */
+  /** Stable form identifier, sent as `form_name` in the email and to analytics. */
   name: string;
-  /** Human title used as the first line of the WhatsApp message, e.g. "Financing inquiry". */
+  /** Human title, e.g. "Financing inquiry": the email subject and the first line of the WhatsApp message. */
   label: string;
-  /** GA4 event fired only after the form service confirms delivery (endpoint mode). */
+  /** GA4 event fired only after EmailJS confirms the email was sent. */
   event: string;
   submitLabel: string;
   successTitle: string;
   successText: string;
-  /** WhatsApp message offered if endpoint delivery fails. */
+  /** WhatsApp message offered if email delivery fails. */
   fallbackMessage: string;
   /** Non-personal analytics parameters, e.g. { vehicle_id: 'FM-001' }. */
   trackParams?: Record<string, string>;
@@ -22,16 +23,13 @@ interface Props {
 }
 const p = Astro.props;
 
-// Delivery mode: a form service endpoint (Formspree, Web3Forms, …) if configured, otherwise WhatsApp.
-const endpoint = (import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined) || '';
-const accessKey = (import.meta.env.PUBLIC_FORM_ACCESS_KEY as string | undefined) || '';
-const mode = endpoint ? 'endpoint' : 'whatsapp';
+// Delivery mode: EmailJS once its service and template IDs are set (src/data/emailjs.ts), otherwise WhatsApp.
+const mode = emailjsReady ? 'email' : 'whatsapp';
 ---
 <div class={p.class} data-form-wrap>
   <form
     name={p.name}
     method="POST"
-    action={endpoint || undefined}
     novalidate
     data-inquiry-form
     data-mode={mode}
@@ -39,11 +37,10 @@ const mode = endpoint ? 'endpoint' : 'whatsapp';
     data-whatsapp={business.whatsapp.number}
     data-event={p.event}
     data-track-params={JSON.stringify(p.trackParams ?? {})}
+    data-emailjs={mode === 'email' ? JSON.stringify(emailjs) : undefined}
     class="grid gap-5"
   >
     <input type="hidden" name="form_name" value={p.name} />
-    {accessKey && <input type="hidden" name="access_key" value={accessKey} />}
-    {accessKey && <input type="hidden" name="subject" value={`Website: ${p.label}`} />}
     <p class="hidden" aria-hidden="true">
       <label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off" /></label>
     </p>

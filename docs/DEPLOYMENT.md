@@ -47,25 +47,60 @@ No environment variables are needed for a working preview. Google Analytics is a
 | `SITE_URL` | When the domain is live | `https://www.yourdomain.com` (no trailing slash). Until then the Vercel production URL is used automatically |
 | `PUBLIC_ALLOW_INDEXING` | At launch | `true` (Production environment only) |
 | `PUBLIC_GA4_ID` | No | Defaults to `G-1MRKTXTK2G` on production builds. Set `off` to disable |
-| `PUBLIC_FORM_ENDPOINT` | Optional | Form-service URL for email delivery (see §4) |
-| `PUBLIC_FORM_ACCESS_KEY` | Optional | Public access key, only for services that need one (e.g. Web3Forms) |
+| `PUBLIC_EMAILJS_SERVICE_ID` / `PUBLIC_EMAILJS_TEMPLATE_ID` | Unless set in `src/data/emailjs.ts` | EmailJS IDs (see §4) |
 | `PUBLIC_GSC_VERIFICATION` | Optional | Search Console HTML-tag token |
 
 After changing a variable, redeploy (Deployments → ⋯ → Redeploy).
 
-## 4. Forms
+## 4. Forms (EmailJS)
 
-Vercel has no built-in form handling, so the forms support two modes.
+All five forms (contact, viewing / test drive, showroom visit, financing, sell / exchange, vehicle sourcing) send email through **EmailJS**, straight from the browser. No server is needed.
 
-**WhatsApp mode (default, no setup):** after validating, the form opens WhatsApp with the visitor's request pre-filled (form type, vehicle and stock reference, name, number, preferences) and addressed to **+92 313 2963858**. The visitor presses Send. The page says "press Send in WhatsApp"; it never claims the request was received, because the site can't know.
+**Public key:** `Mxg4xyKr6kadST5vs` (already in `src/data/emailjs.ts`).
+**Still needed:** the **Service ID** and **Template ID**. Until both are set, the forms automatically use WhatsApp mode (they open WhatsApp with the request pre-filled to +92 313 2963858), so the site never shows a broken form.
 
-**Email mode (optional):** to receive submissions by email instead:
-1. Create a free account with a form service such as **Formspree** (<https://formspree.io>) or **Web3Forms** (<https://web3forms.com>). Check each one's current free-plan limits and privacy terms.
-2. Create a form and point notifications at `zaeymanofficial@gmail.com`.
-3. In Vercel set `PUBLIC_FORM_ENDPOINT` to the endpoint URL (Formspree: `https://formspree.io/f/xxxx`; Web3Forms: `https://api.web3forms.com/submit` plus `PUBLIC_FORM_ACCESS_KEY`).
-4. Redeploy. Forms now show "Send" buttons and a confirmed success message only when the service returns success. If delivery fails, the visitor is offered WhatsApp.
+### One-time EmailJS setup
 
-Every form sends a `form_name` field (`contact`, `viewing-request`, `financing-inquiry`, `sell-car`, `sourcing-request`) so you can tell them apart. A hidden honeypot field filters simple spam bots.
+1. <https://dashboard.emailjs.com> → **Email Services → Add New Service** → Gmail → connect `zaeymanofficial@gmail.com`. Copy the **Service ID** (e.g. `service_abc123`).
+2. **Email Templates → Create New Template**:
+   - **Subject:** `Website: {{form_title}} — {{from_name}}`
+   - **To Email:** `zaeymanofficial@gmail.com`
+   - **Reply To:** `{{reply_to}}` (filled only when the visitor gives an email address)
+   - **Content:**
+     ```
+     New {{form_title}} from the Federal Motors website
+
+     {{fields}}
+
+     Page: {{page_url}}
+     Sent: {{submitted_at}} (Karachi time)
+     ```
+   Save, and copy the **Template ID** (e.g. `template_xyz789`).
+3. **Account → Security:** add your website domain(s) under allowed origins (e.g. your Vercel URL, and later the real domain) so the key can't be used from other sites. Optionally enable reCAPTCHA or rate limits there.
+4. Put the two IDs in the site, either way:
+   - edit `src/data/emailjs.ts` (`serviceId`, `templateId`) and push, **or**
+   - set `PUBLIC_EMAILJS_SERVICE_ID` and `PUBLIC_EMAILJS_TEMPLATE_ID` in Vercel → Settings → Environment Variables and redeploy.
+5. Submit each form once from the live site and confirm the emails arrive.
+
+### What the email contains
+
+`{{fields}}` lists exactly what the visitor saw and filled in, for example:
+
+```
+Vehicle: 2022 Toyota Hilux Revo V 2.8 (FM-001)
+Your name: Ali Khan
+Mobile number: 0300-1234567
+I’d like to: View and test drive
+```
+
+Individual variables are also available for custom templates: `{{form_name}}`, `{{from_name}}`, `{{name}}`, `{{phone}}`, `{{email}}`, `{{vehicle}}`, `{{message}}`, `{{details}}`, `{{make}}`, `{{model}}`, `{{year}}`, `{{financing_type}}`, `{{inquiry_type}}`, `{{preferred_date}}`, `{{preferred_time}}`, and others.
+
+### Behaviour
+
+- Success message and analytics lead event appear **only** when EmailJS confirms the email was sent.
+- If sending fails (network, EmailJS limit reached, wrong ID), the visitor sees an error with a **Continue on WhatsApp** button. Nothing is lost.
+- A hidden honeypot field silently drops simple spam bots.
+- EmailJS's free plan has a monthly email limit. Check your plan in the EmailJS dashboard.
 
 ## 5. Custom domain
 
@@ -83,7 +118,7 @@ Vercel's free **Hobby** plan is for **personal, non-commercial use** under Verce
 - [ ] "Before launch" items in `docs/CLIENT-APPROVALS.md` resolved
 - [ ] Domain connected, HTTPS active, `SITE_URL` set
 - [ ] `PUBLIC_ALLOW_INDEXING=true` on Production, redeployed; `/robots.txt` shows `Allow: /`
-- [ ] Each form tested on a phone (WhatsApp opens with the details) or, in email mode, a test email arrives
+- [ ] EmailJS IDs set; each form sends a test email that arrives
 - [ ] GA4 events visible in DebugView (`docs/ANALYTICS-GA4.md`)
 - [ ] Search Console verified, sitemap submitted (`docs/SEARCH-CONSOLE.md`)
 - [ ] Rich Results Test on the homepage and one vehicle page

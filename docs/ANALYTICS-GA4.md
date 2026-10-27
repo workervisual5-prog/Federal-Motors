@@ -8,7 +8,7 @@ Analytics is configured with Measurement ID **`G-1MRKTXTK2G`**. It's built into 
 - **Consent first:** Google Consent Mode v2 defaults analytics storage to *denied*. A banner asks visitors to allow or decline. The choice is saved in the browser. Ad storage is always denied.
 - Page views: GA4 sends one `page_view` per page load automatically. The site is multi-page (no client-side router), so there are no duplicate page views.
 - Click events are captured by **one** delegated listener (`src/scripts/site.ts`) reading `data-track` attributes, so handlers can't double-bind.
-- Forms: in the default **WhatsApp mode**, a valid form opens WhatsApp and fires `whatsapp_click` (with `source` = `<form>_form` and `form_name`). That's an intent signal, not a lead, because the site can't see whether the visitor pressed Send. In **email mode** (`PUBLIC_FORM_ENDPOINT` set), the lead event (`generate_lead`, `financing_inquiry`, …) fires **only after the form service confirms delivery**. A failed submission sends nothing.
+- Forms: in the default **WhatsApp mode**, a valid form opens WhatsApp and fires `whatsapp_click` (with `source` = `<form>_form` and `form_name`). That's an intent signal, not a lead, because the site can't see whether the visitor pressed Send. In **email mode** (EmailJS configured), the lead event (`generate_lead`, `financing_inquiry`, …) fires **only after EmailJS confirms the email was sent**. A failed submission sends nothing.
 - `src/scripts/analytics.ts` drops any parameter called `name`, or whose name contains phone/email/mobile/cnic/address/message, as a safety net. **No personal data is sent to GA4** (verified: a financing form submission sends only `form_name` and `inquiry_source`).
 
 ## Setup steps
@@ -25,7 +25,7 @@ Analytics is configured with Measurement ID **`G-1MRKTXTK2G`**. It's built into 
 
 ## Event reference
 
-The four form-success events below fire only in **email mode**. In the default WhatsApp mode, forms report `whatsapp_click` instead.
+The four form-success events below fire only in **email mode** (EmailJS). In the default WhatsApp mode, forms report `whatsapp_click` instead.
 
 
 | Event | Type | Fires when | Parameters |
@@ -50,7 +50,7 @@ All click events also carry `page_location`.
 1. Install the **Google Analytics Debugger** Chrome extension and switch it on.
 2. Open the live site, accept analytics in the banner.
 3. GA4 → Admin → **DebugView**. Click WhatsApp, call, open a vehicle and submit a test form; each event should appear **once** with the parameters above.
-4. In email mode, delete the test submissions in the form service afterwards.
+4. Delete the test emails afterwards.
 
 ## Important interpretation note
 

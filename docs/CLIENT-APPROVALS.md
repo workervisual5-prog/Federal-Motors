@@ -35,8 +35,8 @@ Items are grouped by urgency. "Before launch" items must be resolved before `PUB
 |---|---|
 | Domain name | Owner will buy later. Then connect in Vercel and set `SITE_URL` |
 | GitHub repository | `workervisual5-prog/Federal-Motors` created; client pushes the code (see `DEPLOYMENT.md` §2) |
-| Vercel account and plan | Client deploys on Vercel. Note: the Hobby plan is for non-commercial use, so check Vercel's terms (`DEPLOYMENT.md` §6) |
-| Form delivery | Default: forms open WhatsApp pre-filled to +92 313 2963858. Optional: email via Formspree/Web3Forms (`DEPLOYMENT.md` §4) |
+| Vercel deployment | Client deploys from GitHub. Note: the Hobby plan is for non-commercial use, so check Vercel's terms |
+| Form delivery | EmailJS public key set. **Send the EmailJS Service ID and Template ID** (or add them yourself; see `DEPLOYMENT.md` §4). Until then forms use WhatsApp |
 | Confirm +92 313 2963858 is on WhatsApp (or WhatsApp Business) | Every WhatsApp button points to it |
 | GA4 property and Measurement ID | ✅ `G-1MRKTXTK2G` built into production builds. Remaining: register custom dimensions and key events (`ANALYTICS-GA4.md`) |
 | Search Console verification | See `SEARCH-CONSOLE.md` |

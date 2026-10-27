@@ -46,7 +46,7 @@ Performance · Accessibility · Best Practices · SEO, then LCP / CLS / TBT.
 Inventory: default shows all 5 in-stock; make filter (Toyota → 2) and URL sync; model list narrows to the chosen make; model filter; reset; max-price filter (≤ 50 lakh → Mira only); sort by price descending (call-for-price last); sort by year; search by stock reference; empty state; "Sold" filter (0).
 Homepage search → `/inventory?make=Daihatsu` → 1 result.
 Vehicle page: WhatsApp message includes the full title and stock reference; gallery next button and keyboard arrows; `Car` JSON-LD with a PKR `Offer`; AMG (call for price) has **no** `Offer`; AMG disclosure shown; AMG mileage shows the listed 80,000 km.
-Forms: empty submit shows field errors, moves focus to the first invalid field and sends nothing; invalid phone message; error clears when corrected; **WhatsApp mode (default):** a valid form opens WhatsApp addressed to 923132963858 with the form title, vehicle and stock reference, name, number and chosen options; no network request is sent; a "press Send in WhatsApp" note is shown, not a success claim. **Email mode** (separate build with a test endpoint): a 200 response shows success and fires exactly one `generate_lead`; a 500 response shows the error and WhatsApp fallback and fires nothing.
+Forms: empty submit shows field errors, moves focus to the first invalid field and sends nothing; invalid phone message; error clears when corrected; **WhatsApp mode (default):** a valid form opens WhatsApp addressed to 923132963858 with the form title, vehicle and stock reference, name, number and chosen options; no network request is sent; a "press Send in WhatsApp" note is shown, not a success claim. **EmailJS mode** (build with test IDs, EmailJS API intercepted): the request goes to `api.emailjs.com/api/v1.0/email/send` with public key `Mxg4xyKr6kadST5vs`, the service and template IDs, and template params (`form_title`, `fields`, `from_name`, `phone`, `vehicle`, `page_url`, `submitted_at`, …); a 200 response shows success and fires exactly one lead event (`test_drive_request` with `vehicle_id`); a 400 response shows the error and WhatsApp fallback and fires nothing.
 Sell page `?type=exchange` preselects the inquiry type. Contact map loads only after a click.
 Reduced motion: animations ~instant, reveal content visible. JavaScript disabled: inventory still lists all vehicles (server-rendered), reveal content visible.
 
@@ -62,7 +62,7 @@ Reduced motion: animations ~instant, reveal content visible. JavaScript disabled
 
 | Item | Why | Do this after deploy |
 |---|---|---|
-| WhatsApp opening on real phones / email delivery through a real form service | wa.me and external services are blocked here | Submit each form once from a phone on the deployed site |
+| Real EmailJS delivery; public key validity; WhatsApp opening on phones | api.emailjs.com and wa.me are blocked from this environment | After adding the Service and Template IDs, submit each form once on the live site |
 | GA4 events reaching Google | Google's servers are blocked from this environment. **Tested locally:** consent banner shown, default consent denied, `update` to granted on accept, choice remembered, `view_item` / `vehicle_inquiry` / `financing_inquiry` pushed once with correct parameters and no personal data | Follow `ANALYTICS-GA4.md` → Verify |
 | Google Rich Results Test / Schema validator | Needs a public URL | Follow `SEARCH-CONSOLE.md` → step 4 |
 | Real devices (iOS Safari, Android Chrome) | Only Chromium available here | Check on a mid-range Android and an iPhone |

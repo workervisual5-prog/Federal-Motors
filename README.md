@@ -11,7 +11,8 @@ Website for **Federal Motors**, an owner-led car showroom in Block 2, PECHS, nea
 | **Tailwind CSS 4** | Design tokens in `src/styles/global.css` |
 | **Motion** | Filter and gallery transitions; CSS for everything else; `prefers-reduced-motion` respected |
 | **Content collections + Zod** | Inventory is validated at build time; bad data fails the build instead of breaking the page |
-| **Vercel** | Static hosting and HTTPS. Forms open WhatsApp pre-filled, or post to an optional form service. No backend or database |
+| **Vercel** | Static hosting and HTTPS (deployed by the client from GitHub) |
+| **EmailJS** | Form emails sent from the browser. No backend or database. WhatsApp fallback |
 
 ## Commands
 
@@ -72,7 +73,7 @@ docs/                       ← guides and reports
 ## Environment variables
 
 See `.env.example`. Nothing secret is required. All variables are public build settings:
-`SITE_URL`, `PUBLIC_ALLOW_INDEXING`, `PUBLIC_GA4_ID` (defaults to `G-1MRKTXTK2G` in production), `PUBLIC_FORM_ENDPOINT` / `PUBLIC_FORM_ACCESS_KEY` (optional email delivery), `PUBLIC_GSC_VERIFICATION`.
+`SITE_URL`, `PUBLIC_ALLOW_INDEXING`, `PUBLIC_GA4_ID` (defaults to `G-1MRKTXTK2G` in production), `PUBLIC_EMAILJS_SERVICE_ID` / `PUBLIC_EMAILJS_TEMPLATE_ID` (or edit `src/data/emailjs.ts`), `PUBLIC_GSC_VERIFICATION`.
 
 ## Content rules
 
