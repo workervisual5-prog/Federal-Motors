@@ -16,11 +16,13 @@ export const business = {
     country: 'PK',
     countryName: 'Pakistan',
   },
-  // Pin link supplied by Federal Motors. Replace with the Business Profile "Share profile" link when available.
-  mapsUrl: 'https://maps.app.goo.gl/ek6o5zcACPH9x92A7',
-  // Turn-by-turn directions to the showroom's exact coordinates.
-  directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=24.8653355,67.0544205',
-  geo: { lat: 24.8653355, lng: 67.0544205 },
+  // Google Business Profile listing ("Share profile" link) and its permanent CID form.
+  mapsUrl: 'https://maps.app.goo.gl/iykk3DNTyjrUhYkL7',
+  mapsCidUrl: 'https://maps.google.com/?cid=6426781252052442860',
+  // Directions to the listing (place ID keeps the business name in Google Maps).
+  directionsUrl:
+    'https://www.google.com/maps/dir/?api=1&destination=Federal+Motors+PECHS+Karachi&destination_place_id=ChIJpRg_kFY_sz4R7N65iX-DMFk',
+  geo: { lat: 24.8653787, lng: 67.0544209 },
   // Internal Google identifiers (not shown on the site): Business Profile ID and store code.
   googleBusinessProfileId: '15801088510167343850',
   instagram: 'https://www.instagram.com/federalmotors110/',

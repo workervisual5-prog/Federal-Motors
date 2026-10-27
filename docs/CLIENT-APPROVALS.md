@@ -40,7 +40,7 @@ Items are grouped by urgency. "Before launch" items must be resolved before `PUB
 | Confirm +92 313 2963858 is on WhatsApp (or WhatsApp Business) | Every WhatsApp button points to it |
 | GA4 property and Measurement ID | ✅ `G-1MRKTXTK2G` configured in `netlify.toml`. Remaining: register custom dimensions and key events (`ANALYTICS-GA4.md`) |
 | Search Console verification | See `SEARCH-CONSOLE.md` |
-| Google Business Profile | ✅ Profile updated by client (ID 15801088510167343850). **Send the profile's "Share profile" link** so the site and structured data can link to the listing instead of the dropped pin. The listing isn't visible in search results yet (normal for a new or updated profile). Note: an unrelated "Isuzu Federal Motors" exists in Islamabad, so keep "Karachi / PECHS" with the name |
+| Google Business Profile | ✅ Listing linked (directions, map, structured data). Add the website URL to the profile at launch |
 | Review the Privacy Policy and Terms drafts (`/privacy`, `/terms`) | Drafts only; consider a lawyer's review |
 
 ## D. Recommended (not blocking)

@@ -23,10 +23,10 @@ export function autoDealerSchema(site: URL) {
       addressCountry: business.address.country,
     },
     geo: { '@type': 'GeoCoordinates', latitude: business.geo.lat, longitude: business.geo.lng },
-    hasMap: business.mapsUrl,
+    hasMap: business.mapsCidUrl,
     openingHoursSpecification: business.hours.schema.map((h) => ({ '@type': 'OpeningHoursSpecification', ...h })),
     founder: business.owners.map((name) => ({ '@type': 'Person', name })),
-    sameAs: [business.instagram],
+    sameAs: [business.instagram, business.mapsCidUrl],
     areaServed: { '@type': 'City', name: 'Karachi' },
     currenciesAccepted: 'PKR',
   };

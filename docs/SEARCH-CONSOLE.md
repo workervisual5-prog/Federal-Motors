@@ -55,13 +55,15 @@ Structured data helps Google understand the pages but **does not guarantee** ric
 
 ## 6. Google Business Profile
 
-**Status (27 Oct 2026):** the client has set up and optimised the Business Profile (Business Profile ID 15801088510167343850; store code the same). The original Maps short link still opens a **dropped pin**, so the website's "Get directions" buttons use a Google Maps directions link to the exact coordinates (24.8653355, 67.0544205) instead.
+**Status (27 Oct 2026): connected.** The Business Profile listing "Federal Motors" (share link `maps.app.goo.gl/iykk3DNTyjrUhYkL7`, CID 6426781252052442860, place ID `ChIJpRg_kFY_sz4R7N65iX-DMFk`, coordinates 24.8653787, 67.0544209) is now used for:
+- the "Get directions" buttons (Google Maps directions to the listing by place ID),
+- the contact-page map,
+- `hasMap` and `sameAs` in the AutoDealer structured data.
 
 Remaining steps:
-1. In the Business Profile, click **Share profile** and copy the link.
-2. Replace `mapsUrl` in `src/data/business.ts` with it, and add the same URL to `sameAs` in `src/lib/schema.ts`.
-3. Add the **website URL** to the profile once the domain is live.
-4. Check the profile matches the website exactly: name "Federal Motors", address "Plot No. 34/A, 1st Floor, Main Shahrah-e-Quaideen, Block 2, PECHS, near Tariq Road, Karachi", phone 0313-2963858, hours Mon–Sat 12:00–21:00, Sunday closed. Category: **Used car dealer** (secondary: Car dealer).
-5. A different business, "Isuzu Federal Motors", exists in Islamabad. Keep "Karachi" and "PECHS" next to the name in posts and citations to avoid confusion.
+1. Add the **website URL** to the profile once the domain is live.
+2. Keep the profile matching the website exactly: name "Federal Motors", address "Plot No. 34/A, 1st Floor, Main Shahrah-e-Quaideen, Block 2, PECHS, near Tariq Road, Karachi", phone 0313-2963858, hours Mon–Sat 12:00–21:00, Sunday closed. Category: **Used car dealer** (secondary: Car dealer).
+3. A different business, "Isuzu Federal Motors", exists in Islamabad. Keep "Karachi" and "PECHS" next to the name in posts and citations to avoid confusion.
+4. Ask happy customers for Google reviews. The website will **not** show ratings in structured data unless they come from a real source.
 
 The Business Profile ID and store code are internal Google identifiers; they are not used on the public website.
