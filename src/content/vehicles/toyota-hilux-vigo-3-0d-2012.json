@@ -13,9 +13,9 @@
   "priceVisibility": "show",
   "mileageKm": 112000,
   "transmission": null,
-  "fuelType": null,
-  "engineCC": null,
-  "exteriorColour": null,
+  "fuelType": "diesel",
+  "engineCC": 2982,
+  "exteriorColour": "Black",
   "owners": "Second owner",
   "highlights": [
     "Bumper-to-bumper original",
@@ -65,12 +65,7 @@
   ],
   "featured": true,
   "pendingConfirmation": [
-    "Price unit: DEMAND 62 — assumed PKR 62 lakh (6,200,000)",
-    "'Thailand' = Thai-assembled import? (origin set to imported)",
-    "Fuel type (3.0D suggests diesel — confirm)",
-    "Transmission",
-    "Exterior colour",
-    "Registration city"
+    "Transmission not determinable from photos"
   ],
   "dateAdded": "2026-10-27",
   "lastUpdated": "2026-10-27",

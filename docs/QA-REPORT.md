@@ -45,7 +45,7 @@ Performance · Accessibility · Best Practices · SEO, then LCP / CLS / TBT.
 
 Inventory: default shows all 5 in-stock; make filter (Toyota → 2) and URL sync; model list narrows to the chosen make; model filter; reset; max-price filter (≤ 50 lakh → Mira only); sort by price descending (call-for-price last); sort by year; search by stock reference; empty state; "Sold" filter (0).
 Homepage search → `/inventory?make=Daihatsu` → 1 result.
-Vehicle page: WhatsApp message includes the full title and stock reference; gallery next button and keyboard arrows; `Car` JSON-LD with a PKR `Offer`; AMG (call for price) has **no** `Offer`; AMG disclosure shown; AMG mileage hidden pending confirmation.
+Vehicle page: WhatsApp message includes the full title and stock reference; gallery next button and keyboard arrows; `Car` JSON-LD with a PKR `Offer`; AMG (call for price) has **no** `Offer`; AMG disclosure shown; AMG mileage shows the listed 80,000 km.
 Forms: empty submit shows field errors, moves focus to the first invalid field and sends nothing; invalid phone message; error clears when corrected; valid submit sends the POST; **when the server rejects it (local preview has no Netlify), the error and WhatsApp fallback appear and no success message is shown**.
 Sell page `?type=exchange` preselects the inquiry type. Contact map loads only after a click.
 Reduced motion: animations ~instant, reveal content visible. JavaScript disabled: inventory still lists all vehicles (server-rendered), reveal content visible.
@@ -63,7 +63,7 @@ Reduced motion: animations ~instant, reveal content visible. JavaScript disabled
 | Item | Why | Do this after deploy |
 |---|---|---|
 | Netlify form delivery and email notifications | Netlify Forms only exists on Netlify | Submit each form once on the deployed site |
-| GA4 events in DebugView | No Measurement ID yet | Follow `ANALYTICS-GA4.md` → Verify |
+| GA4 events reaching Google | Google's servers are blocked from this environment. **Tested locally:** consent banner shown, default consent denied, `update` to granted on accept, choice remembered, `view_item` / `vehicle_inquiry` / `financing_inquiry` pushed once with correct parameters and no personal data | Follow `ANALYTICS-GA4.md` → Verify |
 | Google Rich Results Test / Schema validator | Needs a public URL | Follow `SEARCH-CONSOLE.md` → step 4 |
 | Real devices (iOS Safari, Android Chrome) | Only Chromium available here | Check on a mid-range Android and an iPhone |
 | WhatsApp deep link on phones | wa.me redirects need a real device | Tap a vehicle's WhatsApp button on a phone |

@@ -1,6 +1,6 @@
 # Google Analytics 4 setup
 
-Analytics is **built in but switched off** until a Measurement ID is provided. No ID has been invented.
+Analytics is configured with Measurement ID **`G-1MRKTXTK2G`** (set in `netlify.toml` → `[build.environment]`, so every Netlify build includes it). Local builds without the variable have analytics off.
 
 ## How it works
 
@@ -9,13 +9,13 @@ Analytics is **built in but switched off** until a Measurement ID is provided. N
 - Page views: GA4 sends one `page_view` per page load automatically. The site is multi-page (no client-side router), so there are no duplicate page views.
 - Click events are captured by **one** delegated listener (`src/scripts/site.ts`) reading `data-track` attributes, so handlers can't double-bind.
 - Form events fire **only after Netlify confirms the submission** (HTTP 200). Clicking submit, or a failed submission, sends nothing.
-- `src/scripts/analytics.ts` drops any parameter whose name contains name/phone/email/mobile/cnic/address/message, as a safety net. **No personal data is sent to GA4.**
+- `src/scripts/analytics.ts` drops any parameter called `name`, or whose name contains phone/email/mobile/cnic/address/message, as a safety net. **No personal data is sent to GA4** (verified: a financing form submission sends only `form_name` and `inquiry_source`).
 
 ## Setup steps
 
-1. <https://analytics.google.com> → Admin → **Create property** "Federal Motors", time zone Pakistan (GMT+5), currency PKR.
-2. Create a **Web data stream** for the live domain. Copy the Measurement ID (`G-…`).
-3. In Netlify set `PUBLIC_GA4_ID=G-…` and redeploy.
+1. ✅ Done: GA4 property created. Check Admin → Property details: time zone Pakistan (GMT+5), currency PKR.
+2. ✅ Done: web data stream `G-1MRKTXTK2G`. When the domain is live, make sure the stream's URL matches it.
+3. ✅ Done: ID set in `netlify.toml`. (A Netlify UI environment variable with the same name would override it.)
 4. In the data stream's **Enhanced measurement**, keep Page views and Scrolls. **Turn off "Form interactions"**: the site sends its own accurate form events and GA4's automatic ones would double-count.
 5. Register **custom dimensions** (Admin → Custom definitions → Create, scope *Event*):
    `vehicle_id`, `make`, `model`, `inquiry_source`, `source`, `form_name`, `method`

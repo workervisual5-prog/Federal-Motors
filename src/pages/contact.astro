@@ -67,7 +67,7 @@ const embed = `https://maps.google.com/maps?q=${lat},${lng}&z=17&output=embed`;
           {business.address.street}<br />
           {business.address.landmark}, {business.address.city}, {business.address.countryName}
         </address>
-        <a href={business.mapsUrl} target="_blank" rel="noopener" class="btn btn-primary mt-8" data-track="directions_click" data-track-source="contact_page">
+        <a href={business.directionsUrl} target="_blank" rel="noopener" class="btn btn-primary mt-8" data-track="directions_click" data-track-source="contact_page">
           <Navigation size={18} aria-hidden="true" /> Get directions
         </a>
       </div>

@@ -43,7 +43,7 @@ const year = new Date().getFullYear();
     <div>
       <h2 class="text-sm font-bold uppercase tracking-[0.18em] text-text">Visit the showroom</h2>
       <address class="mt-5 space-y-4 text-sm not-italic text-muted">
-        <a href={business.mapsUrl} target="_blank" rel="noopener" class="flex gap-3 hover:text-gold-hi" data-track="directions_click" data-track-source="footer">
+        <a href={business.directionsUrl} target="_blank" rel="noopener" class="flex gap-3 hover:text-gold-hi" data-track="directions_click" data-track-source="footer">
           <MapPin size={18} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
           <span>{fullAddress}</span>
         </a>

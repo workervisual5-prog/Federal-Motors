@@ -12,10 +12,10 @@
   "bodyType": "sedan",
   "pricePKR": null,
   "priceVisibility": "call",
-  "mileageKm": null,
-  "transmission": null,
-  "fuelType": null,
-  "engineCC": null,
+  "mileageKm": 80000,
+  "transmission": "automatic",
+  "fuelType": "petrol",
+  "engineCC": 6208,
   "exteriorColour": "Red",
   "owners": "First owner",
   "highlights": [
@@ -28,7 +28,7 @@
     "2008 donor car converted to 2012 facelift specification — not a factory 2012 model.",
     "Minor paint chips are visible on the front bumper in the photos."
   ],
-  "description": "Mercedes-Benz C63 AMG in red, built on a 2008 donor car and converted to 2012 facelift specification with the P31 package. Registered in 2012 and offered by its first owner. Contact Federal Motors for price and a viewing.",
+  "description": "Mercedes-Benz C63 AMG in red, built on a 2008 donor car and converted to 2012 facelift specification with the P31 package. Registered in 2012, first owner, 80,000 km. Contact Federal Motors for price and a viewing.",
   "images": [
     {
       "src": "../../assets/vehicles/mercedes-benz-c63-amg-2008/mercedes-benz-c63-amg-2008-front-three-quarter-right.jpg",
@@ -63,10 +63,8 @@
   ],
   "featured": true,
   "pendingConfirmation": [
-    "MILEAGE CONFLICT: listing says 80k, odometer photo shows 89,715 km",
-    "Price (none supplied)",
-    "Transmission",
-    "Registration city",
+    "Mileage 80,000 km per listing (client decision); dashboard photo odometer reads 89,715 km",
+    "Price (call for price)",
     "Daylight exterior photos recommended"
   ],
   "dateAdded": "2026-10-27",

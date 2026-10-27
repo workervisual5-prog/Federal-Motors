@@ -16,9 +16,13 @@ export const business = {
     country: 'PK',
     countryName: 'Pakistan',
   },
+  // Pin link supplied by Federal Motors. Replace with the Business Profile "Share profile" link when available.
   mapsUrl: 'https://maps.app.goo.gl/ek6o5zcACPH9x92A7',
-  // Resolved from the Maps link above (a dropped pin, not a Google Business Profile listing).
+  // Turn-by-turn directions to the showroom's exact coordinates.
+  directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=24.8653355,67.0544205',
   geo: { lat: 24.8653355, lng: 67.0544205 },
+  // Internal Google identifiers (not shown on the site): Business Profile ID and store code.
+  googleBusinessProfileId: '15801088510167343850',
   instagram: 'https://www.instagram.com/federalmotors110/',
   email: 'zaeymanofficial@gmail.com',
   phones: [

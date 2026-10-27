@@ -2,22 +2,16 @@
 
 Items are grouped by urgency. "Before launch" items must be resolved before `PUBLIC_ALLOW_INDEXING` is set to `true`.
 
-## A. Before launch: vehicle data
+## A. Vehicle data: resolved 27 Oct 2026
 
-| Ref | Vehicle | What to confirm | Current handling on site |
-|---|---|---|---|
-| All | All five | **Price unit.** "DEMAND 124" read as **124 lakh = PKR 12,400,000** (and 135.75, 38.50, 62 likewise) | Prices shown on that basis |
-| FM-005 | Mercedes-Benz C63 AMG | **Mileage conflict.** Listing says 80k; the dashboard photo shows **89,715 km** | Mileage hidden |
-| FM-005 | Mercedes-Benz C63 AMG | Price | "Call for price" |
-| FM-005 | Mercedes-Benz C63 AMG | Wording: "2008 donor car converted to 2012 specification (P31 package), registered 2012" | Listed as a 2008 with the conversion disclosed. Front-bumper paint chips disclosed |
-| FM-001–005 | All | Transmission, exterior colour, registration city | Hidden (not inferred from photos) |
-| FM-001 | Hilux Revo V 2.8 | Fuel type | Hidden |
-| FM-004 | Hilux Vigo 3.0D | Fuel type (3.0D suggests diesel). Does "Thailand" mean a Thai-assembled import? | Fuel hidden; origin shown as "Imported" |
-| FM-003 | Daihatsu Mira L SA III | Meaning of "Fresh Clear 2026": customs-cleared and unregistered? Confirm it's an import | Shown as "Fresh clear 2026"; origin "Imported" |
-| FM-002 | Chery Tiggo 9 Pro | Local assembly or import? | Origin hidden |
-| FM-004 | Hilux Vigo | OK to disclose aftermarket trim, head unit and TRD decals? | Disclosed |
-| All | All | Stock references FM-001 … FM-005 were assigned by us for the website | In use |
-| All | All | "Biometric available" / "Transfer must" shown as "Biometric verification available" / "Ownership transfer required after purchase" | In use |
+| Item | Decision |
+|---|---|
+| Price unit | **Confirmed by client:** "DEMAND 124" = 124 lakh = PKR 12,400,000 (all vehicles likewise) |
+| FM-005 AMG mileage | **Client decision:** use the listed **80,000 km**. Note: the dashboard photo shows an odometer reading of 89,715 km and remains in the gallery; a buyer may ask about it. Replace the photo or the figure if this should be reconciled |
+| FM-005 AMG price | Remains "Call for price" |
+| Transmission, fuel, engine, colour | Filled from photos and known model specs, as the client authorised: Revo automatic/diesel/2,755 cc/grey (origin local); Tiggo automatic/black; Mira automatic/petrol/658 cc/silver; Vigo diesel/2,982 cc/black; AMG automatic/petrol/6,208 cc/red |
+| Left blank by agreement | Vigo transmission (not clear from photos), registration cities, Tiggo origin and engine |
+| Stock references FM-001…005; "Biometric verification available"; "Ownership transfer required after purchase" | In use |
 
 ## B. Before launch: business claims
 
@@ -40,13 +34,13 @@ Items are grouped by urgency. "Before launch" items must be resolved before `PUB
 | Item | Why |
 |---|---|
 | Domain name | Set `SITE_URL`, connect in Netlify |
-| GitHub repository | So the code is safely stored and Netlify can deploy it |
+| GitHub repository | **Pending:** create an empty `federal-motors` repo on github.com so the code can be pushed (the environment can't create repos) |
 | Netlify account and plan choice | See `DEPLOYMENT.md` §6: Free pauses the site if credits run out |
 | Form notification email | `zaeymanofficial@gmail.com` assumed; confirm |
 | Confirm +92 313 2963858 is on WhatsApp (or WhatsApp Business) | Every WhatsApp button points to it |
-| GA4 property and Measurement ID | Analytics stays off until provided |
+| GA4 property and Measurement ID | ✅ `G-1MRKTXTK2G` configured in `netlify.toml`. Remaining: register custom dimensions and key events (`ANALYTICS-GA4.md`) |
 | Search Console verification | See `SEARCH-CONSOLE.md` |
-| Google Business Profile | The supplied Maps link is a dropped pin, not a business listing |
+| Google Business Profile | ✅ Profile updated by client (ID 15801088510167343850). **Send the profile's "Share profile" link** so the site and structured data can link to the listing instead of the dropped pin. The listing isn't visible in search results yet (normal for a new or updated profile). Note: an unrelated "Isuzu Federal Motors" exists in Islamabad, so keep "Karachi / PECHS" with the name |
 | Review the Privacy Policy and Terms drafts (`/privacy`, `/terms`) | Drafts only; consider a lawyer's review |
 
 ## D. Recommended (not blocking)

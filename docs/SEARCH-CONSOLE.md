@@ -55,10 +55,13 @@ Structured data helps Google understand the pages but **does not guarantee** ric
 
 ## 6. Google Business Profile
 
-**Finding:** the Google Maps link Federal Motors supplied (`maps.app.goo.gl/ek6o5zcACPH9x92A7`) opens a **dropped pin** at 24.8653355, 67.0544205, not a Business Profile listing. A verified Business Profile matters a lot for "car showroom near me" searches.
+**Status (27 Oct 2026):** the client has set up and optimised the Business Profile (Business Profile ID 15801088510167343850; store code the same). The original Maps short link still opens a **dropped pin**, so the website's "Get directions" buttons use a Google Maps directions link to the exact coordinates (24.8653355, 67.0544205) instead.
 
-1. Check whether a profile already exists: search "Federal Motors PECHS" on Google Maps.
-2. If not, create one at <https://business.google.com>: category **Used car dealer** (secondary: Car dealer), the exact address and phone used on the website, hours Mon–Sat 12:00–21:00, Sunday closed.
-3. Add the **website URL** and showroom photos, and complete verification (usually video or postcard).
-4. Once verified, replace `mapsUrl` in `src/data/business.ts` with the profile's share link, and add the profile URL to `sameAs` in `src/lib/schema.ts`.
-5. Keep name, address and phone **identical** everywhere (website, profile, Instagram).
+Remaining steps:
+1. In the Business Profile, click **Share profile** and copy the link.
+2. Replace `mapsUrl` in `src/data/business.ts` with it, and add the same URL to `sameAs` in `src/lib/schema.ts`.
+3. Add the **website URL** to the profile once the domain is live.
+4. Check the profile matches the website exactly: name "Federal Motors", address "Plot No. 34/A, 1st Floor, Main Shahrah-e-Quaideen, Block 2, PECHS, near Tariq Road, Karachi", phone 0313-2963858, hours Mon–Sat 12:00–21:00, Sunday closed. Category: **Used car dealer** (secondary: Car dealer).
+5. A different business, "Isuzu Federal Motors", exists in Islamabad. Keep "Karachi" and "PECHS" next to the name in posts and citations to avoid confusion.
+
+The Business Profile ID and store code are internal Google identifiers; they are not used on the public website.

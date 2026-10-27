@@ -36,7 +36,7 @@ Never commit `.env` files. `.gitignore` already excludes them.
 |---|---|---|
 | `SITE_URL` | `https://federal-motors.netlify.app` now; your domain later | Always |
 | `PUBLIC_ALLOW_INDEXING` | `false` now, `true` at launch | Always |
-| `PUBLIC_GA4_ID` | `G-XXXXXXXXXX` | When the GA4 property exists |
+| `PUBLIC_GA4_ID` | Already set to `G-1MRKTXTK2G` in `netlify.toml` (no action needed) | — |
 | `PUBLIC_GSC_VERIFICATION` | Search Console HTML-tag token | Only if using HTML-tag verification |
 
 Changing a variable needs a redeploy (Deploys → Trigger deploy).
@@ -83,7 +83,7 @@ What this means for Federal Motors: each inventory update is a deploy (15 credit
 - [ ] `PUBLIC_ALLOW_INDEXING=true`, redeployed; `/robots.txt` now allows crawling
 - [ ] Each form tested end to end
 - [ ] WhatsApp buttons open a chat with +92 313 2963858
-- [ ] GA4 ID set; events visible in DebugView (see `docs/ANALYTICS-GA4.md`)
+- [ ] GA4 events visible in DebugView (see `docs/ANALYTICS-GA4.md`)
 - [ ] Search Console verified, sitemap submitted (see `docs/SEARCH-CONSOLE.md`)
 - [ ] Rich Results Test run on one vehicle page and the homepage
 - [ ] Website URL added to Google Business Profile and Instagram bio

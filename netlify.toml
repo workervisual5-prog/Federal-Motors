@@ -4,6 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Google Analytics 4 (public ID). Consent Mode keeps analytics cookies off until the visitor allows them.
+  PUBLIC_GA4_ID = "G-1MRKTXTK2G"
 
 # Long-lived caching for fingerprinted build assets.
 [[headers]]

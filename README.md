@@ -72,7 +72,7 @@ docs/                       ← guides and reports
 ## Environment variables
 
 See `.env.example`. Nothing secret is required. All variables are public build settings:
-`SITE_URL`, `PUBLIC_ALLOW_INDEXING`, `PUBLIC_GA4_ID`, `PUBLIC_GSC_VERIFICATION`.
+`SITE_URL`, `PUBLIC_ALLOW_INDEXING`, `PUBLIC_GA4_ID` (already set in `netlify.toml`), `PUBLIC_GSC_VERIFICATION`.
 
 ## Content rules
 

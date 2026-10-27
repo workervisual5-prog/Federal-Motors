@@ -85,7 +85,7 @@ const services = [
         </p>
         <div class="anim-rise mt-9 flex flex-col gap-3 sm:flex-row" style="--delay:270ms">
           <a href="/inventory" class="btn btn-primary">Explore inventory <ArrowRight size={18} aria-hidden="true" /></a>
-          <a href={business.mapsUrl} target="_blank" rel="noopener" class="btn btn-secondary" data-track="directions_click" data-track-source="hero">
+          <a href={business.directionsUrl} target="_blank" rel="noopener" class="btn btn-secondary" data-track="directions_click" data-track-source="hero">
             <MapPin size={18} aria-hidden="true" /> Visit our showroom
           </a>
         </div>
@@ -323,7 +323,7 @@ const services = [
               <h3 class="font-bold text-text">Address</h3>
               <p class="mt-1 text-muted">{fullAddress}</p>
               <p class="mt-2">
-                <a href={business.mapsUrl} target="_blank" rel="noopener" class="font-semibold text-gold hover:text-gold-hi" data-track="directions_click" data-track-source="home_visit">Get directions →</a>
+                <a href={business.directionsUrl} target="_blank" rel="noopener" class="font-semibold text-gold hover:text-gold-hi" data-track="directions_click" data-track-source="home_visit">Get directions →</a>
               </p>
             </div>
           </div>

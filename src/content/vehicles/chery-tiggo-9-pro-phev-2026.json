@@ -13,10 +13,10 @@
   "priceVisibility": "show",
   "priceNote": "Best offer invited",
   "mileageKm": 6000,
-  "transmission": null,
+  "transmission": "automatic",
   "fuelType": "plug-in hybrid",
   "engineCC": null,
-  "exteriorColour": null,
+  "exteriorColour": "Black",
   "highlights": [
     "Bumper-to-bumper original",
     "Scratchless and spotless",
@@ -62,12 +62,7 @@
   ],
   "featured": true,
   "pendingConfirmation": [
-    "Price unit: DEMAND 135.75 — assumed PKR 135.75 lakh (13,575,000)",
-    "Transmission",
-    "Exterior colour",
-    "Registration city",
-    "Local assembly or import?",
-    "Photos originally showed a third-party 'G Mohiudin' window decal — pixelated; ideally remove decal and reshoot"
+    "Third-party window decal pixelated in photos — reshoot without decal recommended"
   ],
   "dateAdded": "2026-10-27",
   "lastUpdated": "2026-10-27",

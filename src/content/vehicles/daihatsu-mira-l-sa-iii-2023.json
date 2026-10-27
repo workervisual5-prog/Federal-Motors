@@ -13,10 +13,10 @@
   "pricePKR": 3850000,
   "priceVisibility": "show",
   "mileageKm": 19000,
-  "transmission": null,
-  "fuelType": null,
-  "engineCC": null,
-  "exteriorColour": null,
+  "transmission": "automatic",
+  "fuelType": "petrol",
+  "engineCC": 658,
+  "exteriorColour": "Silver",
   "auctionGrade": "3.5",
   "highlights": [
     "Verified auction sheet — grade 3.5",
@@ -62,12 +62,7 @@
   ],
   "featured": true,
   "pendingConfirmation": [
-    "Price unit: DEMAND 38.50 — assumed PKR 38.5 lakh (3,850,000)",
-    "Meaning of 'Fresh Clear 2026' — unregistered, customs-cleared 2026?",
-    "Confirm imported (auction sheet implies Japanese import)",
-    "Transmission",
-    "Exterior colour",
-    "Windscreen has marker writing — clean before reshoot"
+    "Windscreen marker writing visible — clean before reshoot"
   ],
   "dateAdded": "2026-10-27",
   "lastUpdated": "2026-10-27",

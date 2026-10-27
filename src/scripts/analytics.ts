@@ -20,7 +20,8 @@ export type TrackEvent =
   | 'view_item'
   | 'directions_click';
 
-const BLOCKED_KEYS = /name|phone|email|mobile|cnic|address|message/i;
+// Safety net against personal data. `form_name` and `item_name` are allowed; a bare `name` is not.
+const BLOCKED_KEYS = /^name$|phone|email|mobile|cnic|address|message/i;
 
 export function track(event: TrackEvent | string, params: Record<string, string | number> = {}) {
   if (typeof window.gtag !== 'function') return;
