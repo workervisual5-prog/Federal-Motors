@@ -12,8 +12,16 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 <div data-header-sentinel class="absolute top-0 h-px w-full" aria-hidden="true"></div>
 <header
   data-header
-  class="sticky top-0 z-50 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300 data-[scrolled]:border-line data-[scrolled]:bg-ink/85 data-[scrolled]:backdrop-blur-md"
+  class="group/header sticky top-0 z-50 border-b border-transparent transition-[border-color] duration-300 data-[scrolled]:border-line"
 >
+  <!--
+    The frosted background lives on its own layer: a backdrop-filter on <header> itself would become the
+    containing block for the fixed mobile menu below and collapse it to the header's height once scrolled.
+  -->
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 bg-ink/85 opacity-0 backdrop-blur-md transition-opacity duration-300 group-data-[scrolled]/header:opacity-100"
+    aria-hidden="true"
+  ></div>
   <div class="container-site flex h-[4.5rem] items-center justify-between gap-6">
     <Logo />
 

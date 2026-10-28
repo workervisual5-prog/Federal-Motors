@@ -24,6 +24,10 @@ PRIVACY = {
     "chery-tiggo-9-pro-phev-2026-front": [(470, 1080, 730, 1215)],  # number plate
     "chery-tiggo-9-pro-phev-2026-rear": [(190, 515, 405, 630), (400, 790, 576, 886)],  # decal, plate
     "chery-tiggo-9-pro-phev-2026-rear-three-quarter": [(768, 432, 960, 588)],  # decal
+    "honda-civic-oriel-ug-1-8-2018-front": [(725, 1200, 1170, 1400)],  # number plate
+    "honda-civic-oriel-ug-1-8-2018-rear": [(740, 750, 1140, 960)],  # number plate
+    "toyota-hilux-revo-v-2021-rear": [(735, 1120, 1040, 1280)],  # number plate
+    "toyota-hilux-revo-v-2021-front": [(715, 1195, 1105, 1375)],  # number plate
 }
 
 # Per-image exposure lift for dim indoor shots.
@@ -78,14 +82,15 @@ def process(path, out_path, name):
 
 def main():
     count = 0
-    for slug in sorted(os.listdir(SRC)):
+    slugs = sorted(d for d in os.listdir(SRC) if os.path.isdir(os.path.join(SRC, d)))  # skip brand/hero files
+    for slug in slugs:
         os.makedirs(os.path.join(DST, slug), exist_ok=True)
         for f in sorted(os.listdir(os.path.join(SRC, slug))):
             name = os.path.splitext(f)[0]
             process(os.path.join(SRC, slug, f), os.path.join(DST, slug, name + ".jpg"), name)
             count += 1
     unused = set(PRIVACY) | set(EXPOSURE)
-    for slug in os.listdir(SRC):
+    for slug in slugs:
         unused -= {os.path.splitext(f)[0] for f in os.listdir(os.path.join(SRC, slug))}
     if unused:
         sys.exit(f"Unknown image names in config: {sorted(unused)}")

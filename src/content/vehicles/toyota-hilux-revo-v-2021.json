@@ -1,0 +1,71 @@
+{
+  "stockReference": "FM-006",
+  "make": "Toyota",
+  "model": "Hilux Revo",
+  "variant": "V 2.8",
+  "year": 2021,
+  "registrationYear": 2021,
+  "registrationCity": null,
+  "condition": "used",
+  "origin": "local",
+  "bodyType": "pickup",
+  "pricePKR": 11450000,
+  "priceVisibility": "show",
+  "mileageKm": 48000,
+  "transmission": "automatic",
+  "fuelType": "diesel",
+  "engineCC": 2755,
+  "exteriorColour": "White",
+  "owners": "First owner",
+  "highlights": [
+    "Bumper-to-bumper original",
+    "Immaculate condition",
+    "Storage cab installed",
+    "BFGoodrich tyres installed"
+  ],
+  "documentation": [
+    "Biometric verification available",
+    "Ownership transfer required after purchase"
+  ],
+  "description": "2021 Toyota Hilux Revo V 2.8, registered in 2021, first owner, 48,000 km. Bumper-to-bumper original and in immaculate condition, with a storage cab and BFGoodrich tyres installed. Biometric verification is available and the vehicle must be transferred into the buyer's name after purchase.",
+  "images": [
+    {
+      "src": "../../assets/vehicles/toyota-hilux-revo-v-2021/toyota-hilux-revo-v-2021-front-three-quarter.jpg",
+      "alt": "Front three-quarter view of the white 2021 Toyota Hilux Revo V 2.8",
+      "view": "front-three-quarter"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-hilux-revo-v-2021/toyota-hilux-revo-v-2021-front.jpg",
+      "alt": "Front view of the white 2021 Toyota Hilux Revo V 2.8",
+      "view": "front"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-hilux-revo-v-2021/toyota-hilux-revo-v-2021-rear.jpg",
+      "alt": "Rear view of the 2021 Toyota Hilux Revo V showing the storage cab",
+      "view": "rear"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-hilux-revo-v-2021/toyota-hilux-revo-v-2021-dashboard.jpg",
+      "alt": "Dashboard and automatic gear selector of the 2021 Toyota Hilux Revo V",
+      "view": "dashboard"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-hilux-revo-v-2021/toyota-hilux-revo-v-2021-engine-bay.jpg",
+      "alt": "Engine bay of the 2021 Toyota Hilux Revo V 2.8",
+      "view": "engine-bay"
+    }
+  ],
+  "pendingConfirmation": [
+    "Registration city"
+  ],
+  "dateAdded": "2026-10-28",
+  "lastUpdated": "2026-10-28",
+  "published": true,
+  "availability": "available",
+  "featured": true,
+  "yearNote": null,
+  "registrationNote": null,
+  "priceNote": null,
+  "auctionGrade": null,
+  "disclosures": []
+}

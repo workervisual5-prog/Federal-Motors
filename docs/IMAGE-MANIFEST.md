@@ -41,6 +41,16 @@ Every vehicle photo on the site is a real photo supplied by Federal Motors. Noth
 | FM-004 | `toyota-hilux-vigo-3-0d-2012-front.jpg` | Toyota Hilux Vigo Thailand 3.0D 3.jpeg | front | 960×1280 | Gallery #3 | Standard grade only |
 | FM-004 | `toyota-hilux-vigo-3-0d-2012-rear.jpg` | Toyota Hilux Vigo Thailand 3.0D 1.jpeg | rear | 960×1280 | Gallery #4 | Standard grade only |
 | FM-004 | `toyota-hilux-vigo-3-0d-2012-side.jpg` | Toyota Hilux Vigo Thailand 3.0D 5.jpeg | side | 1280×960 | Gallery #2 | Standard grade only |
+| FM-006 | `toyota-hilux-revo-v-2021-front-three-quarter.png` | Toyota Hilux Revo V 2.8 ii 1.png | front-three-quarter | 1800×1400 | Cover / thumbnail | Standard grade only |
+| FM-006 | `toyota-hilux-revo-v-2021-front.png` | Toyota Hilux Revo V 2.8 ii 5.png | front | 1800×1400 | Gallery #2 | Number plate pixelated |
+| FM-006 | `toyota-hilux-revo-v-2021-rear.png` | Toyota Hilux Revo V 2.8 ii 2.png | rear | 1800×1400 | Gallery #3 | Number plate pixelated |
+| FM-006 | `toyota-hilux-revo-v-2021-dashboard.png` | Toyota Hilux Revo V 2.8 ii 3.png | dashboard | 1800×1400 | Gallery #4 | Standard grade only |
+| FM-006 | `toyota-hilux-revo-v-2021-engine-bay.png` | Toyota Hilux Revo V 2.8 ii 4.png | engine-bay | 1800×1400 | Gallery #5 | Standard grade only |
+| FM-007 | `honda-civic-oriel-ug-1-8-2018-front-three-quarter.png` | Honda Civic Oriel UG 1.8 3.png | front-three-quarter | 1800×1400 | Cover / thumbnail | Standard grade only |
+| FM-007 | `honda-civic-oriel-ug-1-8-2018-front.png` | Honda Civic Oriel UG 1.8 1.png | front | 1800×1400 | Gallery #2 | Number plate pixelated |
+| FM-007 | `honda-civic-oriel-ug-1-8-2018-rear.png` | Honda Civic Oriel UG 1.8 2.png | rear | 1800×1400 | Gallery #3 | Number plate pixelated |
+| FM-007 | `honda-civic-oriel-ug-1-8-2018-dashboard.png` | Honda Civic Oriel UG 1.8 5.png | dashboard | 1800×1400 | Gallery #4 | Standard grade only |
+| FM-007 | `honda-civic-oriel-ug-1-8-2018-engine-bay.png` | Honda Civic Oriel UG 1.8 4.png | engine-bay | 1800×1400 | Gallery #5 | Instagram carousel arrow visible at left edge (from source), left as-is |
 
 ## Homepage hero image
 
