@@ -51,6 +51,13 @@ Every vehicle photo on the site is a real photo supplied by Federal Motors. Noth
 | FM-007 | `honda-civic-oriel-ug-1-8-2018-rear.png` | Honda Civic Oriel UG 1.8 2.png | rear | 1800×1400 | Gallery #3 | Number plate pixelated |
 | FM-007 | `honda-civic-oriel-ug-1-8-2018-dashboard.png` | Honda Civic Oriel UG 1.8 5.png | dashboard | 1800×1400 | Gallery #4 | Standard grade only |
 | FM-007 | `honda-civic-oriel-ug-1-8-2018-engine-bay.png` | Honda Civic Oriel UG 1.8 4.png | engine-bay | 1800×1400 | Gallery #5 | Instagram carousel arrow visible at left edge (from source), left as-is |
+| FM-008 | `toyota-corolla-xli-1-3-2014-front-three-quarter-left.jpg` | Toyota Corolla XLI 1.3 Manual  2.jpeg | front-three-quarter-left | 1280×960 | Cover / thumbnail | Night shot; standard grade |
+| FM-008 | `toyota-corolla-xli-1-3-2014-front.jpg` | Toyota Corolla XLI 1.3 Manual 1.jpeg | front | 960×1280 | Gallery #2 | Number plate pixelated |
+| FM-008 | `toyota-corolla-xli-1-3-2014-front-three-quarter-right.jpg` | Toyota Corolla XLI 1.3 Manual  3.jpeg | front-three-quarter-right | 1280×960 | Gallery #3 | Night shot; standard grade |
+| FM-008 | `toyota-corolla-xli-1-3-2014-rear-three-quarter.jpg` | Toyota Corolla XLI 1.3 Manual  5.jpeg | rear-three-quarter | 1280×960 | Gallery #4 | Night shot; standard grade |
+| FM-008 | `toyota-corolla-xli-1-3-2014-rear.jpg` | Toyota Corolla XLI 1.3 Manual  4.jpeg | rear | 960×1280 | Gallery #5 | Number plate pixelated |
+| FM-008 | `toyota-corolla-xli-1-3-2014-interior.jpg` | Toyota Corolla XLI 1.3 Manual 7.jpeg | interior | 960×1280 | Gallery #6 | Standard grade only |
+| FM-008 | `toyota-corolla-xli-1-3-2014-instrument-cluster.jpg` | Toyota Corolla XLI 1.3 Manual 6.jpeg | instrument-cluster | 1280×960 | Gallery #7 | Odometer reading not visible in photo |
 
 ## Homepage hero image
 

@@ -1,0 +1,82 @@
+{
+  "stockReference": "FM-008",
+  "make": "Toyota",
+  "model": "Corolla",
+  "variant": "XLi 1.3 Manual",
+  "year": 2014,
+  "yearNote": null,
+  "registrationYear": 2014,
+  "registrationNote": null,
+  "registrationCity": null,
+  "condition": "used",
+  "origin": "local",
+  "bodyType": "sedan",
+  "pricePKR": 3050000,
+  "priceVisibility": "show",
+  "priceNote": null,
+  "mileageKm": 86000,
+  "transmission": "manual",
+  "fuelType": "petrol",
+  "engineCC": 1299,
+  "exteriorColour": "White",
+  "owners": null,
+  "auctionGrade": null,
+  "availability": "available",
+  "highlights": [
+    "Immaculate condition",
+    "Neat and clean condition",
+    "Manual transmission"
+  ],
+  "documentation": [
+    "Biometric verification available"
+  ],
+  "disclosures": [
+    "Touch-up paint on three pieces (sides), as stated by the seller."
+  ],
+  "description": "2014 Toyota Corolla XLi 1.3 manual, registered in 2014, with 86,000 km on the clock. Offered in immaculate, neat and clean condition, with touch-up paint on three side pieces. Biometric verification is available.",
+  "images": [
+    {
+      "src": "../../assets/vehicles/toyota-corolla-xli-1-3-2014/toyota-corolla-xli-1-3-2014-front-three-quarter-left.jpg",
+      "alt": "Front three-quarter view of the white 2014 Toyota Corolla XLi 1.3",
+      "view": "front-three-quarter-left"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-corolla-xli-1-3-2014/toyota-corolla-xli-1-3-2014-front.jpg",
+      "alt": "Front view of the 2014 Toyota Corolla XLi 1.3",
+      "view": "front"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-corolla-xli-1-3-2014/toyota-corolla-xli-1-3-2014-front-three-quarter-right.jpg",
+      "alt": "Right-side front three-quarter view of the 2014 Toyota Corolla XLi",
+      "view": "front-three-quarter-right"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-corolla-xli-1-3-2014/toyota-corolla-xli-1-3-2014-rear-three-quarter.jpg",
+      "alt": "Rear three-quarter view of the 2014 Toyota Corolla XLi",
+      "view": "rear-three-quarter"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-corolla-xli-1-3-2014/toyota-corolla-xli-1-3-2014-rear.jpg",
+      "alt": "Rear view of the 2014 Toyota Corolla XLi",
+      "view": "rear"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-corolla-xli-1-3-2014/toyota-corolla-xli-1-3-2014-interior.jpg",
+      "alt": "Front cabin and seats of the 2014 Toyota Corolla XLi",
+      "view": "interior"
+    },
+    {
+      "src": "../../assets/vehicles/toyota-corolla-xli-1-3-2014/toyota-corolla-xli-1-3-2014-instrument-cluster.jpg",
+      "alt": "Instrument cluster and steering wheel of the 2014 Toyota Corolla XLi",
+      "view": "instrument-cluster"
+    }
+  ],
+  "featured": true,
+  "published": true,
+  "dateAdded": "2026-10-29",
+  "lastUpdated": "2026-10-29",
+  "pendingConfirmation": [
+    "Number plates show a 2015 marking; listing says registered 2014",
+    "Registration city"
+  ]
+}

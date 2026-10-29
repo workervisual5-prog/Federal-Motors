@@ -28,6 +28,8 @@ PRIVACY = {
     "honda-civic-oriel-ug-1-8-2018-rear": [(740, 750, 1140, 960)],  # number plate
     "toyota-hilux-revo-v-2021-rear": [(735, 1120, 1040, 1280)],  # number plate
     "toyota-hilux-revo-v-2021-front": [(715, 1195, 1105, 1375)],  # number plate
+    "toyota-corolla-xli-1-3-2014-front": [(350, 930, 555, 1030)],  # number plate
+    "toyota-corolla-xli-1-3-2014-rear": [(360, 540, 590, 675)],  # number plate
 }
 
 # Per-image exposure lift for dim indoor shots.
