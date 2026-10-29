@@ -30,7 +30,7 @@ import { business, fullAddress, primaryPhone } from '@/data/business';
 import { whatsappUrl, whatsappMessages, telUrl } from '@/lib/contact';
 import { autoDealerSchema } from '@/lib/schema';
 import badge from '@/assets/brand/federal-motors-badge.png';
-import heroCar from '@/assets/hero/hero-tiggo-federal-motors.png';
+import heroCars from '@/assets/hero/hero-lexus-land-cruiser.webp';
 
 const vehicles = await getVehicles();
 const featured = vehicles.filter((v) => v.data.featured && v.data.availability !== 'sold').slice(0, 6);
@@ -94,17 +94,16 @@ const services = [
       </div>
 
       <figure class="anim-slide relative -mx-6 sm:mx-0 lg:-ml-10 lg:-mr-10 min-[1400px]:-mr-24" style="--delay:120ms">
-        <!-- Glow sits behind the car body only; the floor must stay on plain ink so it blends. -->
-        <div class="pointer-events-none absolute inset-x-[15%] top-[2%] h-[45%] rounded-[50%] bg-[radial-gradient(closest-side,rgba(40,80,150,0.45),transparent)] blur-2xl" aria-hidden="true"></div>
+        <!-- Full-scene photo: a CSS mask feathers all four edges into the page so no rectangle shows. -->
         <Image
-          src={heroCar}
-          alt="Chery SUV with a Federal Motors plate, lit in a dark studio"
-          widths={[540, 800, 1079]}
+          src={heroCars}
+          alt="Black Lexus LX and white Toyota Land Cruiser with Federal Motors plates in a dark studio"
+          widths={[600, 900, 1200, 1733]}
           sizes="(min-width: 1280px) 780px, (min-width: 1024px) 62vw, 100vw"
           loading="eager"
           fetchpriority="high"
-          quality={78}
-          class="relative w-full select-none drop-shadow-[0_30px_40px_rgba(0,0,0,0.6)]"
+          quality={80}
+          class="hero-feather relative w-full select-none"
         />
       </figure>
     </div>

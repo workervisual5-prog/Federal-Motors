@@ -63,7 +63,8 @@ Every vehicle photo on the site is a real photo supplied by Federal Motors. Noth
 
 | File | Source | Notes |
 |---|---|---|
-| `src/assets/hero/hero-tiggo-federal-motors.png` | `originals/hero-tiggo-federal-motors-original.webp` (supplied by Federal Motors, background removed) | Decorative brand visual: Chery SUV render with a "FEDERAL MOTORS" plate. The hard-edged floor strip is feathered into the page background by `scripts/blend-hero.py`; the car itself is unchanged. It is **not** linked to or presented as a specific stock vehicle |
+| `src/assets/hero/hero-lexus-land-cruiser.webp` | `originals/hero-lexus-land-cruiser-original.webp` (supplied by Federal Motors) | Decorative brand visual: black Lexus LX and white Toyota Land Cruiser with "FEDERAL MOTORS" plates in a studio. The file is unedited; its edges are faded into the page by the `.hero-feather` CSS mask in `src/styles/global.css`. Not presented as specific stock vehicles |
+| `originals/hero-tiggo-federal-motors-original.webp` | Supplied by Federal Motors | Previous hero (Chery render), kept as a backup; no longer used |
 
 ## Brand assets
 

@@ -156,6 +156,16 @@
   .gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold-deep), transparent); }
 }
 
+/* Homepage hero photo: fade every edge into the page background. */
+.hero-feather {
+  --feather: linear-gradient(to bottom, transparent 0%, #000 16%, #000 78%, transparent 100%),
+    linear-gradient(to right, transparent 0%, #000 6%, #000 95%, transparent 100%);
+  -webkit-mask-image: var(--feather);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--feather);
+  mask-composite: intersect;
+}
+
 /* ---------------------------------------------------------------------------
    Motion — transform/opacity only, disabled for reduced-motion users.
    --------------------------------------------------------------------------- */
