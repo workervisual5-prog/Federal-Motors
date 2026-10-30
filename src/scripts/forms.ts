@@ -65,8 +65,22 @@ function emailParams(form: HTMLFormElement, controls: Control[]) {
     fields: rows.map(([label, value]) => `${label}: ${value}`).join('\n'),
   };
   for (const [, value, name] of rows) params[name] = value;
-  params.from_name = params.name ?? '';
-  params.reply_to = params.email ?? '';
+  const visitorEmail = params.email ?? '';
+  const summary = params.fields;
+  // Also fill the variable names EmailJS's default templates use, so any template gets content
+  // and a recipient: {{to_email}}, {{name}}, {{email}}, {{title}}, {{message}}, {{time}}.
+  Object.assign(params, {
+    to_email: form.dataset.toEmail ?? '',
+    to_name: 'Federal Motors',
+    from_name: params.name ?? '',
+    reply_to: visitorEmail || form.dataset.toEmail || '',
+    email: visitorEmail || form.dataset.toEmail || '',
+    title: params.form_title,
+    subject: `Website: ${params.form_title}${params.name ? ` — ${params.name}` : ''}`,
+    time: params.submitted_at,
+    visitor_message: params.message ?? params.details ?? '',
+    message: summary,
+  });
   return params;
 }
 
@@ -125,14 +139,20 @@ document.querySelectorAll<HTMLFormElement>('form[data-inquiry-form]:not([data-re
           template_params: emailParams(form, controls()),
         }),
       });
-      if (!res.ok) throw new Error(`EmailJS ${res.status}`);
+      if (!res.ok) {
+        // EmailJS explains the problem in the body (e.g. invalid key, unknown template, empty recipient).
+        const reason = await res.text().catch(() => '');
+        console.error(`EmailJS rejected the ${formName} form (HTTP ${res.status}): ${reason}`);
+        throw new Error(`EmailJS ${res.status}`);
+      }
       // Only a confirmed submission counts as a conversion.
       track(form.dataset.event!, { form_name: formName, ...params });
       form.classList.add('hidden');
       const ok = wrap.querySelector<HTMLElement>('[data-form-success]')!;
       ok.classList.remove('hidden');
       ok.focus();
-    } catch {
+    } catch (err) {
+      if (!(err instanceof Error && err.message.startsWith('EmailJS'))) console.error('EmailJS request failed:', err);
       errorBox.classList.remove('hidden');
     } finally {
       button.disabled = false;

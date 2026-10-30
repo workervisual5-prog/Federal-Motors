@@ -56,7 +56,7 @@ After changing a variable, redeploy (Deployments → ⋯ → Redeploy).
 
 All five forms (contact, viewing / test drive, showroom visit, financing, sell / exchange, vehicle sourcing) send email through **EmailJS**, straight from the browser. No server is needed.
 
-**Configured in `src/data/emailjs.ts`:** public key `Mxg4xyKr6kadST5vs`, service `service_yk7noqn`, template `template_phpkiwo`. If the service or template ID is ever removed, the forms automatically switch to WhatsApp mode (they open WhatsApp pre-filled to +92 313 2963858), so the site never shows a broken form.
+**Configured in `src/data/emailjs.ts`:** public key `Mxg4xyKr6kadST5vs`, service `service_fptift8`, template `template_l3rxxmb`. If the service or template ID is ever removed, the forms automatically switch to WhatsApp mode (they open WhatsApp pre-filled to +92 313 2963858), so the site never shows a broken form.
 
 ### EmailJS dashboard checklist (service and template already created)
 
@@ -81,6 +81,21 @@ All five forms (contact, viewing / test drive, showroom visit, financing, sell /
    - set `PUBLIC_EMAILJS_SERVICE_ID` and `PUBLIC_EMAILJS_TEMPLATE_ID` in Vercel → Settings → Environment Variables and redeploy.
 5. Submit each form once from the live site and confirm the emails arrive.
 
+### Troubleshooting a form that won't send
+
+If a form shows "Your message couldn't be sent", open the browser console (right-click → Inspect → Console) and submit again. The site logs EmailJS's exact reason, for example:
+
+| Console message | Fix |
+|---|---|
+| `The Public Key is invalid` | The public key isn't from the same EmailJS account as the service/template. Copy it from Account → General and update `src/data/emailjs.ts` |
+| `The service ID not found` / `The template ID not found` | IDs typo, or they belong to another account |
+| `The recipients address is empty` | In the template, set **To Email** to `zaeymanofficial@gmail.com` (or `{{to_email}}`, which the site sends) |
+| `...insufficient authentication scopes` / Gmail errors | Email Services → reconnect Gmail and allow "Send email on your behalf" |
+| `The origin is not allowed` | Account → Security: add the site's address (e.g. `https://your-site.vercel.app`) |
+| HTTP 426 / limit reached | Monthly free-plan limit used up |
+
+Also check that Vercel has no `PUBLIC_EMAILJS_*` environment variables with old values: they override the IDs in the code.
+
 ### What the email contains
 
 `{{fields}}` lists exactly what the visitor saw and filled in, for example:
@@ -92,7 +107,7 @@ Mobile number: 0300-1234567
 I’d like to: View and test drive
 ```
 
-Individual variables are also available for custom templates: `{{form_name}}`, `{{from_name}}`, `{{name}}`, `{{phone}}`, `{{email}}`, `{{vehicle}}`, `{{message}}`, `{{details}}`, `{{make}}`, `{{model}}`, `{{year}}`, `{{financing_type}}`, `{{inquiry_type}}`, `{{preferred_date}}`, `{{preferred_time}}`, and others.
+Variables used by EmailJS's default templates are filled too: `{{name}}`, `{{email}}`, `{{title}}`, `{{message}}` (the full summary), `{{time}}`, `{{to_email}}`, `{{subject}}`. Individual variables are also available for custom templates: `{{form_name}}`, `{{from_name}}`, `{{name}}`, `{{phone}}`, `{{email}}`, `{{vehicle}}`, `{{message}}`, `{{details}}`, `{{make}}`, `{{model}}`, `{{year}}`, `{{financing_type}}`, `{{inquiry_type}}`, `{{preferred_date}}`, `{{preferred_time}}`, and others.
 
 ### Behaviour
 

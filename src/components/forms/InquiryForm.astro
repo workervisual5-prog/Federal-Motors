@@ -38,6 +38,7 @@ const mode = emailjsReady ? 'email' : 'whatsapp';
     data-event={p.event}
     data-track-params={JSON.stringify(p.trackParams ?? {})}
     data-emailjs={mode === 'email' ? JSON.stringify(emailjs) : undefined}
+    data-to-email={business.email}
     class="grid gap-5"
   >
     <input type="hidden" name="form_name" value={p.name} />
