@@ -7,7 +7,7 @@ export const business = {
   description:
     'Owner-led car showroom in PECHS, Karachi offering new, used and imported vehicles with financing, exchange, consignment, inspection and documentation assistance.',
   owners: ['Zain Ahmed', 'Ali Osama'],
-  experienceYears: 5,
+  experienceYears: 10,
   address: {
     street: 'Plot No. 34/A, 1st Floor, Main Shahrah-e-Quaideen, Block 2, PECHS',
     landmark: 'Near Tariq Road',

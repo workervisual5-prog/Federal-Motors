@@ -75,6 +75,6 @@ One axe note: when a page is scrolled so a footer link sits exactly under the st
 ## Accuracy audit
 
 - No invented reviews, ratings, statistics, awards, partner banks, rates, down payments or guarantees anywhere on the site.
-- The homepage's only numbers are the live stock count (from data) and the owners' stated five years of experience.
+- The homepage's only numbers are the live stock count (from data) and the owners' stated ten years of experience (updated from five at the client's request).
 - Unconfirmed vehicle details are `null` and not shown; see `CLIENT-APPROVALS.md`.
 - Insurance assistance, warranty/assurance, home test drives and delivery are **not** advertised until confirmed.
