@@ -37,7 +37,8 @@ const robots = !allowIndexing || noindex ? 'noindex, nofollow' : 'index, follow,
 // GA4 runs on production builds only (local `npm run dev` never sends hits). Override with PUBLIC_GA4_ID; set it to "off" to disable.
 const gaEnv = import.meta.env.PUBLIC_GA4_ID as string | undefined;
 const gaId = gaEnv === 'off' ? undefined : gaEnv || (import.meta.env.PROD ? 'G-1MRKTXTK2G' : undefined);
-const gscToken = import.meta.env.PUBLIC_GSC_VERIFICATION as string | undefined;
+// Google Search Console ownership token for https://www.federalmotors.net (URL-prefix property).
+const gscToken = (import.meta.env.PUBLIC_GSC_VERIFICATION as string | undefined) || 'G8Q7kGT5V1LyRrq60aHVXGixd-s78KkQsTOrW8B6yqY';
 const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
