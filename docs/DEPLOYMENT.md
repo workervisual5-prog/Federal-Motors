@@ -1,6 +1,6 @@
 # Deployment guide (GitHub + Vercel)
 
-> Keep `PUBLIC_ALLOW_INDEXING` unset (or `false`) until the domain is live and the "before launch" items in `docs/CLIENT-APPROVALS.md` are resolved. Until then, search engines are told not to index the site.
+> Live at https://www.federalmotors.net. Search engines may index the production site; Vercel preview deployments stay hidden.
 
 ## 1. Local commands
 
@@ -44,8 +44,8 @@ No environment variables are needed for a working preview. Google Analytics is a
 
 | Variable | Needed? | Value |
 |---|---|---|
-| `SITE_URL` | When the domain is live | `https://www.yourdomain.com` (no trailing slash). Until then the Vercel production URL is used automatically |
-| `PUBLIC_ALLOW_INDEXING` | At launch | `true` (Production environment only) |
+| `SITE_URL` | No | Defaults to `https://www.federalmotors.net` (set in `astro.config.mjs`) |
+| `PUBLIC_ALLOW_INDEXING` | No | Indexing is automatic: on for Vercel **production** builds, off for previews and local builds. Set `false` to hide the live site, `true` to force it on |
 | `PUBLIC_GA4_ID` | No | Defaults to `G-1MRKTXTK2G` on production builds. Set `off` to disable |
 | `PUBLIC_EMAILJS_SERVICE_ID` / `PUBLIC_EMAILJS_TEMPLATE_ID` | Unless set in `src/data/emailjs.ts` | EmailJS IDs (see §4) |
 | `PUBLIC_GSC_VERIFICATION` | Optional | Search Console HTML-tag token |

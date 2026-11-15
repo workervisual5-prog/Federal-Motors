@@ -4,12 +4,8 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// Canonicals, sitemap and social-preview URLs use this. Set SITE_URL in Vercel once the domain is live;
-// until then Vercel's production URL is used automatically.
-const site =
-  process.env.SITE_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) ||
-  'http://localhost:4321';
+// Canonicals, sitemap and social-preview URLs use this. SITE_URL overrides it.
+const site = process.env.SITE_URL || 'https://www.federalmotors.net';
 
 export default defineConfig({
   site,

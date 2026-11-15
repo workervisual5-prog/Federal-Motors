@@ -7,6 +7,7 @@ import ConsentBanner from '@/components/ConsentBanner.astro';
 import { business } from '@/data/business';
 import ogDefault from '@/assets/brand/og-default.jpg';
 import { getImage } from 'astro:assets';
+import { allowIndexing } from '@/lib/indexing';
 import manropeUrl from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
 import cinzelUrl from '@fontsource/cinzel/files/cinzel-latin-600-normal.woff2?url';
 
@@ -31,7 +32,7 @@ const fullTitle = title.includes(business.name) ? title : `${title} | ${business
 const og = await getImage({ src: ogImage ?? ogDefault, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
 const ogUrl = new URL(og.src, site).href;
 
-const allowIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true';
+
 const robots = !allowIndexing || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';
 // GA4 runs on production builds only (local `npm run dev` never sends hits). Override with PUBLIC_GA4_ID; set it to "off" to disable.
 const gaEnv = import.meta.env.PUBLIC_GA4_ID as string | undefined;

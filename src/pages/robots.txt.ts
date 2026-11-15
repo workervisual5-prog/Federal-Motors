@@ -1,8 +1,10 @@
 import type { APIRoute } from 'astro';
 
-// Blocks all crawling until PUBLIC_ALLOW_INDEXING=true is set at launch.
+import { allowIndexing } from '@/lib/indexing';
+
+// Allows crawling only on the live production site (see src/lib/indexing.ts).
 export const GET: APIRoute = ({ site }) => {
-  const allow = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true';
+  const allow = allowIndexing;
   const body = allow
     ? `User-agent: *\nAllow: /\nDisallow: /inventory?*\n\nSitemap: ${new URL('/sitemap-index.xml', site).href}\n`
     : 'User-agent: *\nDisallow: /\n';
