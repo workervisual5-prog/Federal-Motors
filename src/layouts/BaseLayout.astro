@@ -37,8 +37,13 @@ const robots = !allowIndexing || noindex ? 'noindex, nofollow' : 'index, follow,
 // GA4 runs on production builds only (local `npm run dev` never sends hits). Override with PUBLIC_GA4_ID; set it to "off" to disable.
 const gaEnv = import.meta.env.PUBLIC_GA4_ID as string | undefined;
 const gaId = gaEnv === 'off' ? undefined : gaEnv || (import.meta.env.PROD ? 'G-1MRKTXTK2G' : undefined);
-// Google Search Console ownership token for https://www.federalmotors.net (URL-prefix property).
-const gscToken = (import.meta.env.PUBLIC_GSC_VERIFICATION as string | undefined) || 'G8Q7kGT5V1LyRrq60aHVXGixd-s78KkQsTOrW8B6yqY';
+// Google Search Console ownership tokens for https://www.federalmotors.net. Several are allowed, one per
+// verifying Google account; PUBLIC_GSC_VERIFICATION (comma-separated) adds more.
+const gscTokens = [
+  'G8Q7kGT5V1LyRrq60aHVXGixd-s78KkQsTOrW8B6yqY',
+  '31bQQQSJ0BFvUOsStJBNc2A8MifFF_3pYm9ZXcOtT6s',
+  ...((import.meta.env.PUBLIC_GSC_VERIFICATION as string | undefined) ?? '').split(',').map((t) => t.trim()).filter(Boolean),
+];
 const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
@@ -58,7 +63,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    {gscToken && <meta name="google-site-verification" content={gscToken} />}
+    {gscTokens.map((token) => <meta name="google-site-verification" content={token} />)}
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={business.name} />
